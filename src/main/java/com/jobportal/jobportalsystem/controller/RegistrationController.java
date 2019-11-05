@@ -18,7 +18,7 @@ public class RegistrationController {
     @POST
     @Path("recruiterJobSeeker")
     @Produces("application/json")
-    public String registerRecruiterOrJobSeekerDetail(RegistrationDetail registrationDetail) {
+    public String registerRecruiterOrJobSeekerDetail(RegistrationDetail registrationDetail) throws Exception {
         System.out.println("getall users.............."+registrationDetail);
         return registrationService.registerRecruiterOrJobSeekerDetail(registrationDetail);
     }
