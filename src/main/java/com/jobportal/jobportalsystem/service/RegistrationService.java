@@ -12,8 +12,6 @@ public class RegistrationService {
     RegistrationDTO registrationDTO;
 
     public String registerRecruiterOrJobSeekerDetail(RegistrationDetail registrationDetail) {
-        registrationDTO.registerRecruiterOrJobSeekerDetail(registrationDetail);
-        System.out.println("in service");
-        return "Hello Chaitali";
+        return registrationDTO.registerRecruiterOrJobSeekerDetail(registrationDetail);
     }
 }

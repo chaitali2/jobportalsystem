@@ -1,15 +1,14 @@
 package com.jobportal.jobportalsystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "user_detail")
+@SecondaryTable(name = "user_login_detail",pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id") )
 public class RegistrationDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int empid;
+    private Long id;
     private String firstname;
     private String lastname;
     private String dob;
@@ -17,9 +16,31 @@ public class RegistrationDetail {
     private String state;
     private String emailid;
     private String mobno;
-    private String password;
-    private String confpassword;
+
+    @Column(table = "user_login_detail")
     private String typeOfUser;
+
+    @Column(table = "user_login_detail")
+    private String username;
+
+    @Column(table = "user_login_detail")
+    private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getFirstname() {
         return firstname;
@@ -69,23 +90,6 @@ public class RegistrationDetail {
         this.emailid = emailid;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getConfpassword() {
-        return confpassword;
-    }
-
-    public void setConfpassword(String confpassword) {
-        this.confpassword = confpassword;
-    }
-
-
     public String getMobno() {
         return mobno;
     }
@@ -105,16 +109,17 @@ public class RegistrationDetail {
     @Override
     public String toString() {
         return "RegistrationDetail{" +
-                "firstname='" + firstname + '\'' +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", dob='" + dob + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", emailid='" + emailid + '\'' +
                 ", mobno='" + mobno + '\'' +
-                ", password='" + password + '\'' +
-                ", confpassword='" + confpassword + '\'' +
                 ", typeOfUser='" + typeOfUser + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

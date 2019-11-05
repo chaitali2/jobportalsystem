@@ -20,8 +20,7 @@ public class RegistrationController {
     @Produces("application/json")
     public String registerRecruiterOrJobSeekerDetail(RegistrationDetail registrationDetail) {
         System.out.println("getall users.............."+registrationDetail);
-        registrationService.registerRecruiterOrJobSeekerDetail(registrationDetail);
-        return "Hello Chaitali";
+        return registrationService.registerRecruiterOrJobSeekerDetail(registrationDetail);
     }
 
 //    @GET
