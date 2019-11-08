@@ -11,7 +11,7 @@ public class RegistrationService {
     @Autowired
     RegistrationDTO registrationDTO;
 
-    public String registerRecruiterOrJobSeekerDetail(RegistrationDetail registrationDetail) throws Exception {
-        return registrationDTO.registerRecruiterOrJobSeekerDetail(registrationDetail);
+    public String registerUserDetail(RegistrationDetail registrationDetail) throws Exception {
+        return registrationDTO.registerUserDetail(registrationDetail);
     }
 }

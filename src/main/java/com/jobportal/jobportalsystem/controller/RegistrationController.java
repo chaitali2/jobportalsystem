@@ -16,11 +16,11 @@ public class RegistrationController {
     RegistrationService registrationService;
 
     @POST
-    @Path("recruiterJobSeeker")
+    @Path("registerUserDetail")
     @Produces("application/json")
-    public String registerRecruiterOrJobSeekerDetail(RegistrationDetail registrationDetail) throws Exception {
+    public String registerUserDetail(RegistrationDetail registrationDetail) throws Exception {
         System.out.println("getall users.............."+registrationDetail);
-        return registrationService.registerRecruiterOrJobSeekerDetail(registrationDetail);
+        return registrationService.registerUserDetail(registrationDetail);
     }
 
 //    @GET

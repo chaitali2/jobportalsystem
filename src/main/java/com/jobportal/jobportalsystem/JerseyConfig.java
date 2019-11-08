@@ -7,10 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
-        packages("com.login.logindemo");
+//        packages("com.login.logindemo");
         register(UserResource.class);
         register(CorsFilter.class);
         register(RegistrationController.class);
+        register(OrderController.class);
 
 //        register(SecurityFilter.class);
     }

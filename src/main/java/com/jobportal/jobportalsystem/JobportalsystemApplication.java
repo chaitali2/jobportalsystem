@@ -1,5 +1,6 @@
 package com.jobportal.jobportalsystem;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,13 @@ public class JobportalsystemApplication {
         SpringApplication.run(JobportalsystemApplication.class, args);
     }
 
+//    @Override
+//    public void run(String... args) throws Exception {
+////        AnnotationConfigApplicationContext context =
+////                new AnnotationConfigApplicationContext(TransactionConfig.class);
+//      OrderController orderController =new OrderController();
+//        orderController.saveorderdetail();
+//    }
 
 //    @Bean
 //   public EntityManager getEntityManager(){

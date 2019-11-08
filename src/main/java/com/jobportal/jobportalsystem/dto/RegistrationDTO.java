@@ -3,28 +3,30 @@ package com.jobportal.jobportalsystem.dto;
 import com.jobportal.jobportalsystem.model.RegistrationDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 @Repository
-@Transactional
 public class RegistrationDTO {
 
     @PersistenceContext
     EntityManager entityManager;
 
-
-    public String registerRecruiterOrJobSeekerDetail(RegistrationDetail registrationDetail) throws Exception {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String registerUserDetail(RegistrationDetail registrationDetail) throws Exception {
         registrationDetail.setUsername(registrationDetail.getEmailid());
 
         Query query = entityManager.createQuery("Select d.emailid from RegistrationDetail d where d.emailid=:emailid");
