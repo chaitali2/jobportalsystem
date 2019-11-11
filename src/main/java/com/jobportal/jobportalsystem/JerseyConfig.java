@@ -12,6 +12,7 @@ public class JerseyConfig extends ResourceConfig {
         register(CorsFilter.class);
         register(RegistrationController.class);
         register(OrderController.class);
+        register(ItemService.class);
 
 //        register(SecurityFilter.class);
     }

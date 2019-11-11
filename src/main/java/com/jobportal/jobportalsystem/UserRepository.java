@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-@Transactional(propagation = Propagation.MANDATORY,isolation = Isolation.SERIALIZABLE)
+@Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE)
 public class UserRepository {
 
     @PersistenceContext
@@ -21,7 +21,7 @@ public class UserRepository {
         User user = new User("chaitali", "developer");
 //        try {
             entityManager.persist(user);
-//        int a=10/0;
+        int a=10/0;
 
 //        }catch (Exception e){
 //            System.out.println("error in user==="+e.getMessage());

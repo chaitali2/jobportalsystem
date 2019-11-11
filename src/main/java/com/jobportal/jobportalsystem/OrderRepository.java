@@ -18,7 +18,7 @@ public class OrderRepository {
 
 //    @Transactional(propagation = Propagation.REQUIRED)
     public void saveorderdetail() {
-        Order order = new Order("brush1", 2);
+        Order order = new Order("brush1111", 2);
         entityManager.persist(order);
         try {
             userRepository.saveuserorderdetail();
