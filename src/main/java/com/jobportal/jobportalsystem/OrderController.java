@@ -15,15 +15,21 @@ public class OrderController {
     OrderRepository orderRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PersonService personService;
+    @Autowired
+    PersonRepo personRepo;
 
     @GET
     @Path("orderdetail")
     @Produces("application/json")
     public String saveorderdetail(){
         System.out.println("save order detail");
-        orderRepository.saveorderdetail();
+//        orderRepository.saveorderdetail();
 //        int a=10/0;
 //        userRepository.saveuserorderdetail();
+        personService.callTransactionalMethodsWithTrasaction();
+//        personRepo.never();
         return"success";
     }
 
