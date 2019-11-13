@@ -1,14 +1,6 @@
-package com.jobportal.jobportalsystem.model;
+package com.jobportal.jobportalsystem.dto;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "user_detail")
-@SecondaryTable(name = "user_credential",pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id") )
-public class RegistrationDetail {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class RegistrationDetailDTO {
     private String firstname;
     private String lastname;
     private String dob;
@@ -16,24 +8,8 @@ public class RegistrationDetail {
     private String state;
     private String emailid;
     private String mobno;
-    @Column(table = "user_credential")
     private String typeOfUser;
-
-    @Column(table = "user_credential")
-    private String username;
-
-    @Column(table = "user_credential")
     private String password;
-
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getFirstname() {
         return firstname;
@@ -99,14 +75,6 @@ public class RegistrationDetail {
         this.typeOfUser = typeOfUser;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -117,9 +85,8 @@ public class RegistrationDetail {
 
     @Override
     public String toString() {
-        return "RegistrationDetail{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
+        return "RegistrationDetailDTO{" +
+                "firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", dob='" + dob + '\'' +
                 ", city='" + city + '\'' +
@@ -127,7 +94,6 @@ public class RegistrationDetail {
                 ", emailid='" + emailid + '\'' +
                 ", mobno='" + mobno + '\'' +
                 ", typeOfUser='" + typeOfUser + '\'' +
-                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

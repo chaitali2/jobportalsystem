@@ -1,8 +1,6 @@
-package com.jobportal.jobportalsystem;
+package demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

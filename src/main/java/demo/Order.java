@@ -1,4 +1,4 @@
-package com.jobportal.jobportalsystem;
+package demo;
 
 import javax.persistence.*;
 

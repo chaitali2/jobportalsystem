@@ -1,7 +1,6 @@
-package com.jobportal.jobportalsystem;
+package demo;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
