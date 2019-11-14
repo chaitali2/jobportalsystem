@@ -16,6 +16,10 @@ public class RegistrationDetail {
     private String state;
     private String emailid;
     private String mobno;
+
+    @Column(table = "user_credential")
+    private String salt;
+
     @Column(table = "user_credential")
     private String typeOfUser;
 
@@ -24,8 +28,6 @@ public class RegistrationDetail {
 
     @Column(table = "user_credential")
     private String password;
-
-
 
     public Long getId() {
         return id;
@@ -115,6 +117,14 @@ public class RegistrationDetail {
         this.password = password;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     @Override
     public String toString() {
         return "RegistrationDetail{" +
@@ -126,6 +136,7 @@ public class RegistrationDetail {
                 ", state='" + state + '\'' +
                 ", emailid='" + emailid + '\'' +
                 ", mobno='" + mobno + '\'' +
+                ", salt='" + salt + '\'' +
                 ", typeOfUser='" + typeOfUser + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +

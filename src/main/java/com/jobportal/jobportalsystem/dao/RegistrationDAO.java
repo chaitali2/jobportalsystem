@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 import java.util.List;
 
 @Repository
-public class RegistrationDao {
+public class RegistrationDAO {
     @PersistenceContext
     EntityManager entityManager;
 

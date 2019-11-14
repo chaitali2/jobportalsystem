@@ -3,6 +3,7 @@ package com.jobportal.jobportalsystem;
 //import demo.ItemService;
 //import demo.OrderController;
 //import demo.UserResource;
+import com.jobportal.jobportalsystem.rest.LoginRestService;
 import com.jobportal.jobportalsystem.rest.RegistrationRestService;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ public class JerseyConfig extends ResourceConfig {
 //        register(UserResource.class);
         register(CorsFilter.class);
         register(RegistrationRestService.class);
+        register(LoginRestService.class);
 //        register(OrderController.class);
 //        register(ItemService.class);
 //
