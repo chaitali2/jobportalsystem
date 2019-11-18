@@ -18,6 +18,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jersey'
     compile 'com.jslsolucoes:ojdbc6:11.2.0.1.0'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.8.RELEASE'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
 }
 
 test {

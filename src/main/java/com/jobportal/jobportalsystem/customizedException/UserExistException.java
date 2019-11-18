@@ -1,4 +1,4 @@
-package com.jobportal.jobportalsystem.CustomizedException;
+package com.jobportal.jobportalsystem.customizedException;
 
 public class UserExistException extends Exception {
 
