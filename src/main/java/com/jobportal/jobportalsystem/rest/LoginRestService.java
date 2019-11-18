@@ -1,6 +1,7 @@
 package com.jobportal.jobportalsystem.rest;
 
 import com.jobportal.jobportalsystem.customizedException.AuthenticationException;
+import com.jobportal.jobportalsystem.dto.ErrorDTO;
 import com.jobportal.jobportalsystem.dto.LoginDetailDTO;
 import com.jobportal.jobportalsystem.dto.UserProfileDTO;
 import com.jobportal.jobportalsystem.service.LoginService;
@@ -28,18 +29,19 @@ public class LoginRestService {
     @Produces("application/json")
     @Path("login")
     public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO) throws AuthenticationException {
-//        try {
-        LOGGER.info("username==" + loginDetailDTO);
-        UserProfileDTO userProfile = loginService.authenticate(loginDetailDTO);
-        final String token = jwtTokenUtil.generateToken(loginDetailDTO);
-        userProfile.setToken(token);
-        LOGGER.info("SECURETOKEN==" + token);
-        return new ResponseEntity(userProfile, HttpStatus.OK);
-//            return Response.ok().build();
-
-//        } catch (Exception e) {
-//            return Response.status(Response.Status.UNAUTHORIZED).build();
-//        }
+        try {
+            LOGGER.info("username==" + loginDetailDTO);
+            UserProfileDTO userProfile = loginService.authenticate(loginDetailDTO);
+            final String token = jwtTokenUtil.generateToken(loginDetailDTO);
+            userProfile.setToken(token);
+            LOGGER.info("SECURETOKEN==" + token);
+            return new ResponseEntity(userProfile, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("error=="+e.getMessage());
+            ErrorDTO errorDTO = new ErrorDTO();
+            errorDTO.setErrorMessage(e.getMessage());
+            return new ResponseEntity(errorDTO, HttpStatus.OK);
+        }
 
     }
 }

@@ -46,9 +46,9 @@ public class LoginService {
             }
         }
         LOGGER.info("authenticated===" + authenticated);
-//        if (!authenticated) {
-////            throw new AuthenticationException("Authentication failed");
-//        }
+        if (!authenticated) {
+            throw new AuthenticationException("Authentication failed");
+        }
         UserProfileDTO userProfile = new UserProfileDTO();
 //userProfile.setId(userProfileEntity.);
         BeanUtils.copyProperties(userEntity, userProfile);
