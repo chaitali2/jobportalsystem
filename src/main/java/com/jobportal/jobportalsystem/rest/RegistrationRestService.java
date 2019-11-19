@@ -6,6 +6,8 @@ import com.jobportal.jobportalsystem.service.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,23 +24,21 @@ public class RegistrationRestService {
     @POST
     @Path("registerUserDetail")
     @Produces("application/json")
-    public String registerUserDetail(RegistrationDetail registrationDetail) throws Exception {
+    public ResponseEntity registerUserDetail(RegistrationDetailDTO registrationDetailDTO) throws Exception {
         try {
-            return registrationService.registerUserDetail(registrationDetail);
+            String status=registrationService.registerUserDetail(registrationDetailDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(status);
         } catch (Exception e) {
-            LOGGER.error("registration failed==" + e);
-//            return Response.status(404).entity(e.getMessage())
-//                    .type("text/plain").build();
-            return "error";
+            return ResponseEntity.status(HttpStatus.OK).body("error");
         }
     }
 
-    @GET
-    @Path("message1")
-    @Produces("application/json")
-    public String getAllUsers() {
-
-        System.out.println("getall users..............");
-        return "Hello Chaitali";
-    }
+//    @GET
+//    @Path("message1")
+//    @Produces("application/json")
+//    public String getAllUsers() {
+//
+//        System.out.println("getall users..............");
+//        return "Hello Chaitali";
+//    }
 }

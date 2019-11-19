@@ -60,7 +60,8 @@ public class UserProfileDTO {
     @Override
     public String toString() {
         return "UserProfileDTO{" +
-                "username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", typeOfUser='" + typeOfUser + '\'' +
                 ", salt='" + salt + '\'' +

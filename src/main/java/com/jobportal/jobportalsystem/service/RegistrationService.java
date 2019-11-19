@@ -1,6 +1,7 @@
 package com.jobportal.jobportalsystem.service;
 
 import com.jobportal.jobportalsystem.dao.RegistrationDAO;
+import com.jobportal.jobportalsystem.dto.RegistrationDetailDTO;
 import com.jobportal.jobportalsystem.model.RegistrationDetail;
 import com.jobportal.jobportalsystem.utility.AuthenticationUtil;
 import org.slf4j.Logger;
@@ -25,77 +26,49 @@ public class RegistrationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationService.class);
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public String registerUserDetail(RegistrationDetail registrationDetail) throws Exception {
-//        RegistrationDetail registrationDetail=new RegistrationDetail();
-//        LOGGER.info("registration dto=="+registrationDetailDTO);
-//        BeanUtils.copyProperties(registrationDetailDTO,registrationDetail);
-        LOGGER.info("registration model==" + registrationDetail);
+    public String registerUserDetail(RegistrationDetailDTO registrationDetailDTO) throws Exception {
 
-        List<RegistrationDetail> user = registrationDao.fetchEmailId(registrationDetail);
+        LOGGER.info("registration model==" + registrationDetailDTO);
+        // FETCH DATA ON EMAIL ID
+        List<RegistrationDetail> user = registrationDao.fetchEmailId(convertDTOtoModel(registrationDetailDTO));
+
         int size = user.size();
 
+        //CHECK DATA EXIST OR NOT
         if (size < 1) {
             String salt = authenticationUtil.generateSalt(30);
-            registrationDetail.setSalt(salt);
             String secureUserPassword = null;
-
             try {
-                secureUserPassword = authenticationUtil.generateSecurePassword(registrationDetail.getPassword(), salt);
+                //GENERATE SECURE PASSWORD
+                secureUserPassword = authenticationUtil.generateSecurePassword(registrationDetailDTO.getPassword(), salt);
             } catch (InvalidKeySpecException ex) {
 //                    LOGGER.getLogger(UsersServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                    throw new UserServiceException(ex.getLocalizedMessage());
             }
 
-            LOGGER.info("encryptedPassword:--" + secureUserPassword + "===" + registrationDetail.getPassword());
-            registrationDetail.setPassword(secureUserPassword);
-            registrationDetail.setUsername(registrationDetail.getEmailid());
-            registrationDao.saveRegistrationDetail(registrationDetail);
+            LOGGER.info("encryptedPassword:--" + secureUserPassword + "===" + registrationDetailDTO.getPassword());
+            registrationDetailDTO.setPassword(secureUserPassword);
+            // SAVE THE USER DETAIL
+            registrationDao.saveRegistrationDetail(convertDTOtoModel(registrationDetailDTO),salt);
+
             return "not_exist";
         }
-
-//            throw new UserExistException("User exist");
-//        Response.status(200,"User exist");
         return "exist";
     }
 
 
-//
-//
-//        public byte[] getNewSalt() throws Exception {
-//        // Don't use Random!
-//        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-//        // NIST recommends minimum 4 bytes. We use 8.
-//        String SALT="my-salt-text";
-//        byte[] salt = new byte[8];
-//        random.nextBytes(salt);
-//
-//        return SALT.getBytes();
-////        return Base64.getEncoder().encodeToString(salt);
-//    }
-//
-//
-//    // Get a encrypted password using PBKDF2 hash algorithm
-//    public String getEncryptedPassword(String password, byte[] salt) throws Exception {
-////        String algorithm = "PBKDF2WithHmacSHA1";
-////        int derivedKeyLength = 160; // for SHA1
-////        int iterations = 20000; // NIST specifies 10000
-////
-////        byte[] saltBytes = Base64.getDecoder().decode(salt);
-////        KeySpec spec = new PBEKeySpec(password.toCharArray(), saltBytes, iterations, derivedKeyLength);
-////        SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
-////
-////        byte[] encBytes = f.generateSecret(spec).getEncoded();
-////        return Base64.getEncoder().encodeToString(encBytes);
-//
-//        String generatedPassword = null;
-//        MessageDigest md = MessageDigest.getInstance("SHA-1"); // 160 bit hash algorithm
-//        md.update(salt);
-//        byte[] bytes = md.digest(password.getBytes());
-//        StringBuilder sb = new StringBuilder();
-//        for (int i = 0; i < bytes.length; i++) {
-//            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-//        }
-//        generatedPassword = sb.toString();
-//        return generatedPassword;
-//    }
+    RegistrationDetail convertDTOtoModel(RegistrationDetailDTO registrationDetailDTO) {
+        RegistrationDetail registrationDetail = new RegistrationDetail();
+        registrationDetail.setFirstname(registrationDetailDTO.getFirstname());
+        registrationDetail.setLastname(registrationDetailDTO.getLastname());
+        registrationDetail.setEmailid(registrationDetailDTO.getEmailid());
+        registrationDetail.setDob(registrationDetailDTO.getDob());
+        registrationDetail.setPassword(registrationDetailDTO.getPassword());
+        registrationDetail.setCity(registrationDetailDTO.getCity());
+        registrationDetail.setState(registrationDetailDTO.getState());
+        registrationDetail.setMobno(registrationDetailDTO.getMobno());
+        registrationDetail.setTypeOfUser(registrationDetailDTO.getTypeOfUser());
+        return registrationDetail;
+    }
+
 }

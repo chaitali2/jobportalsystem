@@ -1,52 +1,63 @@
 package com.jobportal.jobportalsystem.configuration;
 
+import com.jobportal.jobportalsystem.dto.LoginDetailDTO;
 import com.jobportal.jobportalsystem.utility.JwtTokenUtil;
-import io.jsonwebtoken.ExpiredJwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
+import javax.security.sasl.AuthenticationException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.soap.Addressing;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Enumeration;
 
-@Component
-public class JwtRequestFilter extends OncePerRequestFilter {
-    //    @Autowired
-//    private JwtUserDetailsService jwtUserDetailsService;
+//@Configuration
+public class JwtRequestFilter implements Filter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    JwtTokenUtil jwtTokenUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException, IOException, ServletException {
-        final String requestTokenHeader = request.getHeader("Authorization");
-        String username = null;
-        String jwtToken = null;
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        LOGGER.info(
+                "Starting a transaction for req : {}",
+                req.getRequestURI());
 
-//        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-        if (requestTokenHeader != null) {
-            jwtToken = requestTokenHeader;
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
-            } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
+        LoginDetailDTO loginDetailDTO = new LoginDetailDTO();
+        try {
+            if (!req.getRequestURI().contains("/login")) {
+                String username = request.getParameter("name");
+//            String token = request.getParameter("token");
+                String token = "dfdgfdhgfhfgjjjjjjjjjjjjjjjjjjjdrfgdfg";
+                loginDetailDTO.setUsername(username);
+                if (jwtTokenUtil.validateToken(token, loginDetailDTO)) {
+                    chain.doFilter(request, response);
+                } else {
+                    LOGGER.info("error generated token is not valid");
+                    res.sendRedirect("/login");
+                }
+            } else {
+                chain.doFilter(request, response);
             }
-        } else {
-            logger.warn("JWT Token does not begin with Bearer String");
+        }catch (Exception e){
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String exceptionAsString = sw.toString();
+            res.sendRedirect("/authentication/login");
+            LOGGER.info("exception generated token is not valid"+exceptionAsString);
+
+            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
 
-//            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-//
-//// that the current user is authenticated. So it passes the
-//// Spring Security Configurations successfully.
-//            }
-//        }
-        chain.doFilter(request, response);
     }
-
 }

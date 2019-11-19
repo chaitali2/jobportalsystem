@@ -27,7 +27,6 @@ public class LoginService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginRestService.class);
 
-
     public UserProfileDTO authenticate(LoginDetailDTO loginDetailDTO) throws AuthenticationException {
         LOGGER.info("loginDetailDTO==="+loginDetailDTO);
         List<RegistrationDetail> userProfileEntity = loginDetailDAO.getUserProfile(convertDTOtoModel(loginDetailDTO));
@@ -45,12 +44,13 @@ public class LoginService {
                 authenticated = true;
             }
         }
+
         LOGGER.info("authenticated===" + authenticated);
         if (!authenticated) {
             throw new AuthenticationException("Authentication failed");
         }
+
         UserProfileDTO userProfile = new UserProfileDTO();
-//userProfile.setId(userProfileEntity.);
         BeanUtils.copyProperties(userEntity, userProfile);
         LOGGER.info("userEntity====>>" + userEntity);
 

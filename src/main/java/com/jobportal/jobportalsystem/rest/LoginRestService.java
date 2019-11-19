@@ -31,17 +31,26 @@ public class LoginRestService {
     public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO) throws AuthenticationException {
         try {
             LOGGER.info("username==" + loginDetailDTO);
+            //AUTHENTICATE THE USER
             UserProfileDTO userProfile = loginService.authenticate(loginDetailDTO);
+
+           // FOR AUTHORISED GENERATE TOKEN
             final String token = jwtTokenUtil.generateToken(loginDetailDTO);
             userProfile.setToken(token);
             LOGGER.info("SECURETOKEN==" + token);
-            return new ResponseEntity(userProfile, HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).body(userProfile);
+//            return userProfile;
         } catch (Exception e) {
-            LOGGER.error("error=="+e.getMessage());
+            LOGGER.error("error==" + e.getMessage());
             ErrorDTO errorDTO = new ErrorDTO();
             errorDTO.setErrorMessage(e.getMessage());
-            return new ResponseEntity(errorDTO, HttpStatus.OK);
+//            return new ResponseEntity(errorDTO, HttpStatus.OK);
+            return null;
         }
 
     }
+
+
 }
+
+
