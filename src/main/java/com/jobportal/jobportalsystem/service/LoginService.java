@@ -51,9 +51,8 @@ public class LoginService {
         }
 
         UserProfileDTO userProfile = new UserProfileDTO();
-        BeanUtils.copyProperties(userEntity, userProfile);
+        userProfile=convertDTOtoModel(userEntity);
         LOGGER.info("userEntity====>>" + userEntity);
-
         LOGGER.info("userProfile====>>" + userProfile);
         return userProfile;
     }
@@ -63,5 +62,14 @@ public class LoginService {
         registrationDetail.setUsername(loginDetailDTO.getUsername());
         registrationDetail.setPassword(loginDetailDTO.getPassword());
         return registrationDetail;
+    }
+
+
+    UserProfileDTO convertDTOtoModel(RegistrationDetail registrationDetail) {
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        userProfileDTO.setId(registrationDetail.getId().toString());
+        userProfileDTO.setUsername(registrationDetail.getUsername());
+        userProfileDTO.setTypeOfUser(registrationDetail.getTypeOfUser());
+        return userProfileDTO;
     }
 }

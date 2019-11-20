@@ -1,18 +1,18 @@
 package com.jobportal.jobportalsystem.dto;
 
 public class UserProfileDTO {
-    private Long id;
+    private String id;
     private String username;
     private String password;
     private String typeOfUser;
     private String salt;
     private String token;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -57,10 +57,11 @@ public class UserProfileDTO {
         this.token = token;
     }
 
+
     @Override
     public String toString() {
         return "UserProfileDTO{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", typeOfUser='" + typeOfUser + '\'' +
