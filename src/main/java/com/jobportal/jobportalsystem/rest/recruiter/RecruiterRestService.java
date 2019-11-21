@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Path("/recruiter")
 public class RecruiterRestService {
@@ -40,11 +41,13 @@ public class RecruiterRestService {
 
     @POST
     @Produces("application/json")
-    @Path("fetchJobDetails")
-    public ResponseEntity fetchJobDetail(String recruiter_id) {
-        LOGGER.info("recruiter_id=="+recruiter_id);
-        recruiterService.fetchJobDetail(recruiter_id);
-        return ResponseEntity.status(HttpStatus.OK).body("userProfile");
+    @Path("jobDetails")
+    public ResponseEntity fetchJobDetails(String user_id) {
+        LOGGER.info("recruiter_id==" + user_id);
+        List<PostJobDetailDTO> postJobDetailDTOS = recruiterService.fetchJobDetails(user_id);
+        return ResponseEntity.status(HttpStatus.OK).body(postJobDetailDTOS);
     }
+
+
 }
 

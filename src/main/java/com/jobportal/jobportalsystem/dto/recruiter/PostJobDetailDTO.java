@@ -7,6 +7,7 @@ import java.util.List;
 
 public class PostJobDetailDTO {
 
+    private Long id;
     private String company;
     private String category;
     private List<String> skills;
@@ -20,6 +21,14 @@ public class PostJobDetailDTO {
     private String job_opening_date;
     private String description;
     private Long posted_by_id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getPosted_by_id() {
         return posted_by_id;

@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RecruiterService {
 
@@ -22,9 +25,27 @@ public class RecruiterService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void fetchJobDetail(String recruiter_id) {
-        recruiterDAO.fetchJobDetail(recruiter_id);
+    public List<PostJobDetailDTO> fetchJobDetails(String user_id) {
+        List<PostJobDetail> jobDetails=recruiterDAO.fetchJobDetails(user_id);
+        List<PostJobDetailDTO> jobDetailDTOS=new ArrayList<>();
 
+        for(int i=0;i<jobDetails.size();i++){
+            PostJobDetailDTO postJobDetailDTO=new PostJobDetailDTO();
+            postJobDetailDTO.setId(jobDetails.get(i).getId());
+            postJobDetailDTO.setCompany(jobDetails.get(i).getCompany());
+            postJobDetailDTO.setCategory(jobDetails.get(i).getCategory());
+            postJobDetailDTO.setJob_type(jobDetails.get(i).getJob_type());
+            postJobDetailDTO.setExperience(jobDetails.get(i).getExperience());
+            postJobDetailDTO.setSalary_offer(jobDetails.get(i).getSalary_offer());
+            postJobDetailDTO.setStreet_add(jobDetails.get(i).getJobLocation().getStreet_add());
+            postJobDetailDTO.setCity(jobDetails.get(i).getJobLocation().getCity());
+            postJobDetailDTO.setState(jobDetails.get(i).getJobLocation().getState());
+            postJobDetailDTO.setPincode(jobDetails.get(i).getJobLocation().getPincode());
+            postJobDetailDTO.setJob_opening_date(jobDetails.get(i).getJob_opening_date());
+            postJobDetailDTO.setDescription(jobDetails.get(i).getDescription());
+            jobDetailDTOS.add(postJobDetailDTO);
+        }
+        return jobDetailDTOS;
     }
 
     PostJobDetail convertDTOtoModel(PostJobDetailDTO postJobDetailDTO) {
