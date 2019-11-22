@@ -1,6 +1,7 @@
 package com.jobportal.jobportalsystem.rest.recruiter;
 
 import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
+import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
 import com.jobportal.jobportalsystem.service.recruiter.RecruiterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,15 @@ public class RecruiterRestService {
         LOGGER.info("recruiter_id==" + user_id);
         List<PostJobDetailDTO> postJobDetailDTOS = recruiterService.fetchJobDetails(user_id);
         return ResponseEntity.status(HttpStatus.OK).body(postJobDetailDTOS);
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("userdetails")
+    public ResponseEntity fetchUserDetails(String user_id) {
+        LOGGER.info("recruiter_id==" + user_id);
+        RegistrationDetailDTO registrationDetailDTO= recruiterService.fetchUserDetails(user_id);
+        return ResponseEntity.status(HttpStatus.OK).body(registrationDetailDTO);
     }
 
 

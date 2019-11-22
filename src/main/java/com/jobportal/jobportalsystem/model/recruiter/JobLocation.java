@@ -1,4 +1,4 @@
-package com.jobportal.jobportalsystem.model;
+package com.jobportal.jobportalsystem.model.recruiter;
 
 import javax.persistence.*;
 

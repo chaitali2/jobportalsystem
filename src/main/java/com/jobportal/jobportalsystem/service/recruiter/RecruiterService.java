@@ -2,9 +2,11 @@ package com.jobportal.jobportalsystem.service.recruiter;
 
 import com.jobportal.jobportalsystem.dao.recruiter.RecruiterDAO;
 import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
-import com.jobportal.jobportalsystem.model.JobLocation;
+import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
+import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
-import com.jobportal.jobportalsystem.model.RegistrationDetail;
+import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
+import com.jobportal.jobportalsystem.service.registration.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,22 +21,32 @@ public class RecruiterService {
     @Autowired
     RecruiterDAO recruiterDAO;
 
+
     @Transactional(propagation = Propagation.REQUIRED)
     public void postJobDetail(PostJobDetailDTO postJobDetailDTO) {
         recruiterDAO.saveJobPostDetail(convertDTOtoModel(postJobDetailDTO));
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<PostJobDetailDTO> fetchJobDetails(String user_id) {
-        List<PostJobDetail> jobDetails=recruiterDAO.fetchJobDetails(user_id);
-        List<PostJobDetailDTO> jobDetailDTOS=new ArrayList<>();
+    public RegistrationDetailDTO fetchUserDetails(String user_id) {
+        RegistrationDetailDTO userDetailsDTO = new RegistrationDetailDTO();
+        RegistrationDetail userDetails = recruiterDAO.fetchUserDetails(user_id);
+        userDetailsDTO = convertDTOtoModel(userDetails);
+        return userDetailsDTO;
+    }
 
-        for(int i=0;i<jobDetails.size();i++){
-            PostJobDetailDTO postJobDetailDTO=new PostJobDetailDTO();
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<PostJobDetailDTO> fetchJobDetails(String user_id) {
+        List<PostJobDetail> jobDetails = recruiterDAO.fetchJobDetails(user_id);
+        List<PostJobDetailDTO> jobDetailDTOS = new ArrayList<>();
+
+        for (int i = 0; i < jobDetails.size(); i++) {
+            PostJobDetailDTO postJobDetailDTO = new PostJobDetailDTO();
             postJobDetailDTO.setId(jobDetails.get(i).getId());
             postJobDetailDTO.setCompany(jobDetails.get(i).getCompany());
             postJobDetailDTO.setCategory(jobDetails.get(i).getCategory());
-            postJobDetailDTO.setJob_type(jobDetails.get(i).getJob_type());
+            String jobType = jobDetails.get(i).getJob_type().equals("P") ? "Permanent" : "Contract";
+            postJobDetailDTO.setJob_type(jobType);
             postJobDetailDTO.setExperience(jobDetails.get(i).getExperience());
             postJobDetailDTO.setSalary_offer(jobDetails.get(i).getSalary_offer());
             postJobDetailDTO.setStreet_add(jobDetails.get(i).getJobLocation().getStreet_add());
@@ -72,5 +84,17 @@ public class RecruiterService {
         postJobDetail.setSkills(postJobDetailDTO.getSkills());
 
         return postJobDetail;
+    }
+
+    RegistrationDetailDTO convertDTOtoModel(RegistrationDetail registrationDetail) {
+        RegistrationDetailDTO registrationDetailDTO = new RegistrationDetailDTO();
+        registrationDetailDTO.setFirstname(registrationDetail.getFirstname());
+        registrationDetailDTO.setLastname(registrationDetail.getLastname());
+        registrationDetailDTO.setEmailid(registrationDetail.getEmailid());
+        registrationDetailDTO.setDob(registrationDetail.getDob());
+        registrationDetailDTO.setCity(registrationDetail.getCity());
+        registrationDetailDTO.setState(registrationDetail.getState());
+        registrationDetailDTO.setMobno(registrationDetail.getMobno());
+        return registrationDetailDTO;
     }
 }

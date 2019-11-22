@@ -1,10 +1,10 @@
-package com.jobportal.jobportalsystem.rest;
+package com.jobportal.jobportalsystem.rest.login;
 
 import com.jobportal.jobportalsystem.customizedException.AuthenticationException;
 import com.jobportal.jobportalsystem.dto.ErrorDTO;
-import com.jobportal.jobportalsystem.dto.LoginDetailDTO;
+import com.jobportal.jobportalsystem.dto.login.LoginDetailDTO;
 import com.jobportal.jobportalsystem.dto.UserProfileDTO;
-import com.jobportal.jobportalsystem.service.LoginService;
+import com.jobportal.jobportalsystem.service.login.LoginService;
 import com.jobportal.jobportalsystem.utility.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +44,8 @@ public class LoginRestService {
             LOGGER.error("error==" + e.getMessage());
             ErrorDTO errorDTO = new ErrorDTO();
             errorDTO.setErrorMessage(e.getMessage());
-//            return new ResponseEntity(errorDTO, HttpStatus.OK);
-            return null;
+            return new ResponseEntity(errorDTO, HttpStatus.OK);
+//            return null;
         }
 
     }

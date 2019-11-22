@@ -1,10 +1,9 @@
 package com.jobportal.jobportalsystem.dao.recruiter;
 
 
-import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
-import com.jobportal.jobportalsystem.model.JobLocation;
-import com.jobportal.jobportalsystem.model.RegistrationDetail;
+import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
+import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -28,6 +27,13 @@ public class RecruiterDAO {
         entityManager.persist(postJobDetail);
     }
 
+    public RegistrationDetail fetchUserDetails(String user_id) {
+        RegistrationDetail userDetail = entityManager.find(RegistrationDetail.class, Long.parseLong(user_id));
+        LOGGER.info("user detail==" + userDetail);
+        return userDetail;
+    }
+
+
     public List<PostJobDetail> fetchJobDetails(String user_id) {
 //        Query query = entityManager.createQuery("Select jp.company,jp.category,jp.job_type,jp.experience," +
 //                "jp.salary_offer,jl.street_add,jl.city,jl.state,jl.pincode,jp.job_opening_date," +
@@ -44,12 +50,19 @@ public class RecruiterDAO {
 //                                                        " on jp.jobLocation.id=jl.id " +
 //                                                        " where jp.registrationDetail.id=:recruiter_id");
         Query query;
+        LOGGER.info("user_id ===" + user_id);
 
-        if (user_id != null || user_id.trim().isEmpty()) {
+        if (user_id.trim().isEmpty()) {
+            LOGGER.info("jobDetail IN SEEKER===");
+
             query = entityManager.createQuery("select pjd from PostJobDetail pjd ");
         } else {
+            LOGGER.info("jobDetail IN RECRUITRTER===");
+
             query = entityManager.createQuery("select pjd from PostJobDetail pjd where pjd.registrationDetail.id=:recruiter_id");
             query.setParameter("recruiter_id", Long.parseLong(user_id));
+
+
         }
 
         List<PostJobDetail> jobDetail = query.getResultList();

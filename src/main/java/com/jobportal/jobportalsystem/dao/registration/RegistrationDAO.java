@@ -1,17 +1,13 @@
-package com.jobportal.jobportalsystem.dao;
+package com.jobportal.jobportalsystem.dao.registration;
 
-import com.jobportal.jobportalsystem.model.RegistrationDetail;
+import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.security.MessageDigest;
-import java.security.SecureRandom;
 import java.util.List;
 
 @Repository

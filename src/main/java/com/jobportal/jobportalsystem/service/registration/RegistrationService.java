@@ -1,8 +1,9 @@
-package com.jobportal.jobportalsystem.service;
+package com.jobportal.jobportalsystem.service.registration;
 
-import com.jobportal.jobportalsystem.dao.RegistrationDAO;
-import com.jobportal.jobportalsystem.dto.RegistrationDetailDTO;
-import com.jobportal.jobportalsystem.model.RegistrationDetail;
+import com.jobportal.jobportalsystem.customizedException.UserExistException;
+import com.jobportal.jobportalsystem.dao.registration.RegistrationDAO;
+import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
+import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import com.jobportal.jobportalsystem.utility.AuthenticationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,14 +51,14 @@ public class RegistrationService {
             registrationDetailDTO.setPassword(secureUserPassword);
             // SAVE THE USER DETAIL
             registrationDao.saveRegistrationDetail(convertDTOtoModel(registrationDetailDTO),salt);
-
-            return "not_exist";
+            return "not exist";
+        }else{
+            throw new UserExistException("User exist");
         }
-        return "exist";
     }
 
 
-    RegistrationDetail convertDTOtoModel(RegistrationDetailDTO registrationDetailDTO) {
+    public RegistrationDetail convertDTOtoModel(RegistrationDetailDTO registrationDetailDTO) {
         RegistrationDetail registrationDetail = new RegistrationDetail();
         registrationDetail.setFirstname(registrationDetailDTO.getFirstname());
         registrationDetail.setLastname(registrationDetailDTO.getLastname());

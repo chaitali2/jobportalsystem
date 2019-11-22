@@ -1,6 +1,6 @@
-package com.jobportal.jobportalsystem.dao;
+package com.jobportal.jobportalsystem.dao.login;
 
-import com.jobportal.jobportalsystem.model.RegistrationDetail;
+import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;

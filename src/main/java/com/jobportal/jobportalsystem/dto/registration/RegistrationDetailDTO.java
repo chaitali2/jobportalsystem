@@ -1,4 +1,4 @@
-package com.jobportal.jobportalsystem.dto;
+package com.jobportal.jobportalsystem.dto.registration;
 
 public class RegistrationDetailDTO {
     private String firstname;

@@ -1,22 +1,17 @@
 package com.jobportal.jobportalsystem.configuration;
 
-import com.jobportal.jobportalsystem.dto.LoginDetailDTO;
+import com.jobportal.jobportalsystem.dto.login.LoginDetailDTO;
 import com.jobportal.jobportalsystem.utility.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 
-import javax.security.sasl.AuthenticationException;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.soap.Addressing;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Enumeration;
 
 //@Configuration
 public class JwtRequestFilter implements Filter {

@@ -1,7 +1,6 @@
 package com.jobportal.jobportalsystem.model.recruiter;
 
-import com.jobportal.jobportalsystem.model.JobLocation;
-import com.jobportal.jobportalsystem.model.RegistrationDetail;
+import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -1,19 +1,17 @@
-package com.jobportal.jobportalsystem.rest;
+package com.jobportal.jobportalsystem.rest.registration;
 
-import com.jobportal.jobportalsystem.dto.RegistrationDetailDTO;
-import com.jobportal.jobportalsystem.model.RegistrationDetail;
-import com.jobportal.jobportalsystem.service.RegistrationService;
+import com.jobportal.jobportalsystem.dto.ErrorDTO;
+import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
+import com.jobportal.jobportalsystem.service.registration.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 @Path("/registration")
 public class RegistrationRestService {
@@ -29,7 +27,10 @@ public class RegistrationRestService {
             String status=registrationService.registerUserDetail(registrationDetailDTO);
             return ResponseEntity.status(HttpStatus.OK).body(status);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.OK).body("error");
+            LOGGER.error("error==" + e.getMessage());
+            ErrorDTO errorDTO = new ErrorDTO();
+            errorDTO.setErrorMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.OK).body(errorDTO);
         }
     }
 

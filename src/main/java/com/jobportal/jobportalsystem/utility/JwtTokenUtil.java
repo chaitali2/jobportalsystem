@@ -1,6 +1,5 @@
 package com.jobportal.jobportalsystem.utility;
-import com.jobportal.jobportalsystem.dto.LoginDetailDTO;
-import com.jobportal.jobportalsystem.dto.UserProfileDTO;
+import com.jobportal.jobportalsystem.dto.login.LoginDetailDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

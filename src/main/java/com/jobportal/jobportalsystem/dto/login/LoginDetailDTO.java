@@ -1,4 +1,4 @@
-package com.jobportal.jobportalsystem.dto;
+package com.jobportal.jobportalsystem.dto.login;
 
 public class LoginDetailDTO {
 
