@@ -7,6 +7,7 @@ import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import com.jobportal.jobportalsystem.service.registration.RegistrationService;
+import oracle.net.aso.p;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -45,7 +46,7 @@ public class RecruiterService {
             postJobDetailDTO.setId(jobDetails.get(i).getId());
             postJobDetailDTO.setCompany(jobDetails.get(i).getCompany());
             postJobDetailDTO.setCategory(jobDetails.get(i).getCategory());
-            String jobType = jobDetails.get(i).getJob_type().equals("P") ? "Permanent" : "Contract";
+            String jobType = ("P").equals(jobDetails.get(i).getJob_type()) ? "Permanent" : "Contract";
             postJobDetailDTO.setJob_type(jobType);
             postJobDetailDTO.setExperience(jobDetails.get(i).getExperience());
             postJobDetailDTO.setSalary_offer(jobDetails.get(i).getSalary_offer());
@@ -55,9 +56,39 @@ public class RecruiterService {
             postJobDetailDTO.setPincode(jobDetails.get(i).getJobLocation().getPincode());
             postJobDetailDTO.setJob_opening_date(jobDetails.get(i).getJob_opening_date());
             postJobDetailDTO.setDescription(jobDetails.get(i).getDescription());
+            postJobDetailDTO.setSkills(jobDetails.get(i).getSkills());
             jobDetailDTOS.add(postJobDetailDTO);
         }
         return jobDetailDTOS;
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public PostJobDetailDTO fetchJobDetailsOfCompany(String user_id) {
+        PostJobDetail jobDetails = recruiterDAO.fetchJobDetailsOfCompany(user_id);
+
+        PostJobDetailDTO postJobDetailDTO = new PostJobDetailDTO();
+        postJobDetailDTO.setId(jobDetails.getId());
+        postJobDetailDTO.setCompany(jobDetails.getCompany());
+        postJobDetailDTO.setCategory(jobDetails.getCategory());
+        String jobType = jobDetails.getJob_type().equals("P") ? "Permanent" : "Contract";
+        postJobDetailDTO.setJob_type(jobType);
+        postJobDetailDTO.setExperience(jobDetails.getExperience());
+        postJobDetailDTO.setSalary_offer(jobDetails.getSalary_offer());
+        postJobDetailDTO.setStreet_add(jobDetails.getJobLocation().getStreet_add());
+        postJobDetailDTO.setCity(jobDetails.getJobLocation().getCity());
+        postJobDetailDTO.setState(jobDetails.getJobLocation().getState());
+        postJobDetailDTO.setPincode(jobDetails.getJobLocation().getPincode());
+        postJobDetailDTO.setJob_opening_date(jobDetails.getJob_opening_date());
+        postJobDetailDTO.setDescription(jobDetails.getDescription());
+        postJobDetailDTO.setSkills(jobDetails.getSkills());
+        return postJobDetailDTO;
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void removeJobPostDetail(String user_id) {
+        recruiterDAO.removeJobPostDetail(user_id);
     }
 
     PostJobDetail convertDTOtoModel(PostJobDetailDTO postJobDetailDTO) {

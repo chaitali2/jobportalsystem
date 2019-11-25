@@ -69,4 +69,17 @@ public class RecruiterDAO {
         LOGGER.info("jobDetail===" + (jobDetail));
         return jobDetail;
     }
+
+
+    public PostJobDetail fetchJobDetailsOfCompany(String job_id) {
+
+        PostJobDetail jobDetail=entityManager.find(PostJobDetail.class,Long.parseLong(job_id));
+        LOGGER.info("jobDetail===" + (jobDetail));
+        return jobDetail;
+    }
+
+    public void removeJobPostDetail(String job_id) {
+        PostJobDetail jobDetail=entityManager.find(PostJobDetail.class,Long.parseLong(job_id));
+        entityManager.remove(jobDetail);
+    }
 }

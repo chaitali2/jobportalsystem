@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 @Path("/authentication")
 public class LoginRestService {
@@ -41,9 +43,13 @@ public class LoginRestService {
             return ResponseEntity.status(HttpStatus.OK).body(userProfile);
 //            return userProfile;
         } catch (Exception e) {
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String exceptionAsString = sw.toString();
+            LOGGER.error(exceptionAsString);
             LOGGER.error("error==" + e.getMessage());
             ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setErrorMessage(e.getMessage());
+            errorDTO.setErrorMessage(exceptionAsString);
             return new ResponseEntity(errorDTO, HttpStatus.OK);
 //            return null;
         }

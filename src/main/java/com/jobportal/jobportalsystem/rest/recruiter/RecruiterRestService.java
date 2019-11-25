@@ -29,11 +29,6 @@ public class RecruiterRestService {
     @Produces("application/json")
     @Path("post_jobs")
     public ResponseEntity postJobDetail(PostJobDetailDTO postJobDetailDTO) {
-
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        LocalDate formatDateTime = LocalDate.parse(postJobDetailDTO.getJob_opening_date(), formatter);
-//        String job_opening_date = formatDateTime.format(formatter);
-//        postJobDetailDTO.setJob_opening_date(job_opening_date);
         LOGGER.info("===postJobDetailDTO====" + postJobDetailDTO);
         recruiterService.postJobDetail(postJobDetailDTO);
         return ResponseEntity.status(HttpStatus.OK).body("userProfile");
@@ -51,10 +46,28 @@ public class RecruiterRestService {
 
     @POST
     @Produces("application/json")
+    @Path("jobdetailofcompany")
+    public ResponseEntity fetchJobDetailsOfCompany(String job_id) {
+        LOGGER.info("job_id==" + job_id);
+        PostJobDetailDTO postJobDetailDTOS = recruiterService.fetchJobDetailsOfCompany(job_id);
+        return ResponseEntity.status(HttpStatus.OK).body(postJobDetailDTOS);
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("removejobpost")
+    public ResponseEntity removeJobPostDetail(String job_id) {
+        LOGGER.info("job_id==" + job_id);
+        recruiterService.removeJobPostDetail(job_id);
+        return ResponseEntity.status(HttpStatus.OK).body("removed");
+    }
+
+    @POST
+    @Produces("application/json")
     @Path("userdetails")
     public ResponseEntity fetchUserDetails(String user_id) {
         LOGGER.info("recruiter_id==" + user_id);
-        RegistrationDetailDTO registrationDetailDTO= recruiterService.fetchUserDetails(user_id);
+        RegistrationDetailDTO registrationDetailDTO = recruiterService.fetchUserDetails(user_id);
         return ResponseEntity.status(HttpStatus.OK).body(registrationDetailDTO);
     }
 
