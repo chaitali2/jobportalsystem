@@ -1,6 +1,7 @@
 package com.jobportal.jobportalsystem.dao.recruiter;
 
 
+import com.jobportal.jobportalsystem.model.recruiter.ApplyJOB;
 import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
@@ -64,8 +65,8 @@ public class RecruiterDAO {
 
 
         }
-
         List<PostJobDetail> jobDetail = query.getResultList();
+        entityManager.flush();
         LOGGER.info("jobDetail===" + (jobDetail));
         return jobDetail;
     }
@@ -73,13 +74,43 @@ public class RecruiterDAO {
 
     public PostJobDetail fetchJobDetailsOfCompany(String job_id) {
 
-        PostJobDetail jobDetail=entityManager.find(PostJobDetail.class,Long.parseLong(job_id));
+        PostJobDetail jobDetail = entityManager.find(PostJobDetail.class, Long.parseLong(job_id));
         LOGGER.info("jobDetail===" + (jobDetail));
         return jobDetail;
     }
 
     public void removeJobPostDetail(String job_id) {
-        PostJobDetail jobDetail=entityManager.find(PostJobDetail.class,Long.parseLong(job_id));
+        PostJobDetail jobDetail = entityManager.find(PostJobDetail.class, Long.parseLong(job_id));
         entityManager.remove(jobDetail);
     }
+
+
+    public void applyForJOB(ApplyJOB applyJOB) {
+        entityManager.persist(applyJOB);
+    }
+
+    public List<ApplyJOB> checkAppliedForJob(ApplyJOB applyJOB) {
+        Query query;
+        query = entityManager.createQuery("select aj from ApplyJOB aj where aj.postJobDetail.id=:job_id and aj.registrationDetail.id=:seeker_id");
+        query.setParameter("job_id", applyJOB.getPostJobDetail().getId());
+        query.setParameter("seeker_id", applyJOB.getRegistrationDetail().getId());
+        List<ApplyJOB> existJobSeeker = query.getResultList();
+        LOGGER.info("existJobSeeker==" + existJobSeeker.size());
+        return existJobSeeker;
+    }
+
+    public List appliedJobsList(String job_id) {
+        Query query;
+        query = entityManager.createQuery("select rd.firstname from ApplyJOB aj" +
+                " inner join RegistrationDetail rd on aj.registrationDetail.id=rd.id" +
+                " where aj.postJobDetail.id=:job_id");
+        query.setParameter("job_id", Long.parseLong(job_id));
+
+        List jobAppliedList = query.getResultList();
+        LOGGER.info("existJobSeeker==" + jobAppliedList);
+        LOGGER.info("existJobSeeker==" + jobAppliedList.size());
+        return jobAppliedList;
+    }
+
+
 }

@@ -1,13 +1,14 @@
 package com.jobportal.jobportalsystem.service.recruiter;
 
+import com.jobportal.jobportalsystem.customizedException.UserExistException;
 import com.jobportal.jobportalsystem.dao.recruiter.RecruiterDAO;
+import com.jobportal.jobportalsystem.dto.recruiter.ApplyJobDTO;
 import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
 import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
+import com.jobportal.jobportalsystem.model.recruiter.ApplyJOB;
 import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
-import com.jobportal.jobportalsystem.service.registration.RegistrationService;
-import oracle.net.aso.p;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,6 +35,38 @@ public class RecruiterService {
         RegistrationDetail userDetails = recruiterDAO.fetchUserDetails(user_id);
         userDetailsDTO = convertDTOtoModel(userDetails);
         return userDetailsDTO;
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void applyForJOB(ApplyJobDTO applyJobDTO) throws UserExistException {
+
+        List<ApplyJOB> existJobSeeker = recruiterDAO.checkAppliedForJob(convertDTOtoModel(applyJobDTO));
+        if(existJobSeeker.size()==0) {
+            recruiterDAO.applyForJOB(convertDTOtoModel(applyJobDTO));
+        }else{
+            throw new UserExistException("Already applied for job");
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void appliedJobsList(String job_id) throws UserExistException {
+
+        recruiterDAO.appliedJobsList(job_id);
+
+    }
+
+
+    ApplyJOB convertDTOtoModel(ApplyJobDTO applyJobDTO) {
+        ApplyJOB applyJOB = new ApplyJOB();
+        PostJobDetail postJobDetail = new PostJobDetail();
+        postJobDetail.setId(Long.parseLong(applyJobDTO.getJob_id()));
+        applyJOB.setPostJobDetail(postJobDetail);
+
+        RegistrationDetail registrationDetail = new RegistrationDetail();
+        registrationDetail.setId(Long.parseLong(applyJobDTO.getUser_id()));
+        applyJOB.setRegistrationDetail(registrationDetail);
+        return applyJOB;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
