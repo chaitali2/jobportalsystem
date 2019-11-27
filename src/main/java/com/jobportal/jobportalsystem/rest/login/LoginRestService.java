@@ -35,22 +35,17 @@ public class LoginRestService {
             LOGGER.info("username==" + loginDetailDTO);
             //AUTHENTICATE THE USER
             UserProfileDTO userProfile = loginService.authenticate(loginDetailDTO);
-
-           // FOR AUTHORISED GENERATE TOKEN
+            // FOR AUTHORISED GENERATE TOKEN
             final String token = jwtTokenUtil.generateToken(loginDetailDTO);
             userProfile.setToken(token);
             LOGGER.info("SECURETOKEN==" + token);
             return ResponseEntity.status(HttpStatus.OK).body(userProfile);
 //            return userProfile;
         } catch (Exception e) {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            String exceptionAsString = sw.toString();
-            LOGGER.error(exceptionAsString);
-            LOGGER.error("error==" + e.getMessage());
+            e.printStackTrace();
             ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setErrorMessage(exceptionAsString);
-            return new ResponseEntity(errorDTO, HttpStatus.OK);
+            errorDTO.setErrorMessage(e.getMessage());
+            return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
 //            return null;
         }
 

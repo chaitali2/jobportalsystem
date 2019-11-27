@@ -31,7 +31,6 @@ public class LoginService {
         List<RegistrationDetail> userProfileEntity = loginDetailDAO.getUserProfile(convertDTOtoModel(loginDetailDTO));
         if(userProfileEntity.isEmpty()){
             throw new AuthenticationException("User does not exist.");
-
         }
         RegistrationDetail userEntity = userProfileEntity.get(0);
         String secureUserPassword = null;

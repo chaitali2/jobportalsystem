@@ -98,8 +98,8 @@ public class RecruiterRestService {
     @Path("appliedJobs")
     public ResponseEntity appliedJobsList(String job_id) {
         try {
-            recruiterService.appliedJobsList(job_id);
-            return ResponseEntity.status(HttpStatus.OK).body("success");
+          List jobseeeker=recruiterService.appliedJobsList(job_id);
+            return ResponseEntity.status(HttpStatus.OK).body(jobseeeker);
         } catch (Exception e) {
             LOGGER.error("error==" + e.getMessage());
             ErrorDTO errorDTO = new ErrorDTO();

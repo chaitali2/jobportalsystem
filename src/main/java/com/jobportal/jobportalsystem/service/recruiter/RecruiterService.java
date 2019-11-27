@@ -50,9 +50,9 @@ public class RecruiterService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void appliedJobsList(String job_id) throws UserExistException {
+    public List appliedJobsList(String job_id) throws UserExistException {
 
-        recruiterDAO.appliedJobsList(job_id);
+       return recruiterDAO.appliedJobsList(job_id);
 
     }
 
