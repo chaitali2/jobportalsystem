@@ -30,7 +30,7 @@ public class LoginRestService {
     @POST
     @Produces("application/json")
     @Path("login")
-    public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO) throws AuthenticationException {
+    public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO){
         try {
             LOGGER.info("username==" + loginDetailDTO);
             //AUTHENTICATE THE USER
@@ -40,13 +40,11 @@ public class LoginRestService {
             userProfile.setToken(token);
             LOGGER.info("SECURETOKEN==" + token);
             return ResponseEntity.status(HttpStatus.OK).body(userProfile);
-//            return userProfile;
         } catch (Exception e) {
             e.printStackTrace();
             ErrorDTO errorDTO = new ErrorDTO();
             errorDTO.setErrorMessage(e.getMessage());
-            return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-//            return null;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDTO);
         }
 
     }

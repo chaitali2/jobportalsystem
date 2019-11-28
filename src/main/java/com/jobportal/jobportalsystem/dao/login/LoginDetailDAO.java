@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -19,13 +20,15 @@ public class LoginDetailDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginDetailDAO.class);
 
-    public List<RegistrationDetail> getUserProfile(RegistrationDetail registrationDetail) {
+    public Optional<RegistrationDetail> getUserProfile(RegistrationDetail registrationDetail) {
         TypedQuery<RegistrationDetail> query = entityManager.createQuery("Select rd from RegistrationDetail rd where rd.username=:username",RegistrationDetail.class);
         query.setParameter("username",registrationDetail.getUsername());
-        List<RegistrationDetail> userProfileEntity = query.getResultList();
-        LOGGER.info("detail of user="+userProfileEntity);
-        return userProfileEntity;
+        List<RegistrationDetail> resultList = query.getResultList();
+        if (resultList.size() == 0)
+            return Optional.empty();
+        return Optional.of(resultList.get(0));
     }
+
 
     public void updateUserProfile(RegistrationDetail registrationDetail) {
       RegistrationDetail registrationDetail1=  entityManager.merge(registrationDetail);

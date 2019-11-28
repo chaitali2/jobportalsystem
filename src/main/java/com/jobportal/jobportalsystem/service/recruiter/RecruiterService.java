@@ -2,9 +2,11 @@ package com.jobportal.jobportalsystem.service.recruiter;
 
 import com.jobportal.jobportalsystem.customizedException.UserExistException;
 import com.jobportal.jobportalsystem.dao.recruiter.RecruiterDAO;
+import com.jobportal.jobportalsystem.dto.other.CategoryDTO;
 import com.jobportal.jobportalsystem.dto.recruiter.ApplyJobDTO;
 import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
 import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
+import com.jobportal.jobportalsystem.model.other.Category;
 import com.jobportal.jobportalsystem.model.recruiter.ApplyJOB;
 import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
@@ -42,9 +44,9 @@ public class RecruiterService {
     public void applyForJOB(ApplyJobDTO applyJobDTO) throws UserExistException {
 
         List<ApplyJOB> existJobSeeker = recruiterDAO.checkAppliedForJob(convertDTOtoModel(applyJobDTO));
-        if(existJobSeeker.size()==0) {
+        if (existJobSeeker.size() == 0) {
             recruiterDAO.applyForJOB(convertDTOtoModel(applyJobDTO));
-        }else{
+        } else {
             throw new UserExistException("Already applied for job");
         }
     }
@@ -52,8 +54,20 @@ public class RecruiterService {
     @Transactional(propagation = Propagation.REQUIRED)
     public List appliedJobsList(String job_id) throws UserExistException {
 
-       return recruiterDAO.appliedJobsList(job_id);
+        return recruiterDAO.appliedJobsList(job_id);
 
+    }
+
+    public List<CategoryDTO> getCategory() {
+        List<Category> categories = recruiterDAO.getCategory();
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setCategory_id(categories.get(i).getId());
+            categoryDTO.setCategoryName(categories.get(i).getCategoryName());
+            categoryDTOList.add(categoryDTO);
+        }
+        return categoryDTOList;
     }
 
 
@@ -156,8 +170,6 @@ public class RecruiterService {
         registrationDetailDTO.setLastname(registrationDetail.getLastname());
         registrationDetailDTO.setEmailid(registrationDetail.getEmailid());
         registrationDetailDTO.setDob(registrationDetail.getDob());
-        registrationDetailDTO.setCity(registrationDetail.getCity());
-        registrationDetailDTO.setState(registrationDetail.getState());
         registrationDetailDTO.setMobno(registrationDetail.getMobno());
         return registrationDetailDTO;
     }

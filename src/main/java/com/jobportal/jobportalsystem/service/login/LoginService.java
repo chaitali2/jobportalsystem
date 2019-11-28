@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LoginService {
@@ -28,35 +29,38 @@ public class LoginService {
 
     public UserProfileDTO authenticate(LoginDetailDTO loginDetailDTO) throws AuthenticationException {
         LOGGER.info("loginDetailDTO==="+loginDetailDTO);
-        List<RegistrationDetail> userProfileEntity = loginDetailDAO.getUserProfile(convertDTOtoModel(loginDetailDTO));
-        if(userProfileEntity.isEmpty()){
+        Optional<RegistrationDetail> userProfile = loginDetailDAO.getUserProfile(convertDTOtoModel(loginDetailDTO));
+
+        if (!userProfile.isPresent())
             throw new AuthenticationException("User does not exist.");
-        }
-        RegistrationDetail userEntity = userProfileEntity.get(0);
+
+
         String secureUserPassword = null;
         try {
-            secureUserPassword = authenticationUtil.generateSecurePassword(loginDetailDTO.getPassword(), userEntity.getSalt());
+            secureUserPassword = authenticationUtil.generateSecurePassword(loginDetailDTO.getPassword(), userProfile.get().getSalt());
         } catch (InvalidKeySpecException ex) {
 
         }
 
         boolean authenticated = false;
-        if (secureUserPassword != null && secureUserPassword.equalsIgnoreCase(userEntity.getPassword())) {
-            if (loginDetailDTO.getUsername() != null && loginDetailDTO.getUsername().equalsIgnoreCase(userEntity.getUsername())) {
+        if (secureUserPassword != null && secureUserPassword.equalsIgnoreCase(userProfile.get().getPassword())) {
+            if (loginDetailDTO.getUsername() != null && loginDetailDTO.getUsername().equalsIgnoreCase(userProfile.get().getUsername())) {
                 authenticated = true;
             }
         }
 
         LOGGER.info("authenticated===" + authenticated);
+
         if (!authenticated) {
             throw new AuthenticationException("Authentication failed");
         }
 
-        UserProfileDTO userProfile = new UserProfileDTO();
-        userProfile=convertDTOtoModel(userEntity);
-        LOGGER.info("userEntity====>>" + userEntity);
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        RegistrationDetail registrationDetail=userProfile.get();
+        userProfileDTO=convertDTOtoModel(registrationDetail);
+        LOGGER.info("userEntity====>>" + registrationDetail);
         LOGGER.info("userProfile====>>" + userProfile);
-        return userProfile;
+        return userProfileDTO;
     }
 
     RegistrationDetail convertDTOtoModel(LoginDetailDTO loginDetailDTO) {

@@ -1,6 +1,7 @@
 package com.jobportal.jobportalsystem.dao.recruiter;
 
 
+import com.jobportal.jobportalsystem.model.other.Category;
 import com.jobportal.jobportalsystem.model.recruiter.ApplyJOB;
 import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
@@ -36,23 +37,7 @@ public class RecruiterDAO {
 
 
     public List<PostJobDetail> fetchJobDetails(String user_id) {
-//        Query query = entityManager.createQuery("Select jp.company,jp.category,jp.job_type,jp.experience," +
-//                "jp.salary_offer,jl.street_add,jl.city,jl.state,jl.pincode,jp.job_opening_date," +
-//                                                        "jp.description" +
-//                                                        "" +
-////                ",jps.skills" +
-//                                                        " from " +
-////                "skills jps" +
-////                                                        " left join" +
-//                " PostJobDetail jp " +
-////                                                        " on jps.skills.id=jp.id" +
-//                                                        " inner join " +
-//                                                        " JobLocation jl " +
-//                                                        " on jp.jobLocation.id=jl.id " +
-//                                                        " where jp.registrationDetail.id=:recruiter_id");
         Query query;
-        LOGGER.info("user_id ===" + user_id);
-
         if (user_id.trim().isEmpty()) {
             LOGGER.info("jobDetail IN SEEKER===");
 
@@ -62,13 +47,15 @@ public class RecruiterDAO {
 
             query = entityManager.createQuery("select pjd from PostJobDetail pjd where pjd.registrationDetail.id=:recruiter_id");
             query.setParameter("recruiter_id", Long.parseLong(user_id));
-
-
         }
+
         List<PostJobDetail> jobDetail = query.getResultList();
-        entityManager.flush();
         LOGGER.info("jobDetail===" + (jobDetail));
-        return jobDetail;
+        if (jobDetail != null && !jobDetail.isEmpty()) {
+            return jobDetail;
+        } else {
+            throw new RuntimeException("Job details not found !");
+        }
     }
 
 
@@ -81,7 +68,7 @@ public class RecruiterDAO {
 
     public void removeJobPostDetail(String job_id) {
         PostJobDetail jobDetail = entityManager.find(PostJobDetail.class, Long.parseLong(job_id));
-        entityManager.remove(jobDetail);
+            entityManager.remove(jobDetail);
     }
 
 
@@ -112,5 +99,12 @@ public class RecruiterDAO {
         return jobAppliedList;
     }
 
+    public List<Category> getCategory() {
+        Query query;
+        query = entityManager.createQuery("select ca from Category ca" );
+        List<Category> categories = query.getResultList();
+        LOGGER.info("categories=="+categories);
+        return categories;
+    }
 
 }

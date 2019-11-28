@@ -12,8 +12,6 @@ public class RegistrationDetail {
     private String firstname;
     private String lastname;
     private String dob;
-    private String city;
-    private String state;
     private String emailid;
     private String mobno;
 
@@ -59,22 +57,6 @@ public class RegistrationDetail {
 
     public void setDob(String dob) {
         this.dob = dob;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getEmailid() {
@@ -132,8 +114,6 @@ public class RegistrationDetail {
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", dob='" + dob + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
                 ", emailid='" + emailid + '\'' +
                 ", mobno='" + mobno + '\'' +
                 ", salt='" + salt + '\'' +

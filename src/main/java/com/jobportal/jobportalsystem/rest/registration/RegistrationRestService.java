@@ -24,13 +24,12 @@ public class RegistrationRestService {
     @Produces("application/json")
     public ResponseEntity registerUserDetail(RegistrationDetailDTO registrationDetailDTO) throws Exception {
         try {
-            String status=registrationService.registerUserDetail(registrationDetailDTO);
-            return ResponseEntity.status(HttpStatus.OK).body(status);
+            registrationService.registerUserDetail(registrationDetailDTO);
+            return ResponseEntity.status(HttpStatus.OK).body("Success fully registered!");
         } catch (Exception e) {
-            LOGGER.error("error==" + e.getMessage());
             ErrorDTO errorDTO = new ErrorDTO();
             errorDTO.setErrorMessage(e.getMessage());
-            return ResponseEntity.status(HttpStatus.OK).body(errorDTO);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDTO);
         }
     }
 
