@@ -2,6 +2,7 @@ package com.jobportal.jobportalsystem.rest.recruiter;
 
 import com.jobportal.jobportalsystem.dto.ErrorDTO;
 import com.jobportal.jobportalsystem.dto.other.CategoryDTO;
+import com.jobportal.jobportalsystem.dto.other.SkillDTO;
 import com.jobportal.jobportalsystem.dto.recruiter.ApplyJobDTO;
 import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
 import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
@@ -96,7 +97,7 @@ public class RecruiterRestService {
 
     @POST
     @Produces("application/json")
-//    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Path("applyforjob")
     public ResponseEntity applyForJOB(ApplyJobDTO applyJobDTO) {
         try {
@@ -107,14 +108,14 @@ public class RecruiterRestService {
             LOGGER.error("error==" + e.getMessage());
             ErrorDTO errorDTO = new ErrorDTO();
             errorDTO.setErrorMessage(e.getMessage());
-            return ResponseEntity.status(HttpStatus.OK).body(errorDTO);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDTO);
         }
     }
 
 
     @POST
     @Produces("application/json")
-    @Path("appliedJobs")
+    @Path("viewJobsApplied")
     public ResponseEntity appliedJobsList(String job_id) {
         try {
             List jobseeeker = recruiterService.appliedJobsList(job_id);
@@ -134,6 +135,23 @@ public class RecruiterRestService {
         try {
             List<CategoryDTO> categoryDTOList = recruiterService.getCategory();
             return ResponseEntity.status(HttpStatus.OK).body(categoryDTOList);
+        } catch (Exception e) {
+            LOGGER.error("error==" + e.getMessage());
+            ErrorDTO errorDTO = new ErrorDTO();
+            errorDTO.setErrorMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.OK).body(errorDTO);
+        }
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("skills")
+    public ResponseEntity loadSkills(String categoryId) {
+        try {
+            LOGGER.info("category id="+categoryId);
+            List<SkillDTO> skillDTOList = recruiterService.loadSkills(categoryId);
+            LOGGER.info("skillDTOList="+skillDTOList);
+            return ResponseEntity.status(HttpStatus.OK).body(skillDTOList);
         } catch (Exception e) {
             LOGGER.error("error==" + e.getMessage());
             ErrorDTO errorDTO = new ErrorDTO();

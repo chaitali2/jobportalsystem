@@ -1,5 +1,7 @@
 package com.jobportal.jobportalsystem.dto.recruiter;
 
+import com.jobportal.jobportalsystem.model.other.Category;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -9,7 +11,8 @@ public class PostJobDetailDTO {
 
     private Long id;
     private String company;
-    private String category;
+    private Long category;
+    private String category_name;
     private List<String> skills;
     private String job_type;
     private String experience;
@@ -122,11 +125,11 @@ public class PostJobDetailDTO {
         this.description = description;
     }
 
-    public String getCategory() {
+    public Long getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Long category) {
         this.category = category;
     }
 
@@ -138,11 +141,21 @@ public class PostJobDetailDTO {
         this.company = company;
     }
 
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
     @Override
     public String toString() {
         return "PostJobDetailDTO{" +
-                "company='" + company + '\'' +
-                ", category='" + category + '\'' +
+                "id=" + id +
+                ", company='" + company + '\'' +
+                ", category=" + category +
+                ", category_name='" + category_name + '\'' +
                 ", skills=" + skills +
                 ", job_type='" + job_type + '\'' +
                 ", experience='" + experience + '\'' +

@@ -1,5 +1,6 @@
 package com.jobportal.jobportalsystem.model.recruiter;
 
+import com.jobportal.jobportalsystem.model.other.Category;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 
 import javax.persistence.*;
@@ -18,7 +19,11 @@ public class PostJobDetail {
     private RegistrationDetail registrationDetail;
 
     private String company;
-    private String category;
+
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     private String job_type;
     private String experience;
     private String salary_offer;
@@ -58,11 +63,11 @@ public class PostJobDetail {
         this.company = company;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 

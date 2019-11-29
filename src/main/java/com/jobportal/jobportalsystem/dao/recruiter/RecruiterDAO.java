@@ -2,6 +2,7 @@ package com.jobportal.jobportalsystem.dao.recruiter;
 
 
 import com.jobportal.jobportalsystem.model.other.Category;
+import com.jobportal.jobportalsystem.model.other.Skill;
 import com.jobportal.jobportalsystem.model.recruiter.ApplyJOB;
 import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.nio.channels.SelectionKey;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -24,6 +27,8 @@ public class RecruiterDAO {
     EntityManager entityManager;
 
     public void saveJobPostDetail(PostJobDetail postJobDetail) {
+
+        LOGGER.info("postJobDetail=="+postJobDetail);
         JobLocation jobLocation = postJobDetail.getJobLocation();
         entityManager.persist(jobLocation);
         entityManager.persist(postJobDetail);
@@ -78,7 +83,9 @@ public class RecruiterDAO {
 
     public List<ApplyJOB> checkAppliedForJob(ApplyJOB applyJOB) {
         Query query;
-        query = entityManager.createQuery("select aj from ApplyJOB aj where aj.postJobDetail.id=:job_id and aj.registrationDetail.id=:seeker_id");
+        query = entityManager.createQuery("select aj from ApplyJOB aj" +
+                                          " where aj.postJobDetail.id=:job_id" +
+                                          " and aj.registrationDetail.id=:seeker_id");
         query.setParameter("job_id", applyJOB.getPostJobDetail().getId());
         query.setParameter("seeker_id", applyJOB.getRegistrationDetail().getId());
         List<ApplyJOB> existJobSeeker = query.getResultList();
@@ -105,6 +112,17 @@ public class RecruiterDAO {
         List<Category> categories = query.getResultList();
         LOGGER.info("categories=="+categories);
         return categories;
+    }
+
+    public List<Object[]> loadSkills(String categoryId) {
+        Query query;
+        query = entityManager.createNativeQuery("select s.id,s.skill_name from CATEGORY_SKILL_LIST c INNER JOIN SKILLS s on c.SKILL_LIST_ID=s.ID where c.CATEGORY_ID=:categoryId" );
+        query.setParameter("categoryId", Long.parseLong(categoryId));
+
+        List<Object[]> skills =query.getResultList();
+
+
+        return skills;
     }
 
 }

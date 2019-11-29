@@ -11,20 +11,17 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String categoryName;
 
-    private  String categoryName;
+    @OneToMany(targetEntity = Skill.class,fetch = FetchType.EAGER)
+    List skillList;
 
-    @ElementCollection
-    @JoinTable(
-            name="skill_data")
-    private List<Skill> skills=new ArrayList<>();
-
-    public List<Skill> getSkills() {
-        return skills;
+    public List getSkillList() {
+        return skillList;
     }
 
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
+    public void setSkillList(List skillList) {
+        this.skillList = skillList;
     }
 
     public Long getId() {
@@ -48,7 +45,7 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", categoryName='" + categoryName + '\'' +
-                ", skills=" + skills +
+                ", skillList=" + skillList +
                 '}';
     }
 }

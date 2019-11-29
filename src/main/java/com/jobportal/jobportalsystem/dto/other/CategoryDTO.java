@@ -6,13 +6,13 @@ public class CategoryDTO {
 
     private Long category_id;
     private String categoryName;
-    private List<SkillDTO> skills;
+    private List skills;
 
-    public List<SkillDTO> getSkills() {
+    public List getSkills() {
         return skills;
     }
 
-    public void setSkills(List<SkillDTO> skills) {
+    public void setSkills(List skills) {
         this.skills = skills;
     }
 
