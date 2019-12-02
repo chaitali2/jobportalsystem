@@ -10,6 +10,7 @@ import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,9 +26,8 @@ public class RecruiterDAO {
 
     @PersistenceContext
     EntityManager entityManager;
-
+    @Transactional
     public void saveJobPostDetail(PostJobDetail postJobDetail) {
-
         LOGGER.info("postJobDetail=="+postJobDetail);
         JobLocation jobLocation = postJobDetail.getJobLocation();
         entityManager.persist(jobLocation);

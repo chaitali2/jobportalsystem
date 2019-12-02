@@ -2,6 +2,9 @@ package com.jobportal.jobportalsystem.dto.recruiter;
 
 import com.jobportal.jobportalsystem.model.other.Category;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -10,19 +13,57 @@ import java.util.List;
 public class PostJobDetailDTO {
 
     private Long id;
+    @NotNull(message = "Please enter company name")
+    @NotBlank(message = "Please enter company name")
     private String company;
-    private Long category;
+
+    private Long category_id;
+
+    @NotNull(message = "Please select category")
+    @NotBlank(message = "Please select category")
     private String category_name;
+
+    @NotNull(message = "Please select skill")
+    @NotBlank(message = "Please select skill")
     private List<String> skills;
+
+    @NotNull(message = "Please select type of job")
+    @NotBlank(message = "Please select type of job")
     private String job_type;
-    private String experience;
-    private String salary_offer;
+
+    @NotNull(message = "Please enter experience")
+    @NotBlank(message = "Please enter experience")
+    private double experience;
+
+    @NotNull(message = "Please enter offered salary")
+    @NotBlank(message = "Please enter offered salary")
+    private int salary_offer;
+
+    @NotNull(message = "Please enter address")
+    @NotBlank(message = "Please enter address")
     private String street_add;
+
+    @NotNull(message = "Please enter city")
+    @NotBlank(message = "Please enter city")
     private String city;
+
+    @NotNull(message = "Please enter state")
+    @NotBlank(message = "Please enter state")
     private String state;
-    private String pincode;
+
+    @NotNull(message = "Please enter pincode")
+    @NotBlank(message = "Please enter pincode")
+    @Size(min = 6, message = "Please enter 6 digit pincode")
+    private int pincode;
+
+    @NotNull(message = "Please select job opening date")
+    @NotBlank(message = "Please select job opening date")
     private String job_opening_date;
+
+    @NotNull(message = "Please enter description")
+    @NotBlank(message = "Please enter description")
     private String description;
+
     private Long posted_by_id;
 
     public Long getId() {
@@ -57,19 +98,19 @@ public class PostJobDetailDTO {
         this.job_type = job_type;
     }
 
-    public String getExperience() {
+    public double getExperience() {
         return experience;
     }
 
-    public void setExperience(String experience) {
+    public void setExperience(double experience) {
         this.experience = experience;
     }
 
-    public String getSalary_offer() {
+    public int getSalary_offer() {
         return salary_offer;
     }
 
-    public void setSalary_offer(String salary_offer) {
+    public void setSalary_offer(int salary_offer) {
         this.salary_offer = salary_offer;
     }
 
@@ -97,11 +138,11 @@ public class PostJobDetailDTO {
         this.state = state;
     }
 
-    public String getPincode() {
+    public int getPincode() {
         return pincode;
     }
 
-    public void setPincode(String pincode) {
+    public void setPincode(int pincode) {
         this.pincode = pincode;
     }
 
@@ -125,12 +166,12 @@ public class PostJobDetailDTO {
         this.description = description;
     }
 
-    public Long getCategory() {
-        return category;
+    public Long getCategory_id() {
+        return category_id;
     }
 
-    public void setCategory(Long category) {
-        this.category = category;
+    public void setCategory_id(Long category_id) {
+        this.category_id = category_id;
     }
 
     public String getCompany() {
@@ -154,7 +195,7 @@ public class PostJobDetailDTO {
         return "PostJobDetailDTO{" +
                 "id=" + id +
                 ", company='" + company + '\'' +
-                ", category=" + category +
+                ", category_id=" + category_id +
                 ", category_name='" + category_name + '\'' +
                 ", skills=" + skills +
                 ", job_type='" + job_type + '\'' +

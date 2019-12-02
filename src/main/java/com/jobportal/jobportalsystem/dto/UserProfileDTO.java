@@ -4,7 +4,7 @@ public class UserProfileDTO {
     private String id;
     private String username;
     private String password;
-    private String typeOfUser;
+    private String usertype;
     private String salt;
     private String token;
 
@@ -32,12 +32,12 @@ public class UserProfileDTO {
         this.password = password;
     }
 
-    public String getTypeOfUser() {
-        return typeOfUser;
+    public String getUsertype() {
+        return usertype;
     }
 
-    public void setTypeOfUser(String typeOfUser) {
-        this.typeOfUser = typeOfUser;
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
     }
 
     public String getSalt() {
@@ -64,7 +64,7 @@ public class UserProfileDTO {
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", typeOfUser='" + typeOfUser + '\'' +
+                ", usertype='" + usertype + '\'' +
                 ", salt='" + salt + '\'' +
                 ", token='" + token + '\'' +
                 '}';

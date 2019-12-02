@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Path("/recruiter")
+@Path("/jobportal/recruiter")
 public class RecruiterRestService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecruiterRestService.class);
@@ -30,18 +30,31 @@ public class RecruiterRestService {
 
     @POST
     @Produces("application/json")
-    @Path("post_jobs")
+    @Path("addjob_posts")
     public ResponseEntity postJobDetail(PostJobDetailDTO postJobDetailDTO) {
         LOGGER.info("===postJobDetailDTO====" + postJobDetailDTO);
-        try {
-            recruiterService.postJobDetail(postJobDetailDTO);
-            return ResponseEntity.status(HttpStatus.OK).body("Success fully post data");
-        } catch (Exception e) {
-            e.printStackTrace();
-            ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setErrorMessage(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDTO);
-        }
+        recruiterService.postJobDetail(postJobDetailDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("Success fully post data");
+
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("loadCategory")
+    public ResponseEntity getCategory() {
+        List<CategoryDTO> categoryDTOList = recruiterService.getCategory();
+        return ResponseEntity.status(HttpStatus.OK).body(categoryDTOList);
+
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("loadskill")
+    public ResponseEntity loadSkills(String categoryId) {
+        LOGGER.info("category id=" + categoryId);
+        List<SkillDTO> skillDTOList = recruiterService.loadSkills(categoryId);
+        LOGGER.info("skillDTOList=" + skillDTOList);
+        return ResponseEntity.status(HttpStatus.OK).body(skillDTOList);
     }
 
 
@@ -128,37 +141,6 @@ public class RecruiterRestService {
         }
     }
 
-    @GET
-    @Produces("application/json")
-    @Path("categories")
-    public ResponseEntity getCategory() {
-        try {
-            List<CategoryDTO> categoryDTOList = recruiterService.getCategory();
-            return ResponseEntity.status(HttpStatus.OK).body(categoryDTOList);
-        } catch (Exception e) {
-            LOGGER.error("error==" + e.getMessage());
-            ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setErrorMessage(e.getMessage());
-            return ResponseEntity.status(HttpStatus.OK).body(errorDTO);
-        }
-    }
-
-    @POST
-    @Produces("application/json")
-    @Path("skills")
-    public ResponseEntity loadSkills(String categoryId) {
-        try {
-            LOGGER.info("category id="+categoryId);
-            List<SkillDTO> skillDTOList = recruiterService.loadSkills(categoryId);
-            LOGGER.info("skillDTOList="+skillDTOList);
-            return ResponseEntity.status(HttpStatus.OK).body(skillDTOList);
-        } catch (Exception e) {
-            LOGGER.error("error==" + e.getMessage());
-            ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setErrorMessage(e.getMessage());
-            return ResponseEntity.status(HttpStatus.OK).body(errorDTO);
-        }
-    }
 
 }
 

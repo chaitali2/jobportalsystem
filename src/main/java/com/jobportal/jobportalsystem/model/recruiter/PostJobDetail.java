@@ -25,8 +25,8 @@ public class PostJobDetail {
     private Category category;
 
     private String job_type;
-    private String experience;
-    private String salary_offer;
+    private double experience;
+    private int salary_offer;
     private String job_opening_date;
     private String description;
 
@@ -79,20 +79,20 @@ public class PostJobDetail {
         this.job_type = job_type;
     }
 
-    public String getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String experience) {
-        this.experience = experience;
-    }
-
-    public String getSalary_offer() {
+    public int getSalary_offer() {
         return salary_offer;
     }
 
-    public void setSalary_offer(String salary_offer) {
+    public void setSalary_offer(int salary_offer) {
         this.salary_offer = salary_offer;
+    }
+
+    public double getExperience() {
+        return experience;
+    }
+
+    public void setExperience(double experience) {
+        this.experience = experience;
     }
 
     public String getJob_opening_date() {

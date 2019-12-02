@@ -1,30 +1,60 @@
 package com.jobportal.jobportalsystem.model.registration;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user_detail")
-@SecondaryTable(name = "user_credential",pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id") )
+@SecondaryTable(name = "user_credential", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id"))
 public class RegistrationDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank
+    @Size(max = 25)
+    @Column(nullable = false)
     private String firstname;
+
+    @NotBlank
+    @Size(max = 25)
+    @Column(nullable = false)
     private String lastname;
+
+    @NotBlank
+    @Size(max = 25)
+    @Column(nullable = false)
     private String dob;
+
+    @NotBlank
+    @Size(max = 25)
+    @Column(nullable = false, unique = true)
     private String emailid;
+
+    @NotBlank
+    @Size(max = 10)
+    @Column(nullable = false)
     private String mobno;
 
     @Column(table = "user_credential")
     private String salt;
 
-    @Column(table = "user_credential")
-    private String typeOfUser;
+    @NotBlank
+    @Size(max = 2)
+    @Column(table = "user_credential",nullable = false)
+    private String usertype;
 
-    @Column(table = "user_credential")
+    @NotBlank
+    @Size(max = 25)
+    @Column(table = "user_credential",
+            unique = true,
+            nullable = false)
     private String username;
 
-    @Column(table = "user_credential")
+    @NotBlank
+    @Column(table = "user_credential",
+            nullable = false)
     private String password;
 
     public Long getId() {
@@ -75,14 +105,6 @@ public class RegistrationDetail {
         this.mobno = mobno;
     }
 
-    public String getTypeOfUser() {
-        return typeOfUser;
-    }
-
-    public void setTypeOfUser(String typeOfUser) {
-        this.typeOfUser = typeOfUser;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -107,6 +129,14 @@ public class RegistrationDetail {
         this.salt = salt;
     }
 
+    public String getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
+    }
+
     @Override
     public String toString() {
         return "RegistrationDetail{" +
@@ -117,7 +147,7 @@ public class RegistrationDetail {
                 ", emailid='" + emailid + '\'' +
                 ", mobno='" + mobno + '\'' +
                 ", salt='" + salt + '\'' +
-                ", typeOfUser='" + typeOfUser + '\'' +
+                ", usertype='" + usertype + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

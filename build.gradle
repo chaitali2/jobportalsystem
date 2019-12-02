@@ -19,7 +19,7 @@ dependencies {
     compile 'com.jslsolucoes:ojdbc6:11.2.0.1.0'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.8.RELEASE'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
-//    compile 'com.sun.jersey.contribs:jersey-multipart:1.19.4'
+    compile 'org.glassfish.jersey.media:jersey-media-multipart:2.29.1'
 }
 
 test {

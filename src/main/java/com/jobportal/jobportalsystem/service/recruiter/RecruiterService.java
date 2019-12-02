@@ -32,7 +32,6 @@ public class RecruiterService {
     RecruiterDAO recruiterDAO;
 
 
-    @Transactional(propagation = Propagation.REQUIRED)
     public void postJobDetail(PostJobDetailDTO postJobDetailDTO) {
         recruiterDAO.saveJobPostDetail(convertDTOtoModel(postJobDetailDTO));
     }
@@ -168,7 +167,7 @@ public class RecruiterService {
 
 
         Category category=new Category();
-        category.setId(postJobDetailDTO.getCategory());
+        category.setId(postJobDetailDTO.getCategory_id());
         postJobDetail.setCategory(category);
 
         postJobDetail.setJob_type(postJobDetailDTO.getJob_type());

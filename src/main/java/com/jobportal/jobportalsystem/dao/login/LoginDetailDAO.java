@@ -21,17 +21,15 @@ public class LoginDetailDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginDetailDAO.class);
 
     public Optional<RegistrationDetail> getUserProfile(RegistrationDetail registrationDetail) {
-        TypedQuery<RegistrationDetail> query = entityManager.createQuery("Select rd from RegistrationDetail rd where rd.username=:username",RegistrationDetail.class);
+        TypedQuery<RegistrationDetail> query = entityManager.createQuery("Select rd from RegistrationDetail rd " +
+                                                                            "where rd.username=:username",RegistrationDetail.class);
+
         query.setParameter("username",registrationDetail.getUsername());
+
         List<RegistrationDetail> resultList = query.getResultList();
         if (resultList.size() == 0)
             return Optional.empty();
         return Optional.of(resultList.get(0));
     }
 
-
-    public void updateUserProfile(RegistrationDetail registrationDetail) {
-      RegistrationDetail registrationDetail1=  entityManager.merge(registrationDetail);
-      LOGGER.info("registrationDetail1=="+registrationDetail1);
-    }
 }

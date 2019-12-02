@@ -18,34 +18,24 @@ import javax.ws.rs.Produces;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-@Path("/authentication")
+@Path("/jobportal")
 public class LoginRestService {
 
     @Autowired
     LoginService loginService;
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginRestService.class);
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+
 
     @POST
     @Produces("application/json")
     @Path("login")
-    public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO){
-        try {
+    public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO) throws AuthenticationException {
+
             LOGGER.info("username==" + loginDetailDTO);
             //AUTHENTICATE THE USER
             UserProfileDTO userProfile = loginService.authenticate(loginDetailDTO);
-            // FOR AUTHORISED GENERATE TOKEN
-            final String token = jwtTokenUtil.generateToken(loginDetailDTO);
-            userProfile.setToken(token);
-            LOGGER.info("SECURETOKEN==" + token);
             return ResponseEntity.status(HttpStatus.OK).body(userProfile);
-        } catch (Exception e) {
-            e.printStackTrace();
-            ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setErrorMessage(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDTO);
-        }
+
 
     }
 

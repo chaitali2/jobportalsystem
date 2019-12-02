@@ -1,10 +1,15 @@
 package com.jobportal.jobportalsystem.dto.login;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class LoginDetailDTO {
-
+    @Email
     private String username;
+    @NotNull(message = "Please enter password")
+    @NotBlank(message = "Please enter password")
     private String password;
-
 
     public String getUsername() {
         return username;
@@ -21,8 +26,6 @@ public class LoginDetailDTO {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 
     @Override
     public String toString() {

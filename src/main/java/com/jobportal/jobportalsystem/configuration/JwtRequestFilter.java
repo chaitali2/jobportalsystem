@@ -5,6 +5,8 @@ import com.jobportal.jobportalsystem.utility.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-//@Configuration
+@Configuration
 public class JwtRequestFilter implements Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
@@ -26,31 +28,40 @@ public class JwtRequestFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         LOGGER.info(
                 "Starting a transaction for req : {}",
-                req.getRequestURI());
+                req.getHeader("token"));
 
         LoginDetailDTO loginDetailDTO = new LoginDetailDTO();
         try {
-            if (!req.getRequestURI().contains("/login")) {
-                String username = request.getParameter("name");
-//            String token = request.getParameter("token");
-                String token = "dfdgfdhgfhfgjjjjjjjjjjjjjjjjjjjdrfgdfg";
-                loginDetailDTO.setUsername(username);
-                if (jwtTokenUtil.validateToken(token, loginDetailDTO)) {
-                    chain.doFilter(request, response);
+            if (!"OPTIONS".equals(req.getMethod())) {
+                if (!req.getRequestURI().contains("/login") && !req.getRequestURI().contains("/signup")) {
+                    String token = req.getHeader("token");
+                    String username = req.getHeader("username");
+
+                    if (!StringUtils.isEmpty(token)) {
+                        LOGGER.info("token exist");
+                        loginDetailDTO.setUsername(username);
+                        if (jwtTokenUtil.validateToken(token, loginDetailDTO)) {
+                            chain.doFilter(request, response);
+                        } else {
+                            LOGGER.error("error generated token is not valid");
+                            res.sendRedirect("/login");
+                        }
+                    } else {
+                        LOGGER.info("No Auth token found");
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token not found");
+                    }
                 } else {
-                    LOGGER.info("error generated token is not valid");
-                    res.sendRedirect("/login");
+                    LOGGER.info("sign up");
+
+                    chain.doFilter(request, response);
                 }
             } else {
                 chain.doFilter(request, response);
             }
-        }catch (Exception e){
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw));
-            String exceptionAsString = sw.toString();
+        } catch (Exception e) {
+            LOGGER.error("exception generated token is not valid" + e);
+            e.printStackTrace();
             res.sendRedirect("/authentication/login");
-            LOGGER.info("exception generated token is not valid"+exceptionAsString);
-
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
 
