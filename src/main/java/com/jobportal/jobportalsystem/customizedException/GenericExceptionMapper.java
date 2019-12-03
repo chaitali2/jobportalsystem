@@ -22,6 +22,7 @@ public class GenericExceptionMapper implements ExceptionMapper<Exception> {
                     .entity(new ErrorProps("400", ex.getMessage()))
                     .build();
         } else {
+            ex.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new ErrorProps("Some error code, 500 or somthing", ex.getMessage()))
                     .build();

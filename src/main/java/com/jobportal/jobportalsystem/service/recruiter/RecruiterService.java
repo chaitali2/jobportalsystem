@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +37,7 @@ public class RecruiterService {
         recruiterDAO.saveJobPostDetail(convertDTOtoModel(postJobDetailDTO));
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
-    public RegistrationDetailDTO fetchUserDetails(String user_id) {
-        RegistrationDetailDTO userDetailsDTO = new RegistrationDetailDTO();
-        RegistrationDetail userDetails = recruiterDAO.fetchUserDetails(user_id);
-        userDetailsDTO = convertDTOtoModel(userDetails);
-        return userDetailsDTO;
-    }
+
 
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -101,7 +96,7 @@ public class RecruiterService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<PostJobDetailDTO> fetchJobDetails(String user_id) {
+    public List<PostJobDetailDTO> fetchJobDetails(String user_id) throws ParseException {
         List<PostJobDetail> jobDetails = recruiterDAO.fetchJobDetails(user_id);
         List<PostJobDetailDTO> jobDetailDTOS = new ArrayList<>();
 
@@ -129,7 +124,7 @@ public class RecruiterService {
 
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public PostJobDetailDTO fetchJobDetailsOfCompany(String user_id) {
+    public PostJobDetailDTO fetchJobDetailsOfCompany(String user_id) throws ParseException {
         PostJobDetail jobDetails = recruiterDAO.fetchJobDetailsOfCompany(user_id);
 
         PostJobDetailDTO postJobDetailDTO = new PostJobDetailDTO();
@@ -188,7 +183,7 @@ public class RecruiterService {
         return postJobDetail;
     }
 
-    RegistrationDetailDTO convertDTOtoModel(RegistrationDetail registrationDetail) {
+    RegistrationDetailDTO convertDTOtoModel(RegistrationDetail registrationDetail) throws ParseException {
         RegistrationDetailDTO registrationDetailDTO = new RegistrationDetailDTO();
         registrationDetailDTO.setFirstname(registrationDetail.getFirstname());
         registrationDetailDTO.setLastname(registrationDetail.getLastname());

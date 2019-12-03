@@ -4,6 +4,7 @@ import com.jobportal.jobportalsystem.customizedException.GenericExceptionMapper;
 import com.jobportal.jobportalsystem.customizedException.ValidationExceptionMapper;
 import com.jobportal.jobportalsystem.rest.login.LoginRestService;
 import com.jobportal.jobportalsystem.rest.other.OtherRestService;
+import com.jobportal.jobportalsystem.rest.profile.ProfileRestService;
 import com.jobportal.jobportalsystem.rest.registration.RegistrationRestService;
 import com.jobportal.jobportalsystem.rest.recruiter.RecruiterRestService;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -21,6 +22,7 @@ public class JerseyConfig extends ResourceConfig {
         register(MultiPartFeature.class);
         register(GenericExceptionMapper.class);
         register(ValidationExceptionMapper.class);
+        register(ProfileRestService.class);
     }
 
 }

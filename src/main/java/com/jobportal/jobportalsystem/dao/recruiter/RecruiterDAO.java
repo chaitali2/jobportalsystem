@@ -34,11 +34,7 @@ public class RecruiterDAO {
         entityManager.persist(postJobDetail);
     }
 
-    public RegistrationDetail fetchUserDetails(String user_id) {
-        RegistrationDetail userDetail = entityManager.find(RegistrationDetail.class, Long.parseLong(user_id));
-        LOGGER.info("user detail==" + userDetail);
-        return userDetail;
-    }
+
 
 
     public List<PostJobDetail> fetchJobDetails(String user_id) {

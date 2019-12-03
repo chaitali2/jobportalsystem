@@ -1,10 +1,15 @@
 package com.jobportal.jobportalsystem.dto.recruiter;
 
 import com.jobportal.jobportalsystem.model.other.Category;
+import com.jobportal.jobportalsystem.utility.Utility;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -12,15 +17,20 @@ import java.util.List;
 
 public class PostJobDetailDTO {
 
+    @Autowired
+    Utility utility;
+
     private Long id;
     @NotNull(message = "Please enter company name")
     @NotBlank(message = "Please enter company name")
     private String company;
 
-    private Long category_id;
-
     @NotNull(message = "Please select category")
     @NotBlank(message = "Please select category")
+    @Range(min = 1)
+    private Long category_id;
+
+
     private String category_name;
 
     @NotNull(message = "Please select skill")
@@ -150,12 +160,9 @@ public class PostJobDetailDTO {
         return job_opening_date;
     }
 
-    public void setJob_opening_date(String job_opening_date) {
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//        LocalDateTime formatDateTime = LocalDateTime.parse(job_opening_date, formatter);
-//        this.job_opening_date = formatDateTime.format(formatter);
-        this.job_opening_date = job_opening_date;
+    public void setJob_opening_date(String job_opening_date) throws ParseException {
+
+        this.job_opening_date = utility.changedateformatter(job_opening_date, "dd-MM-yyyy");
     }
 
     public String getDescription() {

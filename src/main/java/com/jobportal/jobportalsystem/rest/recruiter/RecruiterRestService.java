@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,7 +33,7 @@ public class RecruiterRestService {
     @POST
     @Produces("application/json")
     @Path("addjob_posts")
-    public ResponseEntity postJobDetail(PostJobDetailDTO postJobDetailDTO) {
+    public ResponseEntity postJobDetail(@Valid PostJobDetailDTO postJobDetailDTO) {
         LOGGER.info("===postJobDetailDTO====" + postJobDetailDTO);
         recruiterService.postJobDetail(postJobDetailDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Success fully post data");
@@ -77,7 +79,7 @@ public class RecruiterRestService {
     @POST
     @Produces("application/json")
     @Path("jobdetailofcompany")
-    public ResponseEntity fetchJobDetailsOfCompany(String job_id) {
+    public ResponseEntity fetchJobDetailsOfCompany(String job_id) throws ParseException {
         LOGGER.info("job_id==" + job_id);
         PostJobDetailDTO postJobDetailDTOS = recruiterService.fetchJobDetailsOfCompany(job_id);
         return ResponseEntity.status(HttpStatus.OK).body(postJobDetailDTOS);
@@ -99,14 +101,6 @@ public class RecruiterRestService {
         }
     }
 
-    @POST
-    @Produces("application/json")
-    @Path("userdetails")
-    public ResponseEntity fetchUserDetails(String user_id) {
-        LOGGER.info("recruiter_id==" + user_id);
-        RegistrationDetailDTO registrationDetailDTO = recruiterService.fetchUserDetails(user_id);
-        return ResponseEntity.status(HttpStatus.OK).body(registrationDetailDTO);
-    }
 
     @POST
     @Produces("application/json")

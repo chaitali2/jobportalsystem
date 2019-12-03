@@ -1,10 +1,14 @@
 package com.jobportal.jobportalsystem.dto.registration;
 
+import com.jobportal.jobportalsystem.utility.Utility;
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.constraints.*;
-import javax.ws.rs.FormParam;
+import java.text.ParseException;
+
 
 public class RegistrationDetailDTO {
-
+    @Autowired
+    Utility utility;
     @NotNull(message = "First name is compulsory")
     @NotBlank(message = "First name is compulsory")
     @Size(min = 1, max = 25, message = "The length of lastName should be between 1 to 25")
@@ -27,8 +31,8 @@ public class RegistrationDetailDTO {
 
     @NotNull(message = "Mobile no  is compulsory")
     @NotBlank(message = "Mobile no is compulsory")
-    @Pattern(regexp = "((0/91)?[7-9][0-9]{9})",message="Please enter valid mobile no.")
-    @Size(min = 10,message = "Please enter valid mobile no.")
+    @Pattern(regexp = "((0/91)?[7-9][0-9]{9})", message = "Please enter valid mobile no.")
+    @Size(min = 10, message = "Please enter valid mobile no.")
     private String mobno;
 
     @NotNull(message = "Please select User Type")
@@ -63,8 +67,8 @@ public class RegistrationDetailDTO {
         return dob;
     }
 
-    public void setDob(String dob) {
-        this.dob = dob;
+    public void setDob(String dob) throws ParseException {
+        this.dob = utility.changedateformatter(dob,"dd-MM-yyyy");
     }
 
     public String getEmailid() {

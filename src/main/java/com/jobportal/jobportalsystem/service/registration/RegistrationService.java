@@ -41,7 +41,7 @@ public class RegistrationService {
         }
 
         Optional<String> validationMessage = validateConfirmPassword(registrationDetailDTO.getPassword(), registrationDetailDTO.getConfpassword());
-        if (!validationMessage.isPresent()) {
+        if (validationMessage.isPresent()) {
             throw new AuthenticationException(validationMessage.get());
         }
         String salt = authenticationUtil.generateSalt(30);
