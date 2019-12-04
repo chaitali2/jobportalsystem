@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProfileService {
+
     @Autowired
     ProfileDAO profileDAO;
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileService.class);

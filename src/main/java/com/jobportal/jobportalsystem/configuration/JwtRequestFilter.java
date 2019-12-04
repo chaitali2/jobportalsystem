@@ -7,13 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 @Configuration
 public class JwtRequestFilter implements Filter {
@@ -52,7 +49,6 @@ public class JwtRequestFilter implements Filter {
                     }
                 } else {
                     LOGGER.info("sign up");
-
                     chain.doFilter(request, response);
                 }
             } else {

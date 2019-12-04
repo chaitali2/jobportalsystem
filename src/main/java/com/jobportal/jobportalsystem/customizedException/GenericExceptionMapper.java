@@ -18,6 +18,8 @@ public class GenericExceptionMapper implements ExceptionMapper<Exception> {
     @Override
     public Response toResponse(Exception ex) {
         if (ex instanceof BusinessException) {
+            ex.printStackTrace();
+
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorProps("400", ex.getMessage()))
                     .build();

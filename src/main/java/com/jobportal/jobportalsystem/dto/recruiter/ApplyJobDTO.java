@@ -1,42 +1,72 @@
 package com.jobportal.jobportalsystem.dto.recruiter;
 
-import org.springframework.web.multipart.MultipartFile;
 
 public class ApplyJobDTO {
-    private String user_id;
-    private String job_id;
-    private MultipartFile file;
 
-    public String getUser_id() {
-        return user_id;
+    private String firstname;
+    private String lastname;
+    private String company;
+    private String description;
+    private String applyDate;
+    private String fileName;
+
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getJob_id() {
-        return job_id;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setJob_id(String job_id) {
-        this.job_id = job_id;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public MultipartFile getFile() {
-        return file;
+    public String getCompany() {
+        return company;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(String applyDate) {
+        this.applyDate = applyDate;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override
     public String toString() {
         return "ApplyJobDTO{" +
-                "user_id='" + user_id + '\'' +
-                ", job_id='" + job_id + '\'' +
-                ", file=" + file +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", company='" + company + '\'' +
+                ", description='" + description + '\'' +
+                ", applyDate='" + applyDate + '\'' +
+                ", fileName='" + fileName + '\'' +
                 '}';
     }
 }

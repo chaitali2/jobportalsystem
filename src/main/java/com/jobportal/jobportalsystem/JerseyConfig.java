@@ -4,6 +4,7 @@ import com.jobportal.jobportalsystem.customizedException.GenericExceptionMapper;
 import com.jobportal.jobportalsystem.customizedException.ValidationExceptionMapper;
 import com.jobportal.jobportalsystem.rest.login.LoginRestService;
 import com.jobportal.jobportalsystem.rest.other.OtherRestService;
+import com.jobportal.jobportalsystem.rest.profile.ChangePasswordRestService;
 import com.jobportal.jobportalsystem.rest.profile.ProfileRestService;
 import com.jobportal.jobportalsystem.rest.registration.RegistrationRestService;
 import com.jobportal.jobportalsystem.rest.recruiter.RecruiterRestService;
@@ -23,6 +24,7 @@ public class JerseyConfig extends ResourceConfig {
         register(GenericExceptionMapper.class);
         register(ValidationExceptionMapper.class);
         register(ProfileRestService.class);
+        register(ChangePasswordRestService.class);
     }
 
 }

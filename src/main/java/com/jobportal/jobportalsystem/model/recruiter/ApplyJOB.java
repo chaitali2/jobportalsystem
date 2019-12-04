@@ -21,6 +21,9 @@ public class ApplyJOB {
     @JoinColumn(name = "seeker_id")
     private RegistrationDetail registrationDetail;
 
+    private String filename;
+
+    private String applyDate;
 
     public Long getId() {
         return id;
@@ -46,12 +49,30 @@ public class ApplyJOB {
         this.registrationDetail = registrationDetail;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(String applyDate) {
+        this.applyDate = applyDate;
+    }
+
     @Override
     public String toString() {
-        return "ApplyForJOB{" +
+        return "ApplyJOB{" +
                 "id=" + id +
                 ", postJobDetail=" + postJobDetail +
                 ", registrationDetail=" + registrationDetail +
+                ", filename='" + filename + '\'' +
+                ", applyDate='" + applyDate + '\'' +
                 '}';
     }
 }

@@ -25,28 +25,28 @@ public class PostJobDetailDTO {
     @NotBlank(message = "Please enter company name")
     private String company;
 
-    @NotNull(message = "Please select category")
-    @NotBlank(message = "Please select category")
-    @Range(min = 1)
+//    @NotNull(message = "Please select category")
+//    @NotBlank(message = "Please select category")
+//    @Range(min = 1)
     private Long category_id;
 
 
     private String category_name;
 
-    @NotNull(message = "Please select skill")
-    @NotBlank(message = "Please select skill")
+//    @NotNull(message = "Please select skill")
+//    @NotBlank(message = "Please select skill")
     private List<String> skills;
 
     @NotNull(message = "Please select type of job")
     @NotBlank(message = "Please select type of job")
     private String job_type;
 
-    @NotNull(message = "Please enter experience")
-    @NotBlank(message = "Please enter experience")
+//    @NotNull(message = "Please enter experience")
+//    @NotBlank(message = "Please enter experience")
     private double experience;
 
-    @NotNull(message = "Please enter offered salary")
-    @NotBlank(message = "Please enter offered salary")
+//    @NotNull(message = "Please enter offered salary")
+//    @NotBlank(message = "Please enter offered salary")
     private int salary_offer;
 
     @NotNull(message = "Please enter address")
@@ -61,9 +61,9 @@ public class PostJobDetailDTO {
     @NotBlank(message = "Please enter state")
     private String state;
 
-    @NotNull(message = "Please enter pincode")
-    @NotBlank(message = "Please enter pincode")
-    @Size(min = 6, message = "Please enter 6 digit pincode")
+//    @NotNull(message = "Please enter pincode")
+//    @NotBlank(message = "Please enter pincode")
+//    @Size(min = 6, message = "Please enter 6 digit pincode")
     private int pincode;
 
     @NotNull(message = "Please select job opening date")
@@ -162,7 +162,7 @@ public class PostJobDetailDTO {
 
     public void setJob_opening_date(String job_opening_date) throws ParseException {
 
-        this.job_opening_date = utility.changedateformatter(job_opening_date, "dd-MM-yyyy");
+        this.job_opening_date = job_opening_date;
     }
 
     public String getDescription() {

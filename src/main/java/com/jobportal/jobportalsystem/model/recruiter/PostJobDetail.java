@@ -30,7 +30,7 @@ public class PostJobDetail {
     private String job_opening_date;
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "job_location_id")
     private JobLocation jobLocation;
 

@@ -67,8 +67,8 @@ public class RegistrationDetailDTO {
         return dob;
     }
 
-    public void setDob(String dob) throws ParseException {
-        this.dob = utility.changedateformatter(dob,"dd-MM-yyyy");
+    public void setDob(String dob){
+        this.dob = dob;
     }
 
     public String getEmailid() {
