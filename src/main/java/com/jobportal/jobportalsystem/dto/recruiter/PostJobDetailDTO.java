@@ -25,7 +25,7 @@ public class PostJobDetailDTO {
     @NotBlank(message = "Please enter company name")
     private String company;
 
-//    @NotNull(message = "Please select category")
+    @NotNull(message = "Please select category")
 //    @NotBlank(message = "Please select category")
 //    @Range(min = 1)
     private Long category_id;
@@ -160,7 +160,7 @@ public class PostJobDetailDTO {
         return job_opening_date;
     }
 
-    public void setJob_opening_date(String job_opening_date) throws ParseException {
+    public void setJob_opening_date(String job_opening_date) {
 
         this.job_opening_date = job_opening_date;
     }

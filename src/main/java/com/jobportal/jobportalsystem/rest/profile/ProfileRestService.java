@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.validation.Valid;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -34,7 +35,7 @@ public class ProfileRestService {
     @POST
     @Produces("application/json")
     @Path("saveProfileDetail")
-    public ResponseEntity saveProfileDetail(ProfileDTO profileDTO) {
+    public ResponseEntity saveProfileDetail(@Valid ProfileDTO profileDTO) {
         LOGGER.info("profileDTO==" + profileDTO);
         profileService.saveProfileDetail(profileDTO);
         return ResponseEntity.status(HttpStatus.OK).body("success");

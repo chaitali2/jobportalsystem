@@ -41,10 +41,12 @@ public class RegistrationDetailDTO {
 
     @NotNull(message = "Please enter password")
     @NotBlank(message = "Please enter password")
+    @Pattern(regexp = "(^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$)",message = "Please enter valid password")
     private String password;
 
     @NotNull(message = "Please enter confirm password")
     @NotBlank(message = "Please enter confirm password")
+    @Pattern(regexp = "(^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$)",message = "Please enter valid confirm password")
     private String confpassword;
 
     public String getFirstname() {

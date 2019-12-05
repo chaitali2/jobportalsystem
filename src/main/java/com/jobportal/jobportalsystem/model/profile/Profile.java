@@ -25,7 +25,7 @@ public class Profile {
     private String highest_degree;
     private String percentage;
     private String passing_year;
-    private String expected_salary;
+    private Double expected_salary;
 
     public RegistrationDetail getRegistrationDetail() {
         return registrationDetail;
@@ -75,11 +75,19 @@ public class Profile {
         this.passing_year = passing_year;
     }
 
-    public String getExpected_salary() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Double getExpected_salary() {
         return expected_salary;
     }
 
-    public void setExpected_salary(String expected_salary) {
+    public void setExpected_salary(Double expected_salary) {
         this.expected_salary = expected_salary;
     }
 

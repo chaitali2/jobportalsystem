@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 
 @Path("/jobportal")
 public class RegistrationRestService {
+
     @Autowired
     RegistrationService registrationService;
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationRestService.class);

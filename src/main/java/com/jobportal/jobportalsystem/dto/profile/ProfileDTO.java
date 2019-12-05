@@ -34,7 +34,9 @@ public class ProfileDTO {
     private String highest_degree;
     private String percentage;
     private String passing_year;
-    private String expected_salary;
+
+    @Min(value = 1, message = "must be equal or greater than 1 LPA salary")
+    private Double expected_salary;
 
     public String getHighest_degree() {
         return highest_degree;
@@ -60,11 +62,11 @@ public class ProfileDTO {
         this.passing_year = passing_year;
     }
 
-    public String getExpected_salary() {
+    public Double getExpected_salary() {
         return expected_salary;
     }
 
-    public void setExpected_salary(String expected_salary) {
+    public void setExpected_salary(Double expected_salary) {
         this.expected_salary = expected_salary;
     }
 
