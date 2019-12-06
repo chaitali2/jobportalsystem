@@ -1,14 +1,9 @@
 package com.jobportal.jobportalsystem.dto.registration;
 
-import com.jobportal.jobportalsystem.utility.Utility;
-import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.constraints.*;
-import java.text.ParseException;
 
 
 public class RegistrationDetailDTO {
-    @Autowired
-    Utility utility;
     @NotNull(message = "First name is compulsory")
     @NotBlank(message = "First name is compulsory")
     @Size(min = 1, max = 25, message = "The length of lastName should be between 1 to 25")

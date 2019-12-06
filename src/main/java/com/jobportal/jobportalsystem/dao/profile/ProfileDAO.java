@@ -1,6 +1,7 @@
 package com.jobportal.jobportalsystem.dao.profile;
 
 import com.jobportal.jobportalsystem.model.profile.Address;
+import com.jobportal.jobportalsystem.model.profile.EducationExperience;
 import com.jobportal.jobportalsystem.model.profile.Profile;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import org.slf4j.Logger;
@@ -17,12 +18,12 @@ public class ProfileDAO {
     EntityManager entityManager;
 
     @Transactional
-    public Profile fetchUserDetails(String user_id) {
-        RegistrationDetail registrationDetail = entityManager.find(RegistrationDetail.class, Long.parseLong(user_id));
+    public Profile fetchUserDetails(Long user_id) {
+        RegistrationDetail registrationDetail = entityManager.find(RegistrationDetail.class, user_id);
         LOGGER.info("profile==1");
 
         TypedQuery<Profile> query = entityManager.createQuery("select pro from Profile pro where pro.registrationDetail.id=:user_id", Profile.class);
-        query.setParameter("user_id", Long.parseLong(user_id));
+        query.setParameter("user_id", user_id);
         LOGGER.info("profile==2");
         Profile profile;
         try {
@@ -45,7 +46,7 @@ public class ProfileDAO {
         TypedQuery<Profile> query = entityManager.createQuery("select pro from Profile pro where pro.registrationDetail.id=:user_id", Profile.class);
         query.setParameter("user_id", profileDetail.getRegistrationDetail().getId());
         RegistrationDetail registrationDetail = entityManager.find(RegistrationDetail.class, profileDetail.getRegistrationDetail().getId());
-        LOGGER.info("registrationDetail==" + registrationDetail);
+//        LOGGER.info("registrationDetail==" + registrationDetail);
         registrationDetail.setMobno(profileDetail.getRegistrationDetail().getMobno());
         registrationDetail.setFirstname(profileDetail.getRegistrationDetail().getFirstname());
         registrationDetail.setLastname(profileDetail.getRegistrationDetail().getLastname());
@@ -55,19 +56,24 @@ public class ProfileDAO {
             LOGGER.info("profile==2");
             profile = query.getSingleResult();
             Address address = entityManager.find(Address.class, profile.getAddress().getId());
-            LOGGER.info("address="+address);
+//            LOGGER.info("address=" + address);
             address.setCity(profileDetail.getAddress().getCity());
             address.setState(profileDetail.getAddress().getState());
             address.setStreet_add(profileDetail.getAddress().getStreet_add());
             entityManager.merge(address);
-            profile.setRegistrationDetail(registrationDetail);
-            profile.setAddress(address);
-            profile.setExperience(profileDetail.getExperience());
-            profile.setExpected_salary(profileDetail.getExpected_salary());
-            profile.setHighest_degree(profileDetail.getHighest_degree());
-            profile.setPassing_year(profileDetail.getPassing_year());
-            profile.setPercentage(profileDetail.getPercentage());
-            LOGGER.info("profile=="+profile);
+            profile.setRegistrationDetail(profileDetail.getRegistrationDetail());
+            profile.setAddress(profileDetail.getAddress());
+            if (registrationDetail.getUsertype().equals("J")) {
+                EducationExperience educationExperience = entityManager.find(EducationExperience.class, profile.getEducationExperience().getId());
+                educationExperience.setExperience(profileDetail.getEducationExperience().getExperience());
+                educationExperience.setExpected_salary(profileDetail.getEducationExperience().getExpected_salary());
+                educationExperience.setHighest_degree(profileDetail.getEducationExperience().getHighest_degree());
+                educationExperience.setPassing_year(profileDetail.getEducationExperience().getPassing_year());
+                educationExperience.setPercentage(profileDetail.getEducationExperience().getPercentage());
+                entityManager.merge(educationExperience);
+                profile.setEducationExperience(educationExperience);
+            }
+//            LOGGER.info("profile==" + profile);
             entityManager.merge(profile);
 
         } catch (NoResultException ex) {

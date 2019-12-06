@@ -3,6 +3,7 @@ package com.jobportal.jobportalsystem.model.other;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -13,15 +14,16 @@ public class Category {
     private Long id;
     private String categoryName;
 
-    @OneToMany(targetEntity = Skill.class,fetch = FetchType.EAGER)
-    List skillList;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Set<Skill> skills;
 
-    public List getSkillList() {
-        return skillList;
+    public Set<Skill> getSkills() {
+        return skills;
     }
 
-    public void setSkillList(List skillList) {
-        this.skillList = skillList;
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
     }
 
     public Long getId() {
@@ -40,12 +42,13 @@ public class Category {
         this.categoryName = categoryName;
     }
 
+
     @Override
     public String toString() {
         return "Category{" +
                 "id=" + id +
                 ", categoryName='" + categoryName + '\'' +
-                ", skillList=" + skillList +
+                ", skills=" + skills +
                 '}';
     }
 }

@@ -1,10 +1,26 @@
 package com.jobportal.jobportalsystem.dto.profile;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 public class PasswordDTO {
 
     private String username;
+
+    @NotNull(message = "Please enter old password")
+    @NotBlank(message = "Please enter old password")
+    @Pattern(regexp = "(^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$)",message = "Please enter valid old password")
     private String old_password;
+
+    @NotNull(message = "Please enter new password")
+    @NotBlank(message = "Please enter new password")
+    @Pattern(regexp = "(^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$)",message = "Please enter valid new password")
     private String new_password;
+
+    @NotNull(message = "Please enter confirm password")
+    @NotBlank(message = "Please enter confirm password")
+    @Pattern(regexp = "(^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$)",message = "Please enter valid confirm password")
     private String confirm_password;
 
     public String getNew_password() {

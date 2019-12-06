@@ -14,7 +14,9 @@ import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -44,7 +46,7 @@ public class RecruiterRestServiceTest {
         List<String> skills = new ArrayList<>();
         skills.add("2");
         skills.add("3");
-        postJobDetailDTO.setSkills(skills);
+//        postJobDetailDTO.setSkills(skills);
         postJobDetailDTO.setJob_type("P");
         postJobDetailDTO.setExperience(2);
         postJobDetailDTO.setSalary_offer(4);
@@ -65,19 +67,91 @@ public class RecruiterRestServiceTest {
 
     }
 
-    public void testLoadSkills() {
+//    @Test
+//    public void testLoadSkills() {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        Map<String, Long> keyValue = new HashMap<>();
+//        keyValue.put("category_id", 4l);
+//
+//        JacksonJsonProvider jacksonJsonProvider = new JacksonJsonProvider();
+//        HttpEntity<String> entity = new HttpEntity<String>(jacksonJsonProvider.toJson(keyValue), headers);
+//        System.out.println("load skill");
+//        ResponseEntity<String> response = restTemplate.exchange(
+//                createURLWithPort("/api/jobportal/recruiter/loadskill"), HttpMethod.POST, entity, String.class);
+//        System.out.println("response==" + response);
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//    }
+
+    @Test
+    public void testLoadCategoryList() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        String categoryId = "2";
-        JacksonJsonProvider jacksonJsonProvider = new JacksonJsonProvider();
-        HttpEntity<String> entity = new HttpEntity<String>(jacksonJsonProvider.toJson(categoryId), headers);
-        System.out.println("load skill");
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/api/jobportal/recruiter/loadskill"), HttpMethod.POST, entity, String.class);
+                createURLWithPort("/api/jobportal/recruiter/loadCategory"), HttpMethod.GET, entity, String.class);
         System.out.println("response==" + response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
+    @Test
+    public void testFetchJobDetails(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Map<String, Long> keyValue = new HashMap<>();
+        keyValue.put("user_id", 1L);
+
+        JacksonJsonProvider jacksonJsonProvider = new JacksonJsonProvider();
+        HttpEntity<String> entity = new HttpEntity<String>(jacksonJsonProvider.toJson(keyValue), headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/api/jobportal/recruiter/jobDetails"), HttpMethod.POST, entity, String.class);
+        System.out.println("response==" + response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testFetchJobDetailsOfCompany(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Map<String, Long> keyValue = new HashMap<>();
+        keyValue.put("job_id", 1L);
+
+        JacksonJsonProvider jacksonJsonProvider = new JacksonJsonProvider();
+        HttpEntity<String> entity = new HttpEntity<String>(jacksonJsonProvider.toJson(keyValue), headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/api/jobportal/recruiter/jobdetailofcompany"), HttpMethod.POST, entity, String.class);
+        System.out.println("response==" + response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testRemoveJobPostDetail(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Map<String, Long> keyValue = new HashMap<>();
+        keyValue.put("job_id", 1L);
+
+        JacksonJsonProvider jacksonJsonProvider = new JacksonJsonProvider();
+        HttpEntity<String> entity = new HttpEntity<String>(jacksonJsonProvider.toJson(keyValue), headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/api/jobportal/recruiter/removejobpost"), HttpMethod.POST, entity, String.class);
+        System.out.println("response==" + response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testAppliedJobsList(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Map<String, Long> keyValue = new HashMap<>();
+        keyValue.put("job_id", 1L);
+
+        JacksonJsonProvider jacksonJsonProvider = new JacksonJsonProvider();
+        HttpEntity<String> entity = new HttpEntity<String>(jacksonJsonProvider.toJson(keyValue), headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/api/jobportal/recruiter/removejobpost"), HttpMethod.POST, entity, String.class);
+        System.out.println("response==" + response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
     private String createURLWithPort(String uri) {
         return "http://localhost:" + port + uri;

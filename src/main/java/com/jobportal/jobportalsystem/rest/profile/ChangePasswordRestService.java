@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.validation.Valid;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -25,10 +26,10 @@ public class ChangePasswordRestService {
     @POST
     @Produces("application/json")
     @Path("changePassword")
-    public ResponseEntity changePassword(PasswordDTO passwordDTO) throws InvalidKeySpecException, PasswordDoesNotExistException, AuthenticationException {
-
+    public ResponseEntity changePassword(@Valid PasswordDTO passwordDTO) throws InvalidKeySpecException, PasswordDoesNotExistException, AuthenticationException {
         LOGGER.info("passwordDTO==" + passwordDTO);
         changePasswordService.changePassword(passwordDTO);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
+
 }

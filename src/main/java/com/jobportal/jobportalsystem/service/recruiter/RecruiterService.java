@@ -8,6 +8,7 @@ import com.jobportal.jobportalsystem.dto.recruiter.ApplyJobDTO;
 import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
 import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
 import com.jobportal.jobportalsystem.model.other.Category;
+import com.jobportal.jobportalsystem.model.other.Skill;
 import com.jobportal.jobportalsystem.model.recruiter.ApplyJOB;
 import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
@@ -18,9 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.io.*;
@@ -30,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RecruiterService {
@@ -60,7 +59,10 @@ public class RecruiterService {
         RegistrationDetail registrationDetail = new RegistrationDetail();
         registrationDetail.setId(Long.parseLong(user_id));
         applyJOB.setRegistrationDetail(registrationDetail);
-        applyJOB.setFilename(fileMetaData.getFileName());
+        File file = new File("F:/resume/" + fileMetaData.getFileName());
+        File newFile = new File("F:/resume/" + job_id + ".pdf");
+        boolean isRename = file.renameTo(newFile);
+        applyJOB.setFilename(file.getName());
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Date applyDate = new Date();
         applyJOB.setApplyDate(df.format(applyDate));
@@ -68,7 +70,7 @@ public class RecruiterService {
         List<ApplyJOB> existJobSeeker = recruiterDAO.checkAppliedForJob(applyJOB);
 
         if (existJobSeeker.size() == 0) {
-            uploadResume(fileInputStream, fileMetaData);
+            uploadResume(fileInputStream, fileMetaData, job_id);
 
             recruiterDAO.applyForJOB(applyJOB);
         } else {
@@ -77,14 +79,18 @@ public class RecruiterService {
     }
 
     public void uploadResume(InputStream fileInputStream,
-                             FormDataContentDisposition fileMetaData) {
-
+                             FormDataContentDisposition fileMetaData, String job_id) {
+        LOGGER.info("hello upload resume");
         String UPLOAD_PATH = "F:/resume/";
         try {
             int read = 0;
             byte[] bytes = new byte[1024];
+            File file = new File(UPLOAD_PATH + fileMetaData.getFileName());
+            OutputStream out = null;
+                out = new FileOutputStream(file);
 
-            OutputStream out = new FileOutputStream(new File(UPLOAD_PATH + fileMetaData.getFileName()));
+            LOGGER.info("hello upload resume 2");
+
             while ((read = fileInputStream.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
@@ -96,7 +102,7 @@ public class RecruiterService {
 
     }
 
-    public List appliedJobsList(String job_id) {
+    public List appliedJobsList(Long job_id) {
         List<Object[]> jobAppliedList = recruiterDAO.appliedJobsList(job_id);
         List<ApplyJobDTO> applyJobDTOList = new ArrayList<>();
         for (Object[] details : jobAppliedList) {
@@ -114,8 +120,8 @@ public class RecruiterService {
         return applyJobDTOList;
     }
 
-    public List<CategoryDTO> getCategory() {
-        List<Category> categories = recruiterDAO.getCategory();
+    public List<CategoryDTO> loadCategoryList() {
+        List<Category> categories = recruiterDAO.loadCategoryList();
         List<CategoryDTO> categoryDTOList = new ArrayList<>();
         for (int i = 0; i < categories.size(); i++) {
             CategoryDTO categoryDTO = new CategoryDTO();
@@ -126,7 +132,7 @@ public class RecruiterService {
         return categoryDTOList;
     }
 
-    public List<SkillDTO> loadSkills(String categoryId) {
+    public List<SkillDTO> loadSkills(Long categoryId) {
         List<Object[]> skills = recruiterDAO.loadSkills(categoryId);
         List<SkillDTO> skillList = new ArrayList<>();
         for (Object[] a : skills) {
@@ -138,8 +144,8 @@ public class RecruiterService {
         return skillList;
     }
 
-    public List<PostJobDetailDTO> fetchJobDetails(String user_id) throws ParseException {
-        List<PostJobDetail> jobDetails = recruiterDAO.fetchJobDetails(user_id);
+    public List<PostJobDetailDTO> fetchJobDetails(Map<String, Long> keyValue) throws ParseException {
+        List<PostJobDetail> jobDetails = recruiterDAO.fetchJobDetails(keyValue);
 
         LOGGER.info("jobDetail===" + (jobDetails));
         if (jobDetails != null && !jobDetails.isEmpty()) {
@@ -159,7 +165,7 @@ public class RecruiterService {
                 postJobDetailDTO.setPincode(jobDetails.get(i).getJobLocation().getPincode());
                 postJobDetailDTO.setJob_opening_date(jobDetails.get(i).getJob_opening_date());
                 postJobDetailDTO.setDescription(jobDetails.get(i).getDescription());
-                postJobDetailDTO.setSkills(jobDetails.get(i).getSkills());
+//                postJobDetailDTO.setSkills(jobDetails.get(i).getSkills());
                 jobDetailDTOS.add(postJobDetailDTO);
             }
             LOGGER.info("jobDetailDTOS==" + jobDetailDTOS);
@@ -170,7 +176,7 @@ public class RecruiterService {
     }
 
 
-    public PostJobDetailDTO fetchJobDetailsOfCompany(String user_id) throws ParseException {
+    public PostJobDetailDTO fetchJobDetailsOfCompany(Long user_id) throws ParseException {
         PostJobDetail jobDetails = recruiterDAO.fetchJobDetailsOfCompany(user_id);
 
         PostJobDetailDTO postJobDetailDTO = new PostJobDetailDTO();
@@ -187,12 +193,12 @@ public class RecruiterService {
         postJobDetailDTO.setPincode(jobDetails.getJobLocation().getPincode());
         postJobDetailDTO.setJob_opening_date(jobDetails.getJob_opening_date());
         postJobDetailDTO.setDescription(jobDetails.getDescription());
-        postJobDetailDTO.setSkills(jobDetails.getSkills());
+//        postJobDetailDTO.setSkills(jobDetails.getSkills());
         return postJobDetailDTO;
     }
 
 
-    public void removeJobPostDetail(String user_id) {
+    public void removeJobPostDetail(Long user_id) {
         recruiterDAO.removeJobPostDetail(user_id);
     }
 
@@ -225,7 +231,6 @@ public class RecruiterService {
         jobLocation.setPincode(postJobDetailDTO.getPincode());
         postJobDetail.setJobLocation(jobLocation);
 
-        postJobDetail.setSkills(postJobDetailDTO.getSkills());
 
         return postJobDetail;
     }
@@ -240,8 +245,8 @@ public class RecruiterService {
         return registrationDetailDTO;
     }
 
-    public void downloadPdf(String filename) {
-        File file = new File("F:/resume/" + filename);
+    public void downloadPdf(String fileName) {
+        File file = new File("F:/resume/" + fileName);
         Response.ResponseBuilder responseBuilder = Response.ok((Object) file);
         responseBuilder.header("Content-Disposition", "attachment; filename=\"MyJerseyFile.pdf\"");
         responseBuilder.build();

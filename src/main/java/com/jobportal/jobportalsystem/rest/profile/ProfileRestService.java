@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import java.util.Map;
 
 @Path("/jobportal")
 public class ProfileRestService {
@@ -25,9 +26,9 @@ public class ProfileRestService {
     @POST
     @Produces("application/json")
     @Path("userdetails")
-    public ResponseEntity fetchUserDetails(String user_id) {
-        LOGGER.info("recruiter_id==" + user_id);
-        ProfileDTO profileDTO = profileService.fetchUserDetails(user_id);
+    public ResponseEntity fetchUserDetails(Map<String,Long> keyValue) {
+        LOGGER.info("recruiter_id==" + keyValue.get("user_id"));
+        ProfileDTO profileDTO = profileService.fetchUserDetails(keyValue.get("user_id"));
         LOGGER.info("profileDTO==" + profileDTO);
         return ResponseEntity.status(HttpStatus.OK).body(profileDTO);
     }

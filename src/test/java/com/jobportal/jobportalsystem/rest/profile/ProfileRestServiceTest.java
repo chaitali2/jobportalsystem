@@ -12,6 +12,10 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -29,11 +33,11 @@ public class ProfileRestServiceTest {
     ProfileService profileService;
 
     @Test
-    public void testSaveProfileDetail(){
+    public void testSaveProfileDetail() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        ProfileDTO profileDTO=new ProfileDTO();
+        ProfileDTO profileDTO = new ProfileDTO();
         profileDTO.setFirstname("Chaitali");
         profileDTO.setLastname("Khachane");
         profileDTO.setPercentage("70");
@@ -54,6 +58,21 @@ public class ProfileRestServiceTest {
                 createURLWithPort("/api/jobportal/saveProfileDetail"), HttpMethod.POST, entity, String.class);
         System.out.println("response==" + response);
 
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testFetchUserDetails() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Map<String, Long> keyValue = new HashMap<>();
+        keyValue.put("user_id", 1L);
+
+        JacksonJsonProvider jacksonJsonProvider = new JacksonJsonProvider();
+        HttpEntity<String> entity = new HttpEntity<String>(jacksonJsonProvider.toJson(keyValue), headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/api/jobportal/userdetails"), HttpMethod.POST, entity, String.class);
+        System.out.println("response==" + response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

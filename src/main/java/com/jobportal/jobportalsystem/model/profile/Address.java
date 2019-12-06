@@ -1,6 +1,8 @@
 package com.jobportal.jobportalsystem.model.profile;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "address")
@@ -9,8 +11,17 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank
+    @Size(max = 100)
     private String street_add;
+
+    @NotBlank
+    @Size(max = 50)
     private String city;
+
+    @NotBlank
+    @Size(max = 50)
     private String state;
 
     public Long getId() {

@@ -3,6 +3,7 @@ package com.jobportal.jobportalsystem.service.profile;
 import com.jobportal.jobportalsystem.dao.profile.ProfileDAO;
 import com.jobportal.jobportalsystem.dto.profile.ProfileDTO;
 import com.jobportal.jobportalsystem.model.profile.Address;
+import com.jobportal.jobportalsystem.model.profile.EducationExperience;
 import com.jobportal.jobportalsystem.model.profile.Profile;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ public class ProfileService {
     ProfileDAO profileDAO;
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileService.class);
 
-    public ProfileDTO fetchUserDetails(String user_id) {
+    public ProfileDTO fetchUserDetails(Long user_id) {
         ProfileDTO profileDTO = new ProfileDTO();
         Profile profileDetail = profileDAO.fetchUserDetails(user_id);
         LOGGER.info("profileDetail=" + profileDetail);
@@ -27,7 +28,7 @@ public class ProfileService {
     }
 
     public void saveProfileDetail(ProfileDTO profileDTO) {
-         profileDAO.saveProfileDetail(convertDTOtoModel(profileDTO));
+        profileDAO.saveProfileDetail(convertDTOtoModel(profileDTO));
     }
 
     public ProfileDTO convertModeltoDTO(Profile profile) {
@@ -42,11 +43,14 @@ public class ProfileService {
             profileDTO.setState(profile.getAddress().getState());
             profileDTO.setStreet_add(profile.getAddress().getStreet_add());
         }
-        profileDTO.setExperience(profile.getExperience());
-        profileDTO.setExpected_salary(profile.getExpected_salary());
-        profileDTO.setHighest_degree(profile.getHighest_degree());
-        profileDTO.setPassing_year(profile.getPassing_year());
-        profileDTO.setPercentage(profile.getPercentage());
+        if (profile.getEducationExperience() != null) {
+            profileDTO.setExperience(profile.getEducationExperience().getExperience());
+            profileDTO.setExpected_salary(profile.getEducationExperience().getExpected_salary());
+            profileDTO.setHighest_degree(profile.getEducationExperience().getHighest_degree());
+            profileDTO.setPassing_year(profile.getEducationExperience().getPassing_year());
+            profileDTO.setPercentage(profile.getEducationExperience().getPercentage());
+        }
+
         return profileDTO;
     }
 
@@ -63,11 +67,13 @@ public class ProfileService {
         address.setCity(profileDTO.getCity());
         address.setStreet_add(profileDTO.getStreet_add());
         profile.setAddress(address);
-        profile.setExperience(profileDTO.getExperience());
-        profile.setExpected_salary(profileDTO.getExpected_salary());
-        profile.setHighest_degree(profileDTO.getHighest_degree());
-        profile.setPassing_year(profileDTO.getPassing_year());
-        profile.setPercentage(profileDTO.getPercentage());
+        EducationExperience educationExperience = new EducationExperience();
+        educationExperience.setExperience(profileDTO.getExperience());
+        educationExperience.setExpected_salary(profileDTO.getExpected_salary());
+        educationExperience.setHighest_degree(profileDTO.getHighest_degree());
+        educationExperience.setPassing_year(profileDTO.getPassing_year());
+        educationExperience.setPercentage(profileDTO.getPercentage());
+        profile.setEducationExperience(educationExperience);
         return profile;
     }
 

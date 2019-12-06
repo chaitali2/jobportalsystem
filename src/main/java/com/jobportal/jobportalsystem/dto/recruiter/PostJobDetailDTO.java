@@ -5,15 +5,13 @@ import com.jobportal.jobportalsystem.utility.Utility;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class PostJobDetailDTO {
 
@@ -33,19 +31,19 @@ public class PostJobDetailDTO {
 
     private String category_name;
 
-//    @NotNull(message = "Please select skill")
+    //    @NotNull(message = "Please select skill")
 //    @NotBlank(message = "Please select skill")
-    private List<String> skills;
+    private Set<String> skills;
 
     @NotNull(message = "Please select type of job")
     @NotBlank(message = "Please select type of job")
     private String job_type;
 
-//    @NotNull(message = "Please enter experience")
+    //    @NotNull(message = "Please enter experience")
 //    @NotBlank(message = "Please enter experience")
     private double experience;
 
-//    @NotNull(message = "Please enter offered salary")
+    //    @NotNull(message = "Please enter offered salary")
 //    @NotBlank(message = "Please enter offered salary")
     private int salary_offer;
 
@@ -61,9 +59,10 @@ public class PostJobDetailDTO {
     @NotBlank(message = "Please enter state")
     private String state;
 
-//    @NotNull(message = "Please enter pincode")
+    //    @NotNull(message = "Please enter pincode")
 //    @NotBlank(message = "Please enter pincode")
-//    @Size(min = 6, message = "Please enter 6 digit pincode")
+    @Size(min = 6, message = "Please enter 6 digit pincode")
+    @Pattern(regexp = "[0-9]+", message = "Wrong zip!")
     private int pincode;
 
     @NotNull(message = "Please select job opening date")
@@ -92,11 +91,11 @@ public class PostJobDetailDTO {
         this.posted_by_id = posted_by_id;
     }
 
-    public List<String> getSkills() {
+    public Set<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<String> skills) {
+    public void setSkills(Set<String> skills) {
         this.skills = skills;
     }
 

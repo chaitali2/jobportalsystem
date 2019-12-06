@@ -1,6 +1,9 @@
 package com.jobportal.jobportalsystem.model.other;
 
+import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "skills")
@@ -25,7 +28,6 @@ public class Skill {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     @Override
     public String toString() {

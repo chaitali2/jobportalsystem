@@ -8,8 +8,7 @@ import com.jobportal.jobportalsystem.model.other.Skill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OtherService {
@@ -31,12 +30,12 @@ public class OtherService {
         Skill skill1=new Skill();
         skill1.setSkill_name("Oracle");
 
-        ArrayList<Skill> list=new ArrayList<Skill>();
+        Set<Skill> list=new HashSet<Skill>();
         list.add(skill);
         list.add(skill1);
 
         category.setCategoryName("DBA");
-        category.setSkillList(list);
+        category.setSkills(list);
         otherDAO.save(category,skill,skill1);
     }
 }

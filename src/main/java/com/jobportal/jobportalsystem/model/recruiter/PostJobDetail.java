@@ -1,11 +1,14 @@
 package com.jobportal.jobportalsystem.model.recruiter;
 
 import com.jobportal.jobportalsystem.model.other.Category;
+import com.jobportal.jobportalsystem.model.other.Skill;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "job_post")
@@ -30,14 +33,14 @@ public class PostJobDetail {
     private String job_opening_date;
     private String description;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "job_location_id")
     private JobLocation jobLocation;
 
-    @ElementCollection
-    @JoinTable(
-            name="job_post_skill")
-    private List<String> skills = new ArrayList<String>();
+    //    @ElementCollection(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name="job_post_skill")
+//    private List<String> skills = new ArrayList<String>();
 
     public Long getId() {
         return id;
@@ -118,14 +121,14 @@ public class PostJobDetail {
     public void setJobLocation(JobLocation jobLocation) {
         this.jobLocation = jobLocation;
     }
-
-    public List<String> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<String> skills) {
-        this.skills = skills;
-    }
+//
+//    public List<String> getSkills() {
+//        return skills;
+//    }
+//
+//    public void setSkills(List<String> skills) {
+//        this.skills = skills;
+//    }
 
     @Override
     public String toString() {
@@ -140,7 +143,7 @@ public class PostJobDetail {
                 ", job_opening_date='" + job_opening_date + '\'' +
                 ", description='" + description + '\'' +
                 ", jobLocation=" + jobLocation +
-                ", skills=" + skills +
+//                ", skills=" + skills +
                 '}';
     }
 }
