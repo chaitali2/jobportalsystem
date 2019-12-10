@@ -1,8 +1,6 @@
 package com.jobportal.jobportalsystem.rest.profile;
 
 import com.jobportal.jobportalsystem.dto.profile.ProfileDTO;
-import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
-import com.jobportal.jobportalsystem.rest.recruiter.RecruiterRestService;
 import com.jobportal.jobportalsystem.service.profile.ProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

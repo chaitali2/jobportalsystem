@@ -36,10 +36,11 @@ public class RegistrationService {
 
     public void registerUserDetail(RegistrationDetailDTO registrationDetailDTO) throws UserExistException, AuthenticationException, ParseException {
 
-        LOGGER.info("registration model==" + registrationDetailDTO);
+        System.out.println("registration model==" + registrationDetailDTO);
 
         // FETCH DATA ON EMAIL ID
-        boolean isExistEmail = registrationDao.existByEmailID(convertDTOtoModel(registrationDetailDTO));
+        RegistrationDetail registrationDetail1=convertDTOtoModel(registrationDetailDTO);
+        boolean isExistEmail = registrationDao.existByEmailID(registrationDetail1.getEmailid());
 
         if (isExistEmail) {
             throw new UserExistException("Email ID is already exist");

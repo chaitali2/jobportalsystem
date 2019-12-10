@@ -1,8 +1,8 @@
-package com.jobportal.jobportalsystem.rest.recruiter;
+package com.jobportal.jobportalsystem.rest.recruiter_jobseeker;
 
 import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
 import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
-import com.jobportal.jobportalsystem.service.recruiter.RecruiterService;
+import com.jobportal.jobportalsystem.service.recruiter.RecruiterJobSeekerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class RecruiterRestServiceTest {
     private int port;
 
     @MockBean
-    RecruiterService recruiterService;
+    RecruiterJobSeekerService recruiterService;
 
     @Test
     public void testPostJobDetail() {
@@ -53,7 +53,7 @@ public class RecruiterRestServiceTest {
         postJobDetailDTO.setStreet_add("710 Alfa Tower");
         postJobDetailDTO.setState("Gujarat");
         postJobDetailDTO.setCity("Surat");
-        postJobDetailDTO.setPincode(369874);
+//        postJobDetailDTO.setPincode(369874);
         postJobDetailDTO.setJob_opening_date("30-03-2019");
         postJobDetailDTO.setDescription("requirement for developer");
 

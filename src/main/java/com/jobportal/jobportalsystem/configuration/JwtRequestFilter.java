@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@Configuration
+@Configuration
 public class JwtRequestFilter implements Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
@@ -45,7 +45,8 @@ public class JwtRequestFilter implements Filter {
                         }
                     } else {
                         LOGGER.info("No Auth token found");
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token not found");
+                        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token not found");
                     }
                 } else {
                     LOGGER.info("sign up");

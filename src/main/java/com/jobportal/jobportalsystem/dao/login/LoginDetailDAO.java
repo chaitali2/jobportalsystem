@@ -20,11 +20,11 @@ public class LoginDetailDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginDetailDAO.class);
 
-    public Optional<RegistrationDetail> getUserProfile(RegistrationDetail registrationDetail) {
+    public Optional<RegistrationDetail> getUserProfile(String username) {
         TypedQuery<RegistrationDetail> query = entityManager.createQuery("Select rd from RegistrationDetail rd " +
                                                                             "where rd.username=:username",RegistrationDetail.class);
 
-        query.setParameter("username",registrationDetail.getUsername());
+        query.setParameter("username",username);
 
         List<RegistrationDetail> resultList = query.getResultList();
         if (resultList.size() == 0)

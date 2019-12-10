@@ -12,7 +12,7 @@ public class JobLocation {
     private String street_add;
     private String city;
     private String state;
-    private int pincode;
+    private String pincode;
 
     public Long getId() {
         return id;
@@ -46,11 +46,11 @@ public class JobLocation {
         this.state = state;
     }
 
-    public int getPincode() {
+    public String getPincode() {
         return pincode;
     }
 
-    public void setPincode(int pincode) {
+    public void setPincode(String pincode) {
         this.pincode = pincode;
     }
 

@@ -12,25 +12,21 @@ public class EducationExperience {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
     @Size(max = 10)
     private String experience;
 
-    @NotBlank
+
     @Size(max = 50)
     private String highest_degree;
 
-    @NotBlank
     @Size(max = 10)
     private String percentage;
 
-    @NotBlank
     @Size(max = 5)
     private String passing_year;
 
-    @NotBlank
     @Size(max = 10)
-    private Double expected_salary;
+    private String expected_salary;
 
 
     public String getExperience() {
@@ -65,11 +61,11 @@ public class EducationExperience {
         this.passing_year = passing_year;
     }
 
-    public Double getExpected_salary() {
+    public String getExpected_salary() {
         return expected_salary;
     }
 
-    public void setExpected_salary(Double expected_salary) {
+    public void setExpected_salary(String expected_salary) {
         this.expected_salary = expected_salary;
     }
 

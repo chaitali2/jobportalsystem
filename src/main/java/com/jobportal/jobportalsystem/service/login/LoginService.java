@@ -31,8 +31,9 @@ public class LoginService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginRestService.class);
 
     public UserProfileDTO authenticate(LoginDetailDTO loginDetailDTO) throws AuthenticationException {
-        LOGGER.info("loginDetailDTO===" + loginDetailDTO);
-        Optional<RegistrationDetail> userProfile = loginDetailDAO.getUserProfile(convertDTOtoModel(loginDetailDTO));
+        System.out.println("loginDetailDTO===" + loginDetailDTO);
+        RegistrationDetail registrationDetailModel= convertDTOtoModel(loginDetailDTO);
+        Optional<RegistrationDetail> userProfile = loginDetailDAO.getUserProfile(registrationDetailModel.getUsername());
 
         if (!userProfile.isPresent())
             throw new AuthenticationException("User does not exist.");

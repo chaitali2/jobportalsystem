@@ -26,7 +26,8 @@ public class ChangePasswordDAO {
         List<Object[]> passwordDetail = query.getResultList();
         return passwordDetail;
     }
-@Transactional
+
+    @Transactional
     public void updatePassword(RegistrationDetail registrationDetail) {
         TypedQuery<RegistrationDetail> query = entityManager.createQuery("select rd from RegistrationDetail rd where rd.username=:username", RegistrationDetail.class);
         query.setParameter("username", registrationDetail.getUsername());
@@ -35,7 +36,6 @@ public class ChangePasswordDAO {
         userdetail.setPassword(registrationDetail.getPassword());
         userdetail.setSalt(registrationDetail.getSalt());
         LOGGER.info("ChangePasswordDAO==" + userdetail);
-
         entityManager.merge(userdetail);
     }
 }

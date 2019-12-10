@@ -44,7 +44,7 @@ public class ProfileRestServiceTest {
         profileDTO.setPassing_year("2016");
         profileDTO.setHighest_degree("BE");
         profileDTO.setExperience("2");
-        profileDTO.setExpected_salary(1.0);
+//        profileDTO.setExpected_salary(1.0);
         profileDTO.setMobno("8866049741");
         profileDTO.setStreet_add("170 IFA Tower");
         profileDTO.setState("MH");

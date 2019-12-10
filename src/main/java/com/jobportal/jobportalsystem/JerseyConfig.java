@@ -7,7 +7,7 @@ import com.jobportal.jobportalsystem.rest.other.OtherRestService;
 import com.jobportal.jobportalsystem.rest.profile.ChangePasswordRestService;
 import com.jobportal.jobportalsystem.rest.profile.ProfileRestService;
 import com.jobportal.jobportalsystem.rest.registration.RegistrationRestService;
-import com.jobportal.jobportalsystem.rest.recruiter.RecruiterRestService;
+import com.jobportal.jobportalsystem.rest.recruiter_jobseeker.RecruiterJobSeekerRestService;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class JerseyConfig extends ResourceConfig {
         register(CorsFilter.class);
         register(RegistrationRestService.class);
         register(LoginRestService.class);
-        register(RecruiterRestService.class);
+        register(RecruiterJobSeekerRestService.class);
         register(OtherRestService.class);
         register(MultiPartFeature.class);
         register(GenericExceptionMapper.class);

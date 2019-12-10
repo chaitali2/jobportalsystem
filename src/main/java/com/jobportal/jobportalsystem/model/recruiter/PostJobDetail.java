@@ -37,10 +37,20 @@ public class PostJobDetail {
     @JoinColumn(name = "job_location_id")
     private JobLocation jobLocation;
 
-    //    @ElementCollection(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name="job_post_skill")
-//    private List<String> skills = new ArrayList<String>();
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH
+            })
+    Set<Skill> skillList;
+
+    public Set<Skill> getSkillList() {
+        return skillList;
+    }
+
+    public void setSkillList(Set<Skill> skillList) {
+        this.skillList = skillList;
+    }
 
     public Long getId() {
         return id;
@@ -121,14 +131,6 @@ public class PostJobDetail {
     public void setJobLocation(JobLocation jobLocation) {
         this.jobLocation = jobLocation;
     }
-//
-//    public List<String> getSkills() {
-//        return skills;
-//    }
-//
-//    public void setSkills(List<String> skills) {
-//        this.skills = skills;
-//    }
 
     @Override
     public String toString() {

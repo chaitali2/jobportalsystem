@@ -15,9 +15,6 @@ import java.util.Set;
 
 public class PostJobDetailDTO {
 
-    @Autowired
-    Utility utility;
-
     private Long id;
     @NotNull(message = "Please enter company name")
     @NotBlank(message = "Please enter company name")
@@ -33,7 +30,7 @@ public class PostJobDetailDTO {
 
     //    @NotNull(message = "Please select skill")
 //    @NotBlank(message = "Please select skill")
-    private Set<String> skills;
+    private List<String> skills;
 
     @NotNull(message = "Please select type of job")
     @NotBlank(message = "Please select type of job")
@@ -45,6 +42,8 @@ public class PostJobDetailDTO {
 
     //    @NotNull(message = "Please enter offered salary")
 //    @NotBlank(message = "Please enter offered salary")
+
+    @Min(0)
     private int salary_offer;
 
     @NotNull(message = "Please enter address")
@@ -63,7 +62,7 @@ public class PostJobDetailDTO {
 //    @NotBlank(message = "Please enter pincode")
     @Size(min = 6, message = "Please enter 6 digit pincode")
     @Pattern(regexp = "[0-9]+", message = "Wrong zip!")
-    private int pincode;
+    private String pincode;
 
     @NotNull(message = "Please select job opening date")
     @NotBlank(message = "Please select job opening date")
@@ -91,11 +90,11 @@ public class PostJobDetailDTO {
         this.posted_by_id = posted_by_id;
     }
 
-    public Set<String> getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(Set<String> skills) {
+    public void setSkills(List<String> skills) {
         this.skills = skills;
     }
 
@@ -147,11 +146,11 @@ public class PostJobDetailDTO {
         this.state = state;
     }
 
-    public int getPincode() {
+    public String getPincode() {
         return pincode;
     }
 
-    public void setPincode(int pincode) {
+    public void setPincode(String pincode) {
         this.pincode = pincode;
     }
 

@@ -19,12 +19,12 @@ public class RegistrationDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationDAO.class);
 
-    public Boolean existByEmailID(RegistrationDetail registrationDetail) {
+    public Boolean existByEmailID(String emailID) {
         Query query = entityManager.createQuery("Select d.emailid " +
                                                     "from RegistrationDetail d " +
                                                     "where d.emailid=:emailid");
 
-        query.setParameter("emailid", registrationDetail.getEmailid());
+        query.setParameter("emailid", emailID);
 
         return query.getResultList().size() == 1;
     }

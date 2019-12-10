@@ -30,7 +30,7 @@ public class OtherService {
         Skill skill1=new Skill();
         skill1.setSkill_name("Oracle");
 
-        Set<Skill> list=new HashSet<Skill>();
+        Set<Skill> list=new HashSet<>();
         list.add(skill);
         list.add(skill1);
 
