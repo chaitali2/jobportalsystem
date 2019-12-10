@@ -1,10 +1,10 @@
-package com.jobportal.jobportalsystem.dao.recruiter;
+package com.jobportal.jobportalsystem.dao.recruiter_jobseeker;
 
 
 import com.jobportal.jobportalsystem.model.other.Category;
-import com.jobportal.jobportalsystem.model.recruiter.ApplyJOB;
-import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
-import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
+import com.jobportal.jobportalsystem.model.recruiter_jobseeker.ApplyJOB;
+import com.jobportal.jobportalsystem.model.recruiter_jobseeker.JobLocation;
+import com.jobportal.jobportalsystem.model.recruiter_jobseeker.PostJobDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -26,25 +26,19 @@ public class RecruiterJobSeekerDAO {
 
     @Transactional
     public void saveJobPostDetail(PostJobDetail postJobDetail) {
-        LOGGER.info("postJobDetail==" + postJobDetail);
         JobLocation jobLocation = postJobDetail.getJobLocation();
-        LOGGER.info("jobLocation==" + jobLocation);
-
         entityManager.persist(jobLocation);
         entityManager.persist(postJobDetail);
     }
 
-    @Transactional
     public List<PostJobDetail> fetchJobDetails(Map<String, Long> keyValue) {
         Query query;
         if (keyValue != null) {
             LOGGER.info("jobDetail IN RECRUITRTER===");
-
             query = entityManager.createQuery("select pjd from PostJobDetail pjd where pjd.registrationDetail.id=:recruiter_id");
             query.setParameter("recruiter_id", keyValue.get("user_id"));
         } else {
             LOGGER.info("jobDetail IN SEEKER===");
-
             query = entityManager.createQuery("select pjd from PostJobDetail pjd ");
         }
 
@@ -52,11 +46,8 @@ public class RecruiterJobSeekerDAO {
         return jobDetail;
     }
 
-    @Transactional
     public PostJobDetail fetchJobDetailsOfCompany(Long job_id) {
-
         PostJobDetail jobDetail = entityManager.find(PostJobDetail.class, job_id);
-        LOGGER.info("jobDetail===" + (jobDetail));
         return jobDetail;
     }
 
@@ -68,7 +59,6 @@ public class RecruiterJobSeekerDAO {
 
     @Transactional
     public void applyForJOB(ApplyJOB applyJOB) {
-
         entityManager.persist(applyJOB);
     }
 
@@ -84,7 +74,6 @@ public class RecruiterJobSeekerDAO {
         return existJobSeeker;
     }
 
-    @Transactional
     public List<Object[]> appliedJobsList(Long job_id) {
         Query query;
         query = entityManager.createQuery("select rd.firstname ,rd.lastname, pj.company,pj.description,aj.applyDate,aj.filename from ApplyJOB aj" +
@@ -112,6 +101,7 @@ public class RecruiterJobSeekerDAO {
         query = entityManager.createNativeQuery("select s.id,s.skill_name from skills s where s.category_id=:categoryId");
         query.setParameter("categoryId", categoryId);
         List<Object[]> skills = query.getResultList();
+        LOGGER.info("skills"+skills);
         return skills;
     }
 

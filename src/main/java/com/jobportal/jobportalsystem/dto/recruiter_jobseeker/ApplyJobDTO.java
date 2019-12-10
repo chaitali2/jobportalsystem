@@ -1,4 +1,4 @@
-package com.jobportal.jobportalsystem.dto.recruiter;
+package com.jobportal.jobportalsystem.dto.recruiter_jobseeker;
 
 
 public class ApplyJobDTO {

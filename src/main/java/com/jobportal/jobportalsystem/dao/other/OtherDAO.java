@@ -16,10 +16,13 @@ public class OtherDAO {
     EntityManager entityManager;
 
     @Transactional
-    public void save(Category category, Skill skill,Skill skill1) {
+    public void save(Category category, Skill skill,Skill skill1,Skill skill2,Skill skill3,Category category1) {
 
         entityManager.persist(skill);
         entityManager.persist(skill1);
         entityManager.persist(category);
+        entityManager.persist(skill2);
+        entityManager.persist(skill3);
+        entityManager.persist(category1);
     }
 }

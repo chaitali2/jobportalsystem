@@ -1,50 +1,30 @@
-package com.jobportal.jobportalsystem.dto.recruiter;
-
-import com.jobportal.jobportalsystem.model.other.Category;
-import com.jobportal.jobportalsystem.utility.Utility;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.factory.annotation.Autowired;
+package com.jobportal.jobportalsystem.dto.recruiter_jobseeker;
 
 import javax.validation.constraints.*;
-import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
+
 
 public class PostJobDetailDTO {
 
     private Long id;
+
     @NotNull(message = "Please enter company name")
     @NotBlank(message = "Please enter company name")
     private String company;
 
-    @NotNull(message = "Please select category")
-//    @NotBlank(message = "Please select category")
-//    @Range(min = 1)
     private Long category_id;
-
-
     private String category_name;
 
-    //    @NotNull(message = "Please select skill")
-//    @NotBlank(message = "Please select skill")
-    private List<String> skills;
+    private Set<String> skills;
 
     @NotNull(message = "Please select type of job")
     @NotBlank(message = "Please select type of job")
     private String job_type;
+    @Pattern(regexp = "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?", message = "please enter in digit experience")
+    private String experience;
 
-    //    @NotNull(message = "Please enter experience")
-//    @NotBlank(message = "Please enter experience")
-    private double experience;
-
-    //    @NotNull(message = "Please enter offered salary")
-//    @NotBlank(message = "Please enter offered salary")
-
-    @Min(0)
-    private int salary_offer;
+    @Pattern(regexp = "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?", message = "please enter in digit Salary")
+    private String salary_offer;
 
     @NotNull(message = "Please enter address")
     @NotBlank(message = "Please enter address")
@@ -58,8 +38,6 @@ public class PostJobDetailDTO {
     @NotBlank(message = "Please enter state")
     private String state;
 
-    //    @NotNull(message = "Please enter pincode")
-//    @NotBlank(message = "Please enter pincode")
     @Size(min = 6, message = "Please enter 6 digit pincode")
     @Pattern(regexp = "[0-9]+", message = "Wrong zip!")
     private String pincode;
@@ -82,19 +60,35 @@ public class PostJobDetailDTO {
         this.id = id;
     }
 
-    public Long getPosted_by_id() {
-        return posted_by_id;
+    public String getCompany() {
+        return company;
     }
 
-    public void setPosted_by_id(Long posted_by_id) {
-        this.posted_by_id = posted_by_id;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
-    public List<String> getSkills() {
+    public Long getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(Long category_id) {
+        this.category_id = category_id;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
+    public Set<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<String> skills) {
+    public void setSkills(Set<String> skills) {
         this.skills = skills;
     }
 
@@ -106,19 +100,19 @@ public class PostJobDetailDTO {
         this.job_type = job_type;
     }
 
-    public double getExperience() {
+    public String getExperience() {
         return experience;
     }
 
-    public void setExperience(double experience) {
+    public void setExperience(String experience) {
         this.experience = experience;
     }
 
-    public int getSalary_offer() {
+    public String getSalary_offer() {
         return salary_offer;
     }
 
-    public void setSalary_offer(int salary_offer) {
+    public void setSalary_offer(String salary_offer) {
         this.salary_offer = salary_offer;
     }
 
@@ -159,7 +153,6 @@ public class PostJobDetailDTO {
     }
 
     public void setJob_opening_date(String job_opening_date) {
-
         this.job_opening_date = job_opening_date;
     }
 
@@ -171,28 +164,12 @@ public class PostJobDetailDTO {
         this.description = description;
     }
 
-    public Long getCategory_id() {
-        return category_id;
+    public Long getPosted_by_id() {
+        return posted_by_id;
     }
 
-    public void setCategory_id(Long category_id) {
-        this.category_id = category_id;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getCategory_name() {
-        return category_name;
-    }
-
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setPosted_by_id(Long posted_by_id) {
+        this.posted_by_id = posted_by_id;
     }
 
     @Override
@@ -204,8 +181,8 @@ public class PostJobDetailDTO {
                 ", category_name='" + category_name + '\'' +
                 ", skills=" + skills +
                 ", job_type='" + job_type + '\'' +
-                ", experience='" + experience + '\'' +
-                ", salary_offer='" + salary_offer + '\'' +
+                ", experience=" + experience +
+                ", salary_offer=" + salary_offer +
                 ", street_add='" + street_add + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +

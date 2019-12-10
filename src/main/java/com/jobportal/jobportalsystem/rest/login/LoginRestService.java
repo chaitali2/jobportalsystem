@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import java.security.spec.InvalidKeySpecException;
 
 @Path("/jobportal")
 public class LoginRestService {
@@ -21,28 +22,14 @@ public class LoginRestService {
     LoginService loginService;
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginRestService.class);
 
-
     @POST
     @Produces("application/json")
     @Path("login")
-    public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO) throws AuthenticationException {
-
-        LOGGER.info("username==" + loginDetailDTO);
-        //AUTHENTICATE THE USER
+    public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO) throws AuthenticationException, InvalidKeySpecException
+    {
         UserProfileDTO userProfile = loginService.authenticate(loginDetailDTO);
         return ResponseEntity.status(HttpStatus.OK).body(userProfile);
-
-
     }
-
-    public String checkIncome(int income) {
-        if (income < 1000) {
-            return "less";
-        }
-        return "high";
-    }
-
-
 }
 
 

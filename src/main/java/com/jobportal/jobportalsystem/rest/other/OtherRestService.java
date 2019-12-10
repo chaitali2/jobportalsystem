@@ -20,15 +20,6 @@ public class OtherRestService {
     OtherService otherService;
 
     @POST
-    @Path("category")
-    @Produces("application/json")
-    public ResponseEntity inserCategory(CategoryDTO categoryDTO) {
-        otherService.insertCategory(categoryDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("Success fully insert category!");
-    }
-
-
-    @POST
     @Path("categoryskill")
     @Produces("application/json")
     public ResponseEntity inserSkillsWiseCategory(CategoryDTO categoryDTO) {

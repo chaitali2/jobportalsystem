@@ -3,6 +3,8 @@ package com.jobportal.jobportalsystem.dto;
 public class UserProfileDTO {
     private String id;
     private String username;
+    private String firstname;
+    private String lastname;
     private String password;
     private String usertype;
     private String salt;
@@ -57,6 +59,21 @@ public class UserProfileDTO {
         this.token = token;
     }
 
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
     @Override
     public String toString() {

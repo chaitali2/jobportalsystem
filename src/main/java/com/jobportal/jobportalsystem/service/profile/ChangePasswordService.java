@@ -41,6 +41,7 @@ public class ChangePasswordService {
                 registrationDetail.setUsername(passwordDTO.getUsername());
                 String salt = authenticationUtil.generateSalt(30);
                 String newPassword = authenticationUtil.generateSecurePassword(passwordDTO.getNew_password(), salt);
+                LOGGER.info("newPassword=="+newPassword);
                 registrationDetail.setPassword(newPassword);
                 registrationDetail.setSalt(salt);
                 changePasswordDAO.updatePassword(registrationDetail);
@@ -60,6 +61,7 @@ public class ChangePasswordService {
         List<Object[]> passwordDetail = changePasswordDAO.fetchPasswordFromUser(passwordDTO.getUsername());
         String salt = passwordDetail.get(0)[1].toString();
         String oldPassword = authenticationUtil.generateSecurePassword(passwordDTO.getOld_password(), salt);
+        LOGGER.info("oldPassword=="+oldPassword);
         String existPassword = passwordDetail.get(0)[0].toString();
         if (existPassword.equals(oldPassword)) {
             return Optional.empty();

@@ -29,7 +29,7 @@ public class ChangePasswordDAOTest {
 
     public void prepareData() {
         registrationDetail = new RegistrationDetail();
-        registrationDetail.setUsername("chaitali1@gmail.com");
+        registrationDetail.setUsername("chaitali@gmail.com");
         registrationDetail.setPassword("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=");
         registrationDetail.setSalt("Lpm28h5myQheIFNflzA7oaB1bFGSCn");
     }
@@ -40,9 +40,7 @@ public class ChangePasswordDAOTest {
         List<Object[]> existing=new ArrayList<>();
         existing.add(objects);
         List<Object[]> passwordDetail=changePasswordDAO.fetchPasswordFromUser(registrationDetail.getUsername());
-        assertNull(passwordDetail);
         assertEquals(existing.size(),passwordDetail.size());
-
     }
 
     @Test

@@ -36,7 +36,7 @@ public class RegistrationService {
 
     public void registerUserDetail(RegistrationDetailDTO registrationDetailDTO) throws UserExistException, AuthenticationException, ParseException {
 
-        System.out.println("registration model==" + registrationDetailDTO);
+       LOGGER.info("registration model==" + registrationDetailDTO);
 
         // FETCH DATA ON EMAIL ID
         RegistrationDetail registrationDetail1=convertDTOtoModel(registrationDetailDTO);
@@ -59,13 +59,15 @@ public class RegistrationService {
             LOGGER.error("===========InvalidKeySpecException=============");
             ex.printStackTrace();
         }
+        LOGGER.info("secureUserPassword----->"+secureUserPassword);
 
         registrationDetailDTO.setPassword(secureUserPassword);
         // SAVE THE USER DETAIL
         RegistrationDetail registrationDetail = convertDTOtoModel(registrationDetailDTO);
         registrationDetail.setUsername(registrationDetail.getEmailid());
         registrationDetail.setSalt(salt);
-
+        registrationDetail.setPassword(secureUserPassword);
+        LOGGER.info("registrationDetail----->"+registrationDetail);
         registrationDao.saveRegistrationDetail(registrationDetail);
     }
 

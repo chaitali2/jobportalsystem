@@ -1,9 +1,6 @@
 package com.jobportal.jobportalsystem.model.other;
 
-import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
-
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "skills")

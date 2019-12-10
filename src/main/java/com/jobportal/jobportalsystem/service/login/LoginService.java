@@ -30,47 +30,35 @@ public class LoginService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginRestService.class);
 
-    public UserProfileDTO authenticate(LoginDetailDTO loginDetailDTO) throws AuthenticationException {
-        System.out.println("loginDetailDTO===" + loginDetailDTO);
-        RegistrationDetail registrationDetailModel= convertDTOtoModel(loginDetailDTO);
+    public UserProfileDTO authenticate(LoginDetailDTO loginDetailDTO) throws AuthenticationException, InvalidKeySpecException {
+        RegistrationDetail registrationDetailModel = convertDTOtoModel(loginDetailDTO);
         Optional<RegistrationDetail> userProfile = loginDetailDAO.getUserProfile(registrationDetailModel.getUsername());
+        boolean authenticated = false;
 
         if (!userProfile.isPresent())
             throw new AuthenticationException("User does not exist.");
 
+        String  secureUserPassword = authenticationUtil.generateSecurePassword(loginDetailDTO.getPassword(), userProfile.get().getSalt());
 
-        String secureUserPassword = null;
-        try {
-            secureUserPassword = authenticationUtil.generateSecurePassword(loginDetailDTO.getPassword(), userProfile.get().getSalt());
-        } catch (InvalidKeySpecException ex) {
-            LOGGER.error("===========InvalidKeySpecException=============");
-        }
-
-        boolean authenticated = false;
         if (secureUserPassword != null && secureUserPassword.equalsIgnoreCase(userProfile.get().getPassword())) {
             if (loginDetailDTO.getUsername() != null && loginDetailDTO.getUsername().equalsIgnoreCase(userProfile.get().getUsername())) {
                 authenticated = true;
             }
         }
 
-        LOGGER.info("authenticated===" + authenticated);
-
         if (!authenticated) {
             throw new AuthenticationException("Invalid username or password");
         }
 
-        UserProfileDTO userProfileDTO = new UserProfileDTO();
         RegistrationDetail registrationDetail = userProfile.get();
-        userProfileDTO = convertDTOtoModel(registrationDetail);
-        LOGGER.info("userEntity====>>" + registrationDetail);
-        LOGGER.info("userProfile====>>" + userProfile);
+        UserProfileDTO userProfileDTO = convertModeltoDTO(registrationDetail);
 
         final String token = jwtTokenUtil.generateToken(loginDetailDTO);
+
         if (StringUtils.isEmpty(token)) {
             throw new AuthenticationException("Invalid username or password");
         }
         userProfileDTO.setToken(token);
-        LOGGER.info("userProfileDTO==" + userProfileDTO);
         return userProfileDTO;
     }
 
@@ -81,12 +69,13 @@ public class LoginService {
         return registrationDetail;
     }
 
-
-    UserProfileDTO convertDTOtoModel(RegistrationDetail registrationDetail) {
+    UserProfileDTO convertModeltoDTO(RegistrationDetail registrationDetail) {
         UserProfileDTO userProfileDTO = new UserProfileDTO();
         userProfileDTO.setId(registrationDetail.getId().toString());
         userProfileDTO.setUsername(registrationDetail.getUsername());
         userProfileDTO.setUsertype(registrationDetail.getUsertype());
+        userProfileDTO.setFirstname(registrationDetail.getFirstname());
+        userProfileDTO.setLastname(registrationDetail.getLastname());
         return userProfileDTO;
     }
 }

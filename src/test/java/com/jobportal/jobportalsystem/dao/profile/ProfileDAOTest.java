@@ -35,7 +35,7 @@ public class ProfileDAOTest {
         registrationDetail.setFirstname("chaitali");
         registrationDetail.setLastname("Khachane");
         registrationDetail.setMobno("8877654321");
-        registrationDetail.setId(7l);
+        registrationDetail.setId(1l);
         Address address = new Address();
         address.setState("Gujarat");
         address.setCity("Surat");
@@ -60,6 +60,28 @@ public class ProfileDAOTest {
 
    @Test
     public void testSaveProfileDetailExistInProfile() {
+       profile = new Profile();
+       RegistrationDetail registrationDetail = new RegistrationDetail();
+       registrationDetail.setUsername("chaitali@gmail.com");
+       registrationDetail.setFirstname("chaitali");
+       registrationDetail.setLastname("Khachane");
+       registrationDetail.setMobno("8877654321");
+       registrationDetail.setUsertype("J");
+       registrationDetail.setId(16l);
+       Address address = new Address();
+       address.setState("Gujarat");
+       address.setCity("Surat");
+       address.setStreet_add("710 Sundarm Apartment,Athwagate");
+       EducationExperience educationExperience = new EducationExperience();
+       educationExperience.setExpected_salary("4");
+       educationExperience.setExperience("2");
+       educationExperience.setHighest_degree("BE");
+       educationExperience.setPassing_year("2017");
+       educationExperience.setPercentage("76");
+
+       profile.setRegistrationDetail(registrationDetail);
+       profile.setAddress(address);
+       profile.setEducationExperience(educationExperience);
         profileDAO.saveProfileDetail(profile);
     }
 
@@ -71,7 +93,7 @@ public class ProfileDAOTest {
 
     @Test
     public void testFetchUserDetailsExistOtherDetail() {
-        Profile profileDetails = profileDAO.fetchUserDetails(7l);
-        assertEquals("ulhas@gmail.com", profileDetails.getRegistrationDetail().getUsername());
+        Profile profileDetails = profileDAO.fetchUserDetails(16l);
+        assertEquals("mona@gmail.com", profileDetails.getRegistrationDetail().getUsername());
     }
 }

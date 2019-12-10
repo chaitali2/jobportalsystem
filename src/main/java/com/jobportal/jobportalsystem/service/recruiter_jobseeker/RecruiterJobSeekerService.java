@@ -1,17 +1,17 @@
-package com.jobportal.jobportalsystem.service.recruiter;
+package com.jobportal.jobportalsystem.service.recruiter_jobseeker;
 
 import com.jobportal.jobportalsystem.customizedException.UserExistException;
-import com.jobportal.jobportalsystem.dao.recruiter.RecruiterJobSeekerDAO;
+import com.jobportal.jobportalsystem.dao.recruiter_jobseeker.RecruiterJobSeekerDAO;
 import com.jobportal.jobportalsystem.dto.other.CategoryDTO;
 import com.jobportal.jobportalsystem.dto.other.SkillDTO;
-import com.jobportal.jobportalsystem.dto.recruiter.ApplyJobDTO;
-import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
+import com.jobportal.jobportalsystem.dto.recruiter_jobseeker.ApplyJobDTO;
+import com.jobportal.jobportalsystem.dto.recruiter_jobseeker.PostJobDetailDTO;
 import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
 import com.jobportal.jobportalsystem.model.other.Category;
 import com.jobportal.jobportalsystem.model.other.Skill;
-import com.jobportal.jobportalsystem.model.recruiter.ApplyJOB;
-import com.jobportal.jobportalsystem.model.recruiter.JobLocation;
-import com.jobportal.jobportalsystem.model.recruiter.PostJobDetail;
+import com.jobportal.jobportalsystem.model.recruiter_jobseeker.ApplyJOB;
+import com.jobportal.jobportalsystem.model.recruiter_jobseeker.JobLocation;
+import com.jobportal.jobportalsystem.model.recruiter_jobseeker.PostJobDetail;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import com.jobportal.jobportalsystem.utility.Utility;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -153,8 +153,8 @@ public class RecruiterJobSeekerService {
                 postJobDetailDTO.setCategory_name(jobDetails.get(i).getCategory().getCategoryName());
                 String jobType = ("P").equals(jobDetails.get(i).getJob_type()) ? "Permanent" : "Contract";
                 postJobDetailDTO.setJob_type(jobType);
-                postJobDetailDTO.setExperience(jobDetails.get(i).getExperience());
-                postJobDetailDTO.setSalary_offer(jobDetails.get(i).getSalary_offer());
+                postJobDetailDTO.setExperience(String.valueOf(jobDetails.get(i).getExperience()));
+                postJobDetailDTO.setSalary_offer(String.valueOf(jobDetails.get(i).getSalary_offer()));
                 postJobDetailDTO.setStreet_add(jobDetails.get(i).getJobLocation().getStreet_add());
                 postJobDetailDTO.setCity(jobDetails.get(i).getJobLocation().getCity());
                 postJobDetailDTO.setState(jobDetails.get(i).getJobLocation().getState());
@@ -162,17 +162,13 @@ public class RecruiterJobSeekerService {
                 postJobDetailDTO.setJob_opening_date(jobDetails.get(i).getJob_opening_date());
                 postJobDetailDTO.setDescription(jobDetails.get(i).getDescription());
 
-                Set<Skill> skillList = jobDetails.get(i).getSkillList();
-                LOGGER.info("skillList=="+skillList);
-                List<String> skills= new ArrayList<>();
+                Set<Skill> skillList = jobDetails.get(i).getSkillSet();
+                LOGGER.info("skillList==" + skillList);
+                Set<String> skills = new HashSet<>();
                 Iterator itr = skillList.iterator();
-                while(itr.hasNext())
-                {
-                    skills.add(((Skill)itr.next()).getSkill_name());
+                while (itr.hasNext()) {
+                    skills.add(((Skill) itr.next()).getSkill_name());
                 }
-//                for (int j = 0; j < skillList.size(); j++) {
-//                    skills.add(skillList.get(j).getSkill_name());
-//                }
                 postJobDetailDTO.setSkills(skills);
                 jobDetailDTOS.add(postJobDetailDTO);
             }
@@ -193,15 +189,14 @@ public class RecruiterJobSeekerService {
         postJobDetailDTO.setCategory_name(jobDetails.getCategory().getCategoryName());
         String jobType = jobDetails.getJob_type().equals("P") ? "Permanent" : "Contract";
         postJobDetailDTO.setJob_type(jobType);
-        postJobDetailDTO.setExperience(jobDetails.getExperience());
-        postJobDetailDTO.setSalary_offer(jobDetails.getSalary_offer());
+        postJobDetailDTO.setExperience(String.valueOf(jobDetails.getExperience()));
+        postJobDetailDTO.setSalary_offer(String.valueOf(jobDetails.getSalary_offer()));
         postJobDetailDTO.setStreet_add(jobDetails.getJobLocation().getStreet_add());
         postJobDetailDTO.setCity(jobDetails.getJobLocation().getCity());
         postJobDetailDTO.setState(jobDetails.getJobLocation().getState());
         postJobDetailDTO.setPincode(jobDetails.getJobLocation().getPincode());
         postJobDetailDTO.setJob_opening_date(jobDetails.getJob_opening_date());
         postJobDetailDTO.setDescription(jobDetails.getDescription());
-//        postJobDetailDTO.setSkills(jobDetails.getSkills());
         return postJobDetailDTO;
     }
 
@@ -212,7 +207,6 @@ public class RecruiterJobSeekerService {
 
     PostJobDetail convertDTOtoModel(PostJobDetailDTO postJobDetailDTO) throws ParseException {
         PostJobDetail postJobDetail = new PostJobDetail();
-//        postJobDetail.setCategory(postJobDetailDTO.getCategory_name());
         postJobDetail.setCompany(postJobDetailDTO.getCompany());
 
         RegistrationDetail registrationDetail = new RegistrationDetail();
@@ -225,8 +219,8 @@ public class RecruiterJobSeekerService {
         postJobDetail.setCategory(category);
 
         postJobDetail.setJob_type(postJobDetailDTO.getJob_type());
-        postJobDetail.setExperience(postJobDetailDTO.getExperience());
-        postJobDetail.setSalary_offer(postJobDetailDTO.getSalary_offer());
+        postJobDetail.setExperience(Double.parseDouble(postJobDetailDTO.getExperience()));
+        postJobDetail.setSalary_offer(Double.parseDouble(postJobDetailDTO.getSalary_offer()));
 
         String jobOpeningDate = utility.changedateformatter(postJobDetailDTO.getJob_opening_date(), "dd-MM-yyyy");
         postJobDetail.setJob_opening_date(jobOpeningDate);
@@ -238,14 +232,15 @@ public class RecruiterJobSeekerService {
         jobLocation.setState(postJobDetailDTO.getState());
         jobLocation.setPincode(postJobDetailDTO.getPincode());
         postJobDetail.setJobLocation(jobLocation);
-        List<String> skills = postJobDetailDTO.getSkills();
-        Set<Skill> skillList = new HashSet<>();
-        for (int i = 0; i < postJobDetailDTO.getSkills().size(); i++) {
+        Set<String> skills = postJobDetailDTO.getSkills();
+        Set<Skill> skillSet = new HashSet<>();
+        Iterator itr = skills.iterator();
+        while (itr.hasNext()) {
             Skill skill = new Skill();
-            skill.setId(Long.parseLong(skills.get(i)));
-            skillList.add(skill);
+            skill.setId(Long.parseLong(itr.next().toString()));
+            skillSet.add(skill);
         }
-        postJobDetail.setSkillList(skillList);
+        postJobDetail.setSkillSet(skillSet);
         return postJobDetail;
     }
 

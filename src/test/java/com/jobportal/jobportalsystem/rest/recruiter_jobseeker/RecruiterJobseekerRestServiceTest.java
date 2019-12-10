@@ -1,8 +1,8 @@
 package com.jobportal.jobportalsystem.rest.recruiter_jobseeker;
 
 import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
-import com.jobportal.jobportalsystem.dto.recruiter.PostJobDetailDTO;
-import com.jobportal.jobportalsystem.service.recruiter.RecruiterJobSeekerService;
+import com.jobportal.jobportalsystem.dto.recruiter_jobseeker.PostJobDetailDTO;
+import com.jobportal.jobportalsystem.service.recruiter_jobseeker.RecruiterJobSeekerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-public class RecruiterRestServiceTest {
+public class RecruiterJobseekerRestServiceTest {
 
 
     @Autowired

@@ -1,13 +1,10 @@
-package com.jobportal.jobportalsystem.model.recruiter;
+package com.jobportal.jobportalsystem.model.recruiter_jobseeker;
 
 import com.jobportal.jobportalsystem.model.other.Category;
 import com.jobportal.jobportalsystem.model.other.Skill;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,7 +26,7 @@ public class PostJobDetail {
 
     private String job_type;
     private double experience;
-    private int salary_offer;
+    private double salary_offer;
     private String job_opening_date;
     private String description;
 
@@ -42,14 +39,14 @@ public class PostJobDetail {
                     CascadeType.MERGE,
                     CascadeType.REFRESH
             })
-    Set<Skill> skillList;
+    Set<Skill> skillSet;
 
-    public Set<Skill> getSkillList() {
-        return skillList;
+    public Set<Skill> getSkillSet() {
+        return skillSet;
     }
 
-    public void setSkillList(Set<Skill> skillList) {
-        this.skillList = skillList;
+    public void setSkillSet(Set<Skill> skillSet) {
+        this.skillSet = skillSet;
     }
 
     public Long getId() {
@@ -92,11 +89,11 @@ public class PostJobDetail {
         this.job_type = job_type;
     }
 
-    public int getSalary_offer() {
+    public double getSalary_offer() {
         return salary_offer;
     }
 
-    public void setSalary_offer(int salary_offer) {
+    public void setSalary_offer(double salary_offer) {
         this.salary_offer = salary_offer;
     }
 
@@ -138,14 +135,14 @@ public class PostJobDetail {
                 "id=" + id +
                 ", registrationDetail=" + registrationDetail +
                 ", company='" + company + '\'' +
-                ", category='" + category + '\'' +
+                ", category=" + category +
                 ", job_type='" + job_type + '\'' +
-                ", experience='" + experience + '\'' +
-                ", salary_offer='" + salary_offer + '\'' +
+                ", experience=" + experience +
+                ", salary_offer=" + salary_offer +
                 ", job_opening_date='" + job_opening_date + '\'' +
                 ", description='" + description + '\'' +
                 ", jobLocation=" + jobLocation +
-//                ", skills=" + skills +
+                ", skillSet=" + skillSet +
                 '}';
     }
 }

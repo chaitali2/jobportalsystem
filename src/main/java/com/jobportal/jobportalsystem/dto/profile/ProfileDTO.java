@@ -25,16 +25,13 @@ public class ProfileDTO {
     private String mobno;
 
     private String street_add;
-
     private String city;
-
     private String state;
 
     private String experience;
     private String highest_degree;
     private String percentage;
     private String passing_year;
-
     private String expected_salary;
 
     public String getHighest_degree() {
