@@ -15,7 +15,6 @@ public class ValidationExceptionMapper implements ExceptionMapper<ValidationExce
 
     @Override
     public Response toResponse(ValidationException ex) {
-        LOGGER.info("ValidationException ");
         ex.printStackTrace();
 
         return Response.status(Response.Status.BAD_REQUEST)
@@ -28,8 +27,6 @@ public class ValidationExceptionMapper implements ExceptionMapper<ValidationExce
         String msg = "";
         for (ConstraintViolation<?> cv : ((ConstraintViolationException) exception).getConstraintViolations()) {
             msg += cv.getMessage() + "\n";
-            LOGGER.info("cv.getMessage()==" + cv.getMessage());
-//            msg += cv.getPropertyPath() + " " + cv.getMessage() + "\n";
         }
         return msg;
     }

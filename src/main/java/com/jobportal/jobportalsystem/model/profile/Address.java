@@ -12,15 +12,12 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
     @Size(max = 100)
     private String street_add;
 
-    @NotBlank
     @Size(max = 50)
     private String city;
 
-    @NotBlank
     @Size(max = 50)
     private String state;
 

@@ -26,19 +26,15 @@ public class RecruiterJobSeekerDAO {
 
     @Transactional
     public void saveJobPostDetail(PostJobDetail postJobDetail) {
-        JobLocation jobLocation = postJobDetail.getJobLocation();
-        entityManager.persist(jobLocation);
         entityManager.persist(postJobDetail);
     }
 
     public List<PostJobDetail> fetchJobDetails(Map<String, Long> keyValue) {
         Query query;
         if (keyValue != null) {
-            LOGGER.info("jobDetail IN RECRUITRTER===");
             query = entityManager.createQuery("select pjd from PostJobDetail pjd where pjd.registrationDetail.id=:recruiter_id");
             query.setParameter("recruiter_id", keyValue.get("user_id"));
         } else {
-            LOGGER.info("jobDetail IN SEEKER===");
             query = entityManager.createQuery("select pjd from PostJobDetail pjd ");
         }
 
@@ -65,26 +61,24 @@ public class RecruiterJobSeekerDAO {
     public List<ApplyJOB> checkAppliedForJob(ApplyJOB applyJOB) {
         Query query;
         query = entityManager.createQuery("select aj from ApplyJOB aj" +
-                " where aj.postJobDetail.id=:job_id" +
-                " and aj.registrationDetail.id=:seeker_id");
+                                        " where aj.postJobDetail.id=:job_id" +
+                                        " and aj.registrationDetail.id=:seeker_id");
         query.setParameter("job_id", applyJOB.getPostJobDetail().getId());
         query.setParameter("seeker_id", applyJOB.getRegistrationDetail().getId());
         List<ApplyJOB> existJobSeeker = query.getResultList();
-        LOGGER.info("existJobSeeker==" + existJobSeeker.size());
         return existJobSeeker;
     }
 
     public List<Object[]> appliedJobsList(Long job_id) {
         Query query;
-        query = entityManager.createQuery("select rd.firstname ,rd.lastname, pj.company,pj.description,aj.applyDate,aj.filename from ApplyJOB aj" +
-                " inner join RegistrationDetail rd on aj.registrationDetail.id=rd.id" +
-                " inner join PostJobDetail pj on pj.id=aj.postJobDetail.id " +
-                " where aj.postJobDetail.id=:job_id");
+        query = entityManager.createQuery("select rd.firstname ,rd.lastname, " +
+                                           "pj.company,pj.description,aj.applyDate,aj.filename from ApplyJOB aj" +
+                                           " inner join RegistrationDetail rd on aj.registrationDetail.id=rd.id" +
+                                           " inner join PostJobDetail pj on pj.id=aj.postJobDetail.id " +
+                                           " where aj.postJobDetail.id=:job_id");
         query.setParameter("job_id", job_id);
 
         List<Object[]> jobAppliedList = query.getResultList();
-        LOGGER.info("size==" + jobAppliedList.size());
-
         return jobAppliedList;
     }
 
@@ -92,16 +86,16 @@ public class RecruiterJobSeekerDAO {
         Query query;
         query = entityManager.createQuery("select ca from Category ca");
         List<Category> categories = query.getResultList();
-        LOGGER.info("categories==" + categories);
         return categories;
     }
 
     public List<Object[]> loadSkills(Long categoryId) {
         Query query;
-        query = entityManager.createNativeQuery("select s.id,s.skill_name from skills s where s.category_id=:categoryId");
+        query = entityManager.createNativeQuery("select s.id,s.skill_name " +
+                                                "from skills s" +
+                                                " where s.category_id=:categoryId");
         query.setParameter("categoryId", categoryId);
         List<Object[]> skills = query.getResultList();
-        LOGGER.info("skills"+skills);
         return skills;
     }
 

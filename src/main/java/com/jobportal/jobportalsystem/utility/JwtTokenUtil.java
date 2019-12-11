@@ -16,11 +16,10 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil implements Serializable {
 
-    private static final long serialVersionUID = -2550185165626007488L;
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    @Value("javainuse")
+    @Value("secretkey")
     private String secret;
 
     public String getUsernameFromToken(String token) {
@@ -37,8 +36,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        System.out.println("secret" + secret);
-        return Jwts.parser().setSigningKey("javainuse").parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -48,6 +46,7 @@ public class JwtTokenUtil implements Serializable {
 
     public String generateToken(LoginDetailDTO userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("user",userDetails);
         System.out.println("claims" + claims);
         return doGenerateToken(claims, userDetails.getUsername());
     }

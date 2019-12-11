@@ -20,49 +20,42 @@ public class ProfileDAO {
     @Transactional
     public Profile fetchUserDetails(Long user_id) {
         RegistrationDetail registrationDetail = entityManager.find(RegistrationDetail.class, user_id);
-        LOGGER.info("profile==1");
 
         TypedQuery<Profile> query = entityManager.createQuery("select pro from Profile pro where pro.registrationDetail.id=:user_id", Profile.class);
         query.setParameter("user_id", user_id);
-        LOGGER.info("profile==2");
         Profile profile;
         try {
             profile = query.getSingleResult();
             profile.setRegistrationDetail(registrationDetail);
 
         } catch (NoResultException ex) {
-            LOGGER.info("profile==3");
             profile = new Profile();
             profile.setRegistrationDetail(registrationDetail);
         }
 
-        LOGGER.info("profile==" + profile);
         return profile;
     }
 
     @Transactional
     public void saveProfileDetail(Profile profileDetail) {
-        LOGGER.info("profileDetail==" + profileDetail);
         TypedQuery<Profile> query = entityManager.createQuery("select pro from Profile pro where pro.registrationDetail.id=:user_id", Profile.class);
         query.setParameter("user_id", profileDetail.getRegistrationDetail().getId());
+
         RegistrationDetail registrationDetail = entityManager.find(RegistrationDetail.class, profileDetail.getRegistrationDetail().getId());
-//        LOGGER.info("registrationDetail==" + registrationDetail);
         registrationDetail.setMobno(profileDetail.getRegistrationDetail().getMobno());
         registrationDetail.setFirstname(profileDetail.getRegistrationDetail().getFirstname());
         registrationDetail.setLastname(profileDetail.getRegistrationDetail().getLastname());
         entityManager.merge(registrationDetail);
         Profile profile;
         try {
-            LOGGER.info("profile==2");
             profile = query.getSingleResult();
             Address address = entityManager.find(Address.class, profile.getAddress().getId());
-//            LOGGER.info("address=" + address);
             address.setCity(profileDetail.getAddress().getCity());
             address.setState(profileDetail.getAddress().getState());
             address.setStreet_add(profileDetail.getAddress().getStreet_add());
             entityManager.merge(address);
             profile.setRegistrationDetail(profileDetail.getRegistrationDetail());
-            profile.setAddress(profileDetail.getAddress());
+//            profile.setAddress(profileDetail.getAddress());
             if (registrationDetail.getUsertype().equals("J")) {
                 EducationExperience educationExperience = entityManager.find(EducationExperience.class, profile.getEducationExperience().getId());
                 educationExperience.setExperience(profileDetail.getEducationExperience().getExperience());
@@ -73,11 +66,9 @@ public class ProfileDAO {
                 entityManager.merge(educationExperience);
                 profile.setEducationExperience(educationExperience);
             }
-//            LOGGER.info("profile==" + profile);
             entityManager.merge(profile);
 
         } catch (NoResultException ex) {
-            LOGGER.info("profile==3");
             Address address = profileDetail.getAddress();
             entityManager.persist(address);
             entityManager.persist(profileDetail);

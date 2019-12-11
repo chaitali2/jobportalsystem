@@ -30,15 +30,12 @@ public class PostJobDetail {
     private String job_opening_date;
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "job_location_id")
     private JobLocation jobLocation;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.REFRESH
-            })
+    //On the other hand, if requirement is never to add a new child if its not alredy in DB then CascadeType.PERSIST should be removed and cascade={CascadeType.MERGE,CascadeType.REFRESH} should be used
+    @ManyToMany(cascade =CascadeType.MERGE,fetch = FetchType.EAGER)
     Set<Skill> skillSet;
 
     public Set<Skill> getSkillSet() {

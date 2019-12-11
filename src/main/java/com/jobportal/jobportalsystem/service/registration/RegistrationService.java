@@ -52,13 +52,9 @@ public class RegistrationService {
         }
         String salt = authenticationUtil.generateSalt(30);
         String secureUserPassword = null;
-        try {
             //GENERATE SECURE PASSWORD
             secureUserPassword = authenticationUtil.generateSecurePassword(registrationDetailDTO.getPassword(), salt);
-        } catch (InvalidKeySpecException ex) {
-            LOGGER.error("===========InvalidKeySpecException=============");
-            ex.printStackTrace();
-        }
+
         LOGGER.info("secureUserPassword----->"+secureUserPassword);
 
         registrationDetailDTO.setPassword(secureUserPassword);

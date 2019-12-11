@@ -32,10 +32,8 @@ public class ChangePasswordDAO {
         TypedQuery<RegistrationDetail> query = entityManager.createQuery("select rd from RegistrationDetail rd where rd.username=:username", RegistrationDetail.class);
         query.setParameter("username", registrationDetail.getUsername());
         RegistrationDetail userdetail = query.getSingleResult();
-        LOGGER.info("ChangePasswordDAO==" + userdetail);
         userdetail.setPassword(registrationDetail.getPassword());
         userdetail.setSalt(registrationDetail.getSalt());
-        LOGGER.info("ChangePasswordDAO==" + userdetail);
         entityManager.merge(userdetail);
     }
 }

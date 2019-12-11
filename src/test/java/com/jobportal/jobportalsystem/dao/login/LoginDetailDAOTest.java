@@ -1,7 +1,5 @@
 package com.jobportal.jobportalsystem.dao.login;
 
-import com.jobportal.jobportalsystem.JobportalsystemApplication;
-import com.jobportal.jobportalsystem.config.H2Configuration;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import org.junit.Test;
 import org.junit.runner.RunWith;

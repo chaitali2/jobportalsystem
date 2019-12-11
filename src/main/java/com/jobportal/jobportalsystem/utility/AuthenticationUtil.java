@@ -28,19 +28,19 @@ public class AuthenticationUtil {
 
     }
 
-    public String generateSecurePassword(String password, String salt) throws InvalidKeySpecException {
+    public String generateSecurePassword(String password, String salt) {
 
         byte[] securePassword = hash(password.toCharArray(), salt.getBytes());
         return Base64.getEncoder().encodeToString(securePassword);
 
     }
 
-    public byte[] encrypt(String securePassword, String accessTokenMaterial) throws InvalidKeySpecException {
+    public byte[] encrypt(String securePassword, String accessTokenMaterial) {
         return hash(securePassword.toCharArray(), accessTokenMaterial.getBytes());
     }
 
 
-    private byte[] hash(char[] password, byte[] salt) throws InvalidKeySpecException {
+    private byte[] hash(char[] password, byte[] salt) {
         PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
         Arrays.fill(password, Character.MIN_VALUE);
         try {

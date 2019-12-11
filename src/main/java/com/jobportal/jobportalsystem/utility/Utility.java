@@ -9,7 +9,6 @@ import java.util.Date;
 @Component
 public class Utility {
 
-
     public String changedateformatter(String inputdate, String dateFormate) throws ParseException {
         Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(inputdate);
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormate);

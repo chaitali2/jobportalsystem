@@ -54,18 +54,18 @@ public class ChangePasswordServiceTest {
 
     @Test
     public void testChangePassword() throws InvalidKeySpecException, AuthenticationException, PasswordDoesNotExistException {
-        Object[] existing = {"securePass_old","asdf"};
+        Object[] existing = {"securePass_old","xyz"};
         List<Object[]> existingList = new ArrayList<>();
         existingList.add(existing);
         Mockito.when(authenticationUtil.generateSalt(30)).thenReturn("abcd");
         Mockito.when(authenticationUtil.generateSecurePassword(Mockito.eq(passwordDTO.getNew_password()),Mockito.eq("abcd"))).thenReturn("securePass");
         Mockito.when(changePasswordDAO.fetchPasswordFromUser(Mockito.eq(passwordDTO.getUsername()))).thenReturn(existingList);
         Mockito.doNothing().when(changePasswordDAO).updatePassword(registrationDetailArgumentCaptor.capture());
-        Mockito.when(authenticationUtil.generateSecurePassword(Mockito.eq(passwordDTO.getOld_password()),Mockito.eq("asdf"))).thenReturn("securePass_old");
+        Mockito.when(authenticationUtil.generateSecurePassword(Mockito.eq(passwordDTO.getOld_password()),Mockito.eq("xyz"))).thenReturn("securePass_old");
         changePasswordService.changePassword(passwordDTO);
         Mockito.verify(authenticationUtil,Mockito.times(1)).generateSalt(30);
         Mockito.verify(authenticationUtil,Mockito.times(1)).generateSecurePassword(Mockito.eq(passwordDTO.getNew_password()),Mockito.eq("abcd"));
-        Mockito.verify(authenticationUtil,Mockito.times(1)).generateSecurePassword(Mockito.eq(passwordDTO.getOld_password()),Mockito.eq("asdf"));
+        Mockito.verify(authenticationUtil,Mockito.times(1)).generateSecurePassword(Mockito.eq(passwordDTO.getOld_password()),Mockito.eq("xyz"));
         RegistrationDetail registrationDetail = registrationDetailArgumentCaptor.getValue();
         assertNotNull(registrationDetail);
         assertEquals(passwordDTO.getUsername(),registrationDetail.getUsername());
@@ -76,14 +76,14 @@ public class ChangePasswordServiceTest {
 
     @Test(expected =  PasswordDoesNotExistException.class)
     public void testChangePasswordWithOldPassDoesnotExists() throws InvalidKeySpecException, AuthenticationException, PasswordDoesNotExistException {
-        Object[] existing = {"securePass_old","asdf"};
+        Object[] existing = {"securePass_old","xyz"};
         List<Object[]> existingList = new ArrayList<>();
         existingList.add(existing);
         Mockito.when(authenticationUtil.generateSalt(30)).thenReturn("abcd");
         Mockito.when(authenticationUtil.generateSecurePassword(Mockito.eq(passwordDTO.getNew_password()),Mockito.eq("abcd"))).thenReturn("securePass");
         Mockito.when(changePasswordDAO.fetchPasswordFromUser(Mockito.eq(passwordDTO.getUsername()))).thenReturn(existingList);
         Mockito.doNothing().when(changePasswordDAO).updatePassword(registrationDetailArgumentCaptor.capture());
-        Mockito.when(authenticationUtil.generateSecurePassword(Mockito.eq(passwordDTO.getOld_password()),Mockito.eq("asdf"))).thenReturn("");
+        Mockito.when(authenticationUtil.generateSecurePassword(Mockito.eq(passwordDTO.getOld_password()),Mockito.eq("xyz"))).thenReturn("");
         changePasswordService.changePassword(passwordDTO);
 
     }
@@ -91,11 +91,11 @@ public class ChangePasswordServiceTest {
     @Test(expected = AuthenticationException.class)
     public void newPasswordAndConfirmPasswordDoesnotMatch() throws InvalidKeySpecException, AuthenticationException, PasswordDoesNotExistException {
         passwordDTO.setConfirm_password("asdfcksdjdk");
-        Object[] existing = {"securePass_old","asdf"};
+        Object[] existing = {"securePass_old","xyz"};
         List<Object[]> existingList = new ArrayList<>();
         existingList.add(existing);
         Mockito.when(changePasswordDAO.fetchPasswordFromUser(Mockito.eq(passwordDTO.getUsername()))).thenReturn(existingList);
-        Mockito.when(authenticationUtil.generateSecurePassword(Mockito.eq(passwordDTO.getOld_password()),Mockito.eq("asdf"))).thenReturn("securePass_old");
+        Mockito.when(authenticationUtil.generateSecurePassword(Mockito.eq(passwordDTO.getOld_password()),Mockito.eq("xyz"))).thenReturn("securePass_old");
         changePasswordService.changePassword(passwordDTO);
     }
 }

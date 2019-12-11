@@ -1,7 +1,5 @@
 package com.jobportal.jobportalsystem.dao.registration;
 
-import com.jobportal.jobportalsystem.JobportalsystemApplication;
-import com.jobportal.jobportalsystem.config.H2Configuration;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import org.junit.Assert;
 import org.junit.Before;

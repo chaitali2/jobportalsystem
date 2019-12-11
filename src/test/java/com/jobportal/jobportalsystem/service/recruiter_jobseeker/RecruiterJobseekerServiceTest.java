@@ -53,8 +53,8 @@ public class RecruiterJobseekerServiceTest {
         skills.add("3");
         postJobDetailDTO.setSkills(skills);
         postJobDetailDTO.setJob_type("P");
-        postJobDetailDTO.setExperience(2);
-        postJobDetailDTO.setSalary_offer(4);
+        postJobDetailDTO.setExperience("2");
+        postJobDetailDTO.setSalary_offer("4");
         postJobDetailDTO.setStreet_add("710 Alfa Tower");
         postJobDetailDTO.setState("Gujarat");
         postJobDetailDTO.setCity("Surat");
@@ -162,18 +162,7 @@ public class RecruiterJobseekerServiceTest {
 
     }
 
-    @Test
-    public void testFetchJobDetailsOfCompany() {
-        Map<String, Long> keyValue = new HashMap<>();
-        keyValue.put("user_id", 1l);
-        PostJobDetail jobDetails = new PostJobDetail();
-        Mockito.when(recruiterDAO.fetchJobDetailsOfCompany(keyValue.get("user_id"))).thenReturn(jobDetails);
-    }
 
-    @Test
-    public void testRemoveJobPostDetail() {
-
-    }
 
 
 }

@@ -1,4 +1,4 @@
-package com.jobportal.jobportalsystem;
+package com.jobportal.jobportalsystem.configuration;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;

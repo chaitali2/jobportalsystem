@@ -32,37 +32,7 @@ public class LoginRestServiceTest {
     @LocalServerPort
     private int port;
 
-    //    @Test
-//    public void testAuthenticateUser() throws Exception {
-//        LoginDetailDTO loginDetailDTO = new LoginDetailDTO();
-//        loginDetailDTO.setUsername("chaitali@gmail.com");
-//        loginDetailDTO.setPassword("Chai@1234");
-//
-//        UserProfileDTO userProfileDTO = new UserProfileDTO();
-//
-//        Mockito.when(loginService.authenticate(loginDetailDTO)).thenReturn(userProfileDTO);
-//
-//
-//        String inputInJson = this.mapToJson(loginDetailDTO);
-//
-//        String URI = "/jobportal/login";
-//
-//        Mockito.when(loginService.authenticate(Mockito.any(LoginDetailDTO.class))).thenReturn(userProfileDTO);
-//
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .post(URI)
-//                .accept(MediaType.APPLICATION_JSON).content(inputInJson)
-//                .contentType(MediaType.APPLICATION_JSON);
-//
-//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//        MockHttpServletResponse response = result.getResponse();
-//
-//        String outputInJson = response.getContentAsString();
-//
-//        assertThat(outputInJson).isEqualTo(inputInJson);
-//        assertEquals(HttpStatus.OK.value(), response.getStatus());
-//    }
-//
+
     @Test
     public void testAuthenticateUser(){
         HttpHeaders headers = new HttpHeaders();

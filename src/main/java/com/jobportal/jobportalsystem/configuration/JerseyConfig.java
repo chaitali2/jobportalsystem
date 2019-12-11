@@ -1,4 +1,4 @@
-package com.jobportal.jobportalsystem;
+package com.jobportal.jobportalsystem.configuration;
 
 import com.jobportal.jobportalsystem.customizedException.GenericExceptionMapper;
 import com.jobportal.jobportalsystem.customizedException.ValidationExceptionMapper;
