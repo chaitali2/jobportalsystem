@@ -34,7 +34,6 @@ public class PostJobDetail {
     @JoinColumn(name = "job_location_id")
     private JobLocation jobLocation;
 
-    //On the other hand, if requirement is never to add a new child if its not alredy in DB then CascadeType.PERSIST should be removed and cascade={CascadeType.MERGE,CascadeType.REFRESH} should be used
     @ManyToMany(cascade =CascadeType.MERGE,fetch = FetchType.EAGER)
     Set<Skill> skillSet;
 

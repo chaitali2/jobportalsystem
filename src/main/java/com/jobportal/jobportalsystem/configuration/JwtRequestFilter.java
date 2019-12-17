@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@Configuration
+@Configuration
 public class JwtRequestFilter implements Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
@@ -23,9 +23,6 @@ public class JwtRequestFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        LOGGER.info(
-                "Starting a transaction for req : {}",
-                req.getHeader("token"));
 
         LoginDetailDTO loginDetailDTO = new LoginDetailDTO();
         try {
