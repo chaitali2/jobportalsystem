@@ -31,6 +31,7 @@ public class RecruiterJobSeekerRestService {
     @Autowired
     RecruiterJobSeekerService recruiterService;
 
+// ************************************ SAVE POST JOB DETAIL *******************************************//
     @POST
     @Produces("application/json")
     @Path("recruiter/addjob_posts")
@@ -40,6 +41,8 @@ public class RecruiterJobSeekerRestService {
 
     }
 
+    // ************************************ CATEGORY FOR WHICH POST APPLY *******************************************//
+
     @GET
     @Produces("application/json")
     @Path("recruiter/loadCategory")
@@ -48,6 +51,7 @@ public class RecruiterJobSeekerRestService {
         return ResponseEntity.status(HttpStatus.OK).body(categoryDTOList);
     }
 
+    // ************************************ SKILLS WHICH IS REQUIRED  *******************************************//
     @POST
     @Produces("application/json")
     @Path("recruiter/loadskill")
@@ -57,6 +61,8 @@ public class RecruiterJobSeekerRestService {
         return ResponseEntity.status(HttpStatus.OK).body(skillDTOList);
     }
 
+
+    // ************************************ JOBS LIST FOR RECRUITER AND JOB SEEKER *******************************************//
     @POST
     @Produces("application/json")
     @Path("jobDetails")
@@ -66,6 +72,7 @@ public class RecruiterJobSeekerRestService {
 
     }
 
+    // ************************************ FETCH SINGLE JOB DETAIL *******************************************//
     @POST
     @Produces("application/json")
     @Path("jobseeker/jobdetailofcompany")
@@ -74,6 +81,7 @@ public class RecruiterJobSeekerRestService {
         return ResponseEntity.status(HttpStatus.OK).body(postJobDetailDTOS);
     }
 
+    // ************************************ DELETE JOB DETAIL *******************************************//
     @POST
     @Produces("application/json")
     @Path("recruiter/removejobpost")
@@ -83,6 +91,8 @@ public class RecruiterJobSeekerRestService {
 
     }
 
+
+    // ************************************ APPLY FOR JOB *******************************************//
     @POST
     @Produces("application/json")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -96,6 +106,7 @@ public class RecruiterJobSeekerRestService {
 
     }
 
+    // ************************************ JOB LIST WHICH IS APPLIED BY USER *******************************************//
     @POST
     @Produces("application/json")
     @Path("recruiter/viewJobsApplied")
@@ -106,6 +117,7 @@ public class RecruiterJobSeekerRestService {
 
     }
 
+    // ************************************ DOWNLOAD THE RESUME *******************************************//
     @POST
     @Path("recruiter/download/pdf")
     @Produces(MediaType.MULTIPART_FORM_DATA)

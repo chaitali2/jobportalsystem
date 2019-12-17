@@ -74,6 +74,7 @@ public class RecruiterJobSeekerService {
         }
     }
 
+
     public void uploadResume(InputStream fileInputStream,
                              FormDataContentDisposition fileMetaData, String user_id) {
         String UPLOAD_PATH = "F:/resume/";
@@ -95,6 +96,7 @@ public class RecruiterJobSeekerService {
 
     }
 
+
     public List appliedJobsList(Long job_id) {
         List<Object[]> jobAppliedList = recruiterDAO.appliedJobsList(job_id);
         List<ApplyJobDTO> applyJobDTOList = new ArrayList<>();
@@ -110,6 +112,7 @@ public class RecruiterJobSeekerService {
         }
         return applyJobDTOList;
     }
+
 
     public List<CategoryDTO> loadCategoryList() {
         List<Category> categories = recruiterDAO.loadCategoryList();
@@ -135,7 +138,8 @@ public class RecruiterJobSeekerService {
         return skillList;
     }
 
-    public List<PostJobDetailDTO> fetchJobDetails(Map<String, Long> keyValue) throws ParseException {
+
+    public List<PostJobDetailDTO> fetchJobDetails(Map<String, Long> keyValue) {
         List<PostJobDetail> jobDetails = recruiterDAO.fetchJobDetails(keyValue);
 
         if (jobDetails != null && !jobDetails.isEmpty()) {
@@ -172,7 +176,7 @@ public class RecruiterJobSeekerService {
     }
 
 
-    public PostJobDetailDTO fetchJobDetailsOfCompany(Long user_id) throws ParseException {
+    public PostJobDetailDTO fetchJobDetailsOfCompany(Long user_id) {
         PostJobDetail jobDetails = recruiterDAO.fetchJobDetailsOfCompany(user_id);
 
         PostJobDetailDTO postJobDetailDTO = new PostJobDetailDTO();
@@ -196,6 +200,16 @@ public class RecruiterJobSeekerService {
     public void removeJobPostDetail(Long user_id) {
         recruiterDAO.removeJobPostDetail(user_id);
     }
+
+
+    public Response downloadPdf(String fileName) {
+        File file = new File("F:/resume/" + fileName);
+        Response.ResponseBuilder response = Response.ok((Object) file);
+        response.header("Content-Disposition",
+                "attachment; filename=" + fileName);
+        return response.build();
+    }
+
 
     PostJobDetail convertDTOtoModel(PostJobDetailDTO postJobDetailDTO) throws ParseException {
         PostJobDetail postJobDetail = new PostJobDetail();
@@ -236,6 +250,7 @@ public class RecruiterJobSeekerService {
         return postJobDetail;
     }
 
+
     RegistrationDetailDTO convertDTOtoModel(RegistrationDetail registrationDetail) throws ParseException {
         RegistrationDetailDTO registrationDetailDTO = new RegistrationDetailDTO();
         registrationDetailDTO.setFirstname(registrationDetail.getFirstname());
@@ -246,11 +261,4 @@ public class RecruiterJobSeekerService {
         return registrationDetailDTO;
     }
 
-    public Response downloadPdf(String fileName) {
-        File file = new File("F:/resume/" + fileName);
-        Response.ResponseBuilder response = Response.ok((Object) file);
-        response.header("Content-Disposition",
-                "attachment; filename=" + fileName);
-        return response.build();
-    }
 }
