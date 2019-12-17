@@ -38,13 +38,14 @@ public class JwtRequestFilter implements Filter {
                             chain.doFilter(request, response);
                         } else {
                             LOGGER.error("error generated token is not valid");
-                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token not found");
+                            res.sendRedirect("/login");
                         }
                     } else {
-                        LOGGER.error("No Auth token found");
+                        LOGGER.info("No Auth token found");
                         res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token not found");
                     }
                 } else {
+                    LOGGER.info("sign up");
                     chain.doFilter(request, response);
                 }
             } else {
@@ -53,6 +54,7 @@ public class JwtRequestFilter implements Filter {
         } catch (Exception e) {
             LOGGER.error("exception generated token is not valid" + e);
             e.printStackTrace();
+            res.sendRedirect("/authentication/login");
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
 
