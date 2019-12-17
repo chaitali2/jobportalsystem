@@ -55,7 +55,6 @@ public class ProfileDAO {
             address.setStreet_add(profileDetail.getAddress().getStreet_add());
             entityManager.merge(address);
             profile.setRegistrationDetail(profileDetail.getRegistrationDetail());
-//            profile.setAddress(profileDetail.getAddress());
             if (registrationDetail.getUsertype().equals("J")) {
                 EducationExperience educationExperience = entityManager.find(EducationExperience.class, profile.getEducationExperience().getId());
                 educationExperience.setExperience(profileDetail.getEducationExperience().getExperience());

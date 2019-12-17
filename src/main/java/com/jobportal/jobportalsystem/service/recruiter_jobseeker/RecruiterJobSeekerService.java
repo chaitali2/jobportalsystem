@@ -76,16 +76,13 @@ public class RecruiterJobSeekerService {
 
     public void uploadResume(InputStream fileInputStream,
                              FormDataContentDisposition fileMetaData, String user_id) {
-        LOGGER.info("hello upload resume");
-        String UPLOAD_PATH = "E:/resume/";
+        String UPLOAD_PATH = "F:/resume/";
         try {
             int read = 0;
             byte[] bytes = new byte[1024];
             File file = new File(UPLOAD_PATH + user_id + ".pdf");
             OutputStream out = null;
             out = new FileOutputStream(file);
-
-            LOGGER.info("hello upload resume 2");
 
             while ((read = fileInputStream.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
@@ -109,10 +106,8 @@ public class RecruiterJobSeekerService {
             applyJobDTO.setDescription(details[3].toString());
             applyJobDTO.setApplyDate(details[4].toString());
             applyJobDTO.setFileName(details[5].toString());
-            LOGGER.info("applyJobDTO=" + applyJobDTO);
             applyJobDTOList.add(applyJobDTO);
         }
-        LOGGER.info("applyJobDTOList==" + applyJobDTOList);
         return applyJobDTOList;
     }
 
@@ -143,12 +138,11 @@ public class RecruiterJobSeekerService {
     public List<PostJobDetailDTO> fetchJobDetails(Map<String, Long> keyValue) throws ParseException {
         List<PostJobDetail> jobDetails = recruiterDAO.fetchJobDetails(keyValue);
 
-        LOGGER.info("jobDetail===" + (jobDetails));
         if (jobDetails != null && !jobDetails.isEmpty()) {
             List<PostJobDetailDTO> jobDetailDTOS = new ArrayList<>();
             for (int i = 0; i < jobDetails.size(); i++) {
                 PostJobDetailDTO postJobDetailDTO = new PostJobDetailDTO();
-                postJobDetailDTO.setId(jobDetails.get(i).getId());
+                postJobDetailDTO.setJobId(jobDetails.get(i).getId());
                 postJobDetailDTO.setCompany(jobDetails.get(i).getCompany());
                 postJobDetailDTO.setCategory_name(jobDetails.get(i).getCategory().getCategoryName());
                 String jobType = ("P").equals(jobDetails.get(i).getJob_type()) ? "Permanent" : "Contract";
@@ -163,7 +157,6 @@ public class RecruiterJobSeekerService {
                 postJobDetailDTO.setDescription(jobDetails.get(i).getDescription());
 
                 Set<Skill> skillList = jobDetails.get(i).getSkillSet();
-                LOGGER.info("skillList==" + skillList);
                 Set<String> skills = new HashSet<>();
                 Iterator itr = skillList.iterator();
                 while (itr.hasNext()) {
@@ -172,7 +165,6 @@ public class RecruiterJobSeekerService {
                 postJobDetailDTO.setSkills(skills);
                 jobDetailDTOS.add(postJobDetailDTO);
             }
-            LOGGER.info("jobDetailDTOS==" + jobDetailDTOS);
             return jobDetailDTOS;
         } else {
             throw new RuntimeException("Job details not found !");
@@ -184,7 +176,7 @@ public class RecruiterJobSeekerService {
         PostJobDetail jobDetails = recruiterDAO.fetchJobDetailsOfCompany(user_id);
 
         PostJobDetailDTO postJobDetailDTO = new PostJobDetailDTO();
-        postJobDetailDTO.setId(jobDetails.getId());
+        postJobDetailDTO.setJobId(jobDetails.getId());
         postJobDetailDTO.setCompany(jobDetails.getCompany());
         postJobDetailDTO.setCategory_name(jobDetails.getCategory().getCategoryName());
         String jobType = jobDetails.getJob_type().equals("P") ? "Permanent" : "Contract";
@@ -255,7 +247,7 @@ public class RecruiterJobSeekerService {
     }
 
     public Response downloadPdf(String fileName) {
-        File file = new File("E:/resume/" + fileName);
+        File file = new File("F:/resume/" + fileName);
         Response.ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition",
                 "attachment; filename=" + fileName);

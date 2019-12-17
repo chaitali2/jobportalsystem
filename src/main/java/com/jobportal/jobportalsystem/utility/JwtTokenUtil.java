@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-public class JwtTokenUtil implements Serializable {
+public class JwtTokenUtil {
 
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
@@ -47,12 +47,10 @@ public class JwtTokenUtil implements Serializable {
     public String generateToken(LoginDetailDTO userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("user",userDetails);
-        System.out.println("claims" + claims);
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
-
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();

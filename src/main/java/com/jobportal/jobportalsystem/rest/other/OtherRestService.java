@@ -23,7 +23,6 @@ public class OtherRestService {
     @Path("categoryskill")
     @Produces("application/json")
     public ResponseEntity inserSkillsWiseCategory(CategoryDTO categoryDTO) {
-        LOGGER.info("category==" + categoryDTO);
         otherService.inserSkillsWiseCategory(categoryDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Success fully insert category!");
     }

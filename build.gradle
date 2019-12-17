@@ -20,9 +20,6 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.8.RELEASE'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     compile 'org.glassfish.jersey.media:jersey-media-multipart:2.29.1'
-     testCompile('com.h2database:h2:1.4.199')
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
-
 }
 
 test {

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -34,7 +35,6 @@ public class RecruiterJobSeekerRestService {
     @Produces("application/json")
     @Path("recruiter/addjob_posts")
     public ResponseEntity postJobDetail(@Valid PostJobDetailDTO postJobDetailDTO) throws ParseException {
-        LOGGER.info("===postJobDetailDTO====" + postJobDetailDTO);
         recruiterService.postJobDetail(postJobDetailDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Success fully post data");
 
@@ -52,7 +52,6 @@ public class RecruiterJobSeekerRestService {
     @Produces("application/json")
     @Path("recruiter/loadskill")
     public ResponseEntity loadSkills(Map<String, Long> keyvalue) {
-        LOGGER.info("category id=" + keyvalue);
         List<SkillDTO> skillDTOList = recruiterService.loadSkills(keyvalue.get("category_id"));
         LOGGER.info("skillDTOList=" + skillDTOList);
         return ResponseEntity.status(HttpStatus.OK).body(skillDTOList);
@@ -71,7 +70,6 @@ public class RecruiterJobSeekerRestService {
     @Produces("application/json")
     @Path("jobseeker/jobdetailofcompany")
     public ResponseEntity fetchJobDetailsOfCompany(Map<String, Long> keyvalue) throws ParseException {
-        LOGGER.info("job_id==" + keyvalue.get("job_id"));
         PostJobDetailDTO postJobDetailDTOS = recruiterService.fetchJobDetailsOfCompany(keyvalue.get("job_id"));
         return ResponseEntity.status(HttpStatus.OK).body(postJobDetailDTOS);
     }
@@ -80,7 +78,6 @@ public class RecruiterJobSeekerRestService {
     @Produces("application/json")
     @Path("recruiter/removejobpost")
     public ResponseEntity removeJobPostDetail(Map<String, Long> keyvalue) {
-        LOGGER.info("job_id==" + keyvalue.get("job_id"));
         recruiterService.removeJobPostDetail(keyvalue.get("job_id"));
         return ResponseEntity.status(HttpStatus.OK).body("Job Deleted!!");
 
@@ -94,7 +91,6 @@ public class RecruiterJobSeekerRestService {
                                       @FormDataParam("file") FormDataContentDisposition fileMetaData,
                                       @FormDataParam("job_id") String job_id,
                                       @FormDataParam("user_id") String user_id) throws UserExistException {
-
         recruiterService.applyForJOB(fileInputStream, fileMetaData, job_id, user_id);
         return ResponseEntity.status(HttpStatus.OK).body("success");
 
@@ -113,8 +109,8 @@ public class RecruiterJobSeekerRestService {
     @POST
     @Path("recruiter/download/pdf")
     @Produces(MediaType.MULTIPART_FORM_DATA)
-    public Response downloadPdfFile(Map<String,String> keyValue) {
-       return recruiterService.downloadPdf(keyValue.get("filename"));
+    public Response downloadPdfFile(Map<String, String> keyValue) {
+        return recruiterService.downloadPdf(keyValue.get("filename"));
     }
 
 }

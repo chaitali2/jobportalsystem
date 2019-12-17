@@ -32,11 +32,7 @@ public class LoginHitsAspects {
         loginHitsModel.setLoginTime(df.format(logintime));
         LOGGER.info("USER NAME=>"+loginHitsModel.getUsername());
         LOGGER.info("LOGIN TIME=>"+loginHitsModel.getLoginTime());
-//        save(loginHitsModel);
     }
 
-    public void save(LoginHitsModel loginHitsModel) {
-        entityManager.persist(loginHitsModel);
-    }
 
 }

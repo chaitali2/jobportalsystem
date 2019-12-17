@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class PostJobDetailDTO {
 
-    private Long id;
+    private Long jobId;
 
     @NotNull(message = "Please enter company name")
     @NotBlank(message = "Please enter company name")
@@ -52,12 +52,12 @@ public class PostJobDetailDTO {
 
     private Long posted_by_id;
 
-    public Long getId() {
-        return id;
+    public Long getJobId() {
+        return jobId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
     }
 
     public String getCompany() {
@@ -175,7 +175,7 @@ public class PostJobDetailDTO {
     @Override
     public String toString() {
         return "PostJobDetailDTO{" +
-                "id=" + id +
+                "id=" + jobId +
                 ", company='" + company + '\'' +
                 ", category_id=" + category_id +
                 ", category_name='" + category_name + '\'' +
