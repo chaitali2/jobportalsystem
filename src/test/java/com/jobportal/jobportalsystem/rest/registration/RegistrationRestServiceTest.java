@@ -34,7 +34,6 @@ public class RegistrationRestServiceTest {
     public void testRegisterUserDetail(){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
         RegistrationDetailDTO registrationDetailDTO = new RegistrationDetailDTO();
         registrationDetailDTO.setFirstname("chaitali");
         registrationDetailDTO.setLastname("Khachane");

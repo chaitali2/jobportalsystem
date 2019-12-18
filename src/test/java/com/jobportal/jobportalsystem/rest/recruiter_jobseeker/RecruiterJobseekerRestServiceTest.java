@@ -38,6 +38,8 @@ public class RecruiterJobseekerRestServiceTest {
     @Test
     public void testPostJobDetail() {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXJzaEBnbWFpbC5jb20iLCJleHAiOjE1NzY1OTI1NjgsInVzZXIiOnsidXNlcm5hbWUiOiJoYXJzaEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IkhhcnNoQDEyMzQifSwiaWF0IjoxNTc2NTc0NTY4fQ.bKJmelEE5XtE-zU4M8IvjLeOItTk4l4dDg1ADK2cApc6Wx-tDK1VnrMJwbBTzpFZZmeVHdXdtCZp7o8SI1slag");
+        headers.set("username", "harsh@gmail.com");
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         PostJobDetailDTO postJobDetailDTO = new PostJobDetailDTO();
@@ -48,8 +50,8 @@ public class RecruiterJobseekerRestServiceTest {
         skills.add("3");
 //        postJobDetailDTO.setSkills(skills);
         postJobDetailDTO.setJob_type("P");
-        postJobDetailDTO.setExperience(2);
-        postJobDetailDTO.setSalary_offer(4);
+        postJobDetailDTO.setExperience("2");
+        postJobDetailDTO.setSalary_offer("4");
         postJobDetailDTO.setStreet_add("710 Alfa Tower");
         postJobDetailDTO.setState("Gujarat");
         postJobDetailDTO.setCity("Surat");
@@ -67,25 +69,11 @@ public class RecruiterJobseekerRestServiceTest {
 
     }
 
-//    @Test
-//    public void testLoadSkills() {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        Map<String, Long> keyValue = new HashMap<>();
-//        keyValue.put("category_id", 4l);
-//
-//        JacksonJsonProvider jacksonJsonProvider = new JacksonJsonProvider();
-//        HttpEntity<String> entity = new HttpEntity<String>(jacksonJsonProvider.toJson(keyValue), headers);
-//        System.out.println("load skill");
-//        ResponseEntity<String> response = restTemplate.exchange(
-//                createURLWithPort("/api/jobportal/recruiter/loadskill"), HttpMethod.POST, entity, String.class);
-//        System.out.println("response==" + response);
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//    }
-
     @Test
     public void testLoadCategoryList() {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXJzaEBnbWFpbC5jb20iLCJleHAiOjE1NzY1OTI1NjgsInVzZXIiOnsidXNlcm5hbWUiOiJoYXJzaEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IkhhcnNoQDEyMzQifSwiaWF0IjoxNTc2NTc0NTY4fQ.bKJmelEE5XtE-zU4M8IvjLeOItTk4l4dDg1ADK2cApc6Wx-tDK1VnrMJwbBTzpFZZmeVHdXdtCZp7o8SI1slag");
+        headers.set("username", "harsh@gmail.com");
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         ResponseEntity<String> response = restTemplate.exchange(
                 createURLWithPort("/api/jobportal/recruiter/loadCategory"), HttpMethod.GET, entity, String.class);
@@ -94,8 +82,10 @@ public class RecruiterJobseekerRestServiceTest {
     }
 
     @Test
-    public void testFetchJobDetails(){
+    public void testFetchJobDetails() {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXJzaEBnbWFpbC5jb20iLCJleHAiOjE1NzY1OTI1NjgsInVzZXIiOnsidXNlcm5hbWUiOiJoYXJzaEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IkhhcnNoQDEyMzQifSwiaWF0IjoxNTc2NTc0NTY4fQ.bKJmelEE5XtE-zU4M8IvjLeOItTk4l4dDg1ADK2cApc6Wx-tDK1VnrMJwbBTzpFZZmeVHdXdtCZp7o8SI1slag");
+        headers.set("username", "harsh@gmail.com");
         headers.setContentType(MediaType.APPLICATION_JSON);
         Map<String, Long> keyValue = new HashMap<>();
         keyValue.put("user_id", 1L);
@@ -109,9 +99,11 @@ public class RecruiterJobseekerRestServiceTest {
     }
 
     @Test
-    public void testFetchJobDetailsOfCompany(){
+    public void testFetchJobDetailsOfCompany() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXJzaEBnbWFpbC5jb20iLCJleHAiOjE1NzY1OTI1NjgsInVzZXIiOnsidXNlcm5hbWUiOiJoYXJzaEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IkhhcnNoQDEyMzQifSwiaWF0IjoxNTc2NTc0NTY4fQ.bKJmelEE5XtE-zU4M8IvjLeOItTk4l4dDg1ADK2cApc6Wx-tDK1VnrMJwbBTzpFZZmeVHdXdtCZp7o8SI1slag");
+        headers.set("username", "harsh@gmail.com");
         Map<String, Long> keyValue = new HashMap<>();
         keyValue.put("job_id", 1L);
 
@@ -124,9 +116,11 @@ public class RecruiterJobseekerRestServiceTest {
     }
 
     @Test
-    public void testRemoveJobPostDetail(){
+    public void testRemoveJobPostDetail() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXJzaEBnbWFpbC5jb20iLCJleHAiOjE1NzY1OTI1NjgsInVzZXIiOnsidXNlcm5hbWUiOiJoYXJzaEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IkhhcnNoQDEyMzQifSwiaWF0IjoxNTc2NTc0NTY4fQ.bKJmelEE5XtE-zU4M8IvjLeOItTk4l4dDg1ADK2cApc6Wx-tDK1VnrMJwbBTzpFZZmeVHdXdtCZp7o8SI1slag");
+        headers.set("username", "harsh@gmail.com");
         Map<String, Long> keyValue = new HashMap<>();
         keyValue.put("job_id", 1L);
 
@@ -139,9 +133,11 @@ public class RecruiterJobseekerRestServiceTest {
     }
 
     @Test
-    public void testAppliedJobsList(){
+    public void testAppliedJobsList() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXJzaEBnbWFpbC5jb20iLCJleHAiOjE1NzY1OTI1NjgsInVzZXIiOnsidXNlcm5hbWUiOiJoYXJzaEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IkhhcnNoQDEyMzQifSwiaWF0IjoxNTc2NTc0NTY4fQ.bKJmelEE5XtE-zU4M8IvjLeOItTk4l4dDg1ADK2cApc6Wx-tDK1VnrMJwbBTzpFZZmeVHdXdtCZp7o8SI1slag");
+        headers.set("username", "harsh@gmail.com");
         Map<String, Long> keyValue = new HashMap<>();
         keyValue.put("job_id", 1L);
 

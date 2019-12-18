@@ -33,7 +33,8 @@ public class ChangePasswordRestServiceTest {
     public void testChangePassword() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
+        headers.set("token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXJzaEBnbWFpbC5jb20iLCJleHAiOjE1NzY1OTI1NjgsInVzZXIiOnsidXNlcm5hbWUiOiJoYXJzaEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IkhhcnNoQDEyMzQifSwiaWF0IjoxNTc2NTc0NTY4fQ.bKJmelEE5XtE-zU4M8IvjLeOItTk4l4dDg1ADK2cApc6Wx-tDK1VnrMJwbBTzpFZZmeVHdXdtCZp7o8SI1slag");
+        headers.set("username", "harsh@gmail.com");
         PasswordDTO passwordDTO = new PasswordDTO();
         passwordDTO.setNew_password("Chai@1234");
         passwordDTO.setOld_password("Chai@1234");

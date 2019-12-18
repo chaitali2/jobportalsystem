@@ -9,14 +9,20 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+//@Transactional
 public class RegistrationDAOTest {
 
     @Autowired
     RegistrationDAO registrationDAO;
-
+    @PersistenceContext
+    EntityManager entityManager;
 
     RegistrationDetail registrationDetail;
 
@@ -31,11 +37,11 @@ public class RegistrationDAOTest {
         registrationDetail.setFirstname("chaitali");
         registrationDetail.setLastname("Khachane");
         registrationDetail.setDob("11-01-1195");
-        registrationDetail.setEmailid("chaitali@gmail.com");
+        registrationDetail.setEmailid("chaitali2@gmail.com");
         registrationDetail.setMobno("8866049741");
         registrationDetail.setPassword("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=");
         registrationDetail.setUsertype("R");
-        registrationDetail.setUsername("chaitali@gmail.com");
+        registrationDetail.setUsername("chaitali2@gmail.com");
         registrationDetail.setSalt("Lpm28h5myQheIFNflzA7oaB1bFGSCn");
     }
 

@@ -36,7 +36,8 @@ public class ProfileRestServiceTest {
     public void testSaveProfileDetail() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
+        headers.set("token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXJzaEBnbWFpbC5jb20iLCJleHAiOjE1NzY1OTI1NjgsInVzZXIiOnsidXNlcm5hbWUiOiJoYXJzaEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IkhhcnNoQDEyMzQifSwiaWF0IjoxNTc2NTc0NTY4fQ.bKJmelEE5XtE-zU4M8IvjLeOItTk4l4dDg1ADK2cApc6Wx-tDK1VnrMJwbBTzpFZZmeVHdXdtCZp7o8SI1slag");
+        headers.set("username", "harsh@gmail.com");
         ProfileDTO profileDTO = new ProfileDTO();
         profileDTO.setFirstname("Chaitali");
         profileDTO.setLastname("Khachane");
@@ -44,7 +45,7 @@ public class ProfileRestServiceTest {
         profileDTO.setPassing_year("2016");
         profileDTO.setHighest_degree("BE");
         profileDTO.setExperience("2");
-//        profileDTO.setExpected_salary(1.0);
+        profileDTO.setExpected_salary("1.0");
         profileDTO.setMobno("8866049741");
         profileDTO.setStreet_add("170 IFA Tower");
         profileDTO.setState("MH");
@@ -64,6 +65,8 @@ public class ProfileRestServiceTest {
     @Test
     public void testFetchUserDetails() {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXJzaEBnbWFpbC5jb20iLCJleHAiOjE1NzY1OTI1NjgsInVzZXIiOnsidXNlcm5hbWUiOiJoYXJzaEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IkhhcnNoQDEyMzQifSwiaWF0IjoxNTc2NTc0NTY4fQ.bKJmelEE5XtE-zU4M8IvjLeOItTk4l4dDg1ADK2cApc6Wx-tDK1VnrMJwbBTzpFZZmeVHdXdtCZp7o8SI1slag");
+        headers.set("username", "harsh@gmail.com");
         headers.setContentType(MediaType.APPLICATION_JSON);
         Map<String, Long> keyValue = new HashMap<>();
         keyValue.put("user_id", 1L);

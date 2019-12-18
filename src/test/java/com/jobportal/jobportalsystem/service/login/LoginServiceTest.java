@@ -52,7 +52,6 @@ public class LoginServiceTest {
     }
 
     public void prepareData() {
-        System.out.println("prepare data");
         loginDetailDTO = new LoginDetailDTO();
         loginDetailDTO.setUsername("chaitali@gmail.com");
         loginDetailDTO.setPassword("securepassword");

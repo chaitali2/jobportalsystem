@@ -37,8 +37,7 @@ public class JwtRequestFilter implements Filter {
                         if (jwtTokenUtil.validateToken(token, loginDetailDTO)) {
                             chain.doFilter(request, response);
                         } else {
-                            LOGGER.error("error generated token is not valid");
-                            res.sendRedirect("/login");
+                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token is not valid");
                         }
                     } else {
                         LOGGER.info("No Auth token found");
@@ -54,7 +53,6 @@ public class JwtRequestFilter implements Filter {
         } catch (Exception e) {
             LOGGER.error("exception generated token is not valid" + e);
             e.printStackTrace();
-            res.sendRedirect("/authentication/login");
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
 
