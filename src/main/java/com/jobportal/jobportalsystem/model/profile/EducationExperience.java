@@ -1,7 +1,6 @@
 package com.jobportal.jobportalsystem.model.profile;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -15,19 +14,25 @@ public class EducationExperience {
     @Size(max = 10)
     private String experience;
 
-
     @Size(max = 50)
-    private String highest_degree;
+    private String highestDegree;
 
     @Size(max = 10)
     private String percentage;
 
     @Size(max = 5)
-    private String passing_year;
+    private String passingYear;
 
     @Size(max = 10)
-    private String expected_salary;
+    private String expectedSalary;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getExperience() {
         return experience;
@@ -37,12 +42,12 @@ public class EducationExperience {
         this.experience = experience;
     }
 
-    public String getHighest_degree() {
-        return highest_degree;
+    public String getHighestDegree() {
+        return highestDegree;
     }
 
-    public void setHighest_degree(String highest_degree) {
-        this.highest_degree = highest_degree;
+    public void setHighestDegree(String highestDegree) {
+        this.highestDegree = highestDegree;
     }
 
     public String getPercentage() {
@@ -53,28 +58,20 @@ public class EducationExperience {
         this.percentage = percentage;
     }
 
-    public String getPassing_year() {
-        return passing_year;
+    public String getPassingYear() {
+        return passingYear;
     }
 
-    public void setPassing_year(String passing_year) {
-        this.passing_year = passing_year;
+    public void setPassingYear(String passingYear) {
+        this.passingYear = passingYear;
     }
 
-    public String getExpected_salary() {
-        return expected_salary;
+    public String getExpectedSalary() {
+        return expectedSalary;
     }
 
-    public void setExpected_salary(String expected_salary) {
-        this.expected_salary = expected_salary;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setExpectedSalary(String expectedSalary) {
+        this.expectedSalary = expectedSalary;
     }
 
     @Override
@@ -82,10 +79,10 @@ public class EducationExperience {
         return "EducationExperience{" +
                 "id=" + id +
                 ", experience='" + experience + '\'' +
-                ", highest_degree='" + highest_degree + '\'' +
+                ", highestDegree='" + highestDegree + '\'' +
                 ", percentage='" + percentage + '\'' +
-                ", passing_year='" + passing_year + '\'' +
-                ", expected_salary=" + expected_salary +
+                ", passingYear='" + passingYear + '\'' +
+                ", expectedSalary='" + expectedSalary + '\'' +
                 '}';
     }
 }

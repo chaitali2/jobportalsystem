@@ -6,8 +6,6 @@ import com.jobportal.jobportalsystem.model.profile.Address;
 import com.jobportal.jobportalsystem.model.profile.EducationExperience;
 import com.jobportal.jobportalsystem.model.profile.Profile;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +13,11 @@ import org.springframework.stereotype.Service;
 public class ProfileService {
 
     @Autowired
-    ProfileDAO profileDAO;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProfileService.class);
+    private ProfileDAO profileDAO;
 
     public ProfileDTO fetchUserDetails(Long user_id) {
-        ProfileDTO profileDTO = new ProfileDTO();
         Profile profileDetail = profileDAO.fetchUserDetails(user_id);
-        LOGGER.info("profileDetail=" + profileDetail);
-        profileDTO = convertModeltoDTO(profileDetail);
-        LOGGER.info("profileDTO=" + profileDTO);
+        ProfileDTO profileDTO = convertModeltoDTO(profileDetail);
         return profileDTO;
     }
 
@@ -34,48 +28,58 @@ public class ProfileService {
     public ProfileDTO convertModeltoDTO(Profile profile) {
         ProfileDTO profileDTO = new ProfileDTO();
         if (profile.getRegistrationDetail() != null) {
-            profileDTO.setFirstname(profile.getRegistrationDetail().getFirstname());
-            profileDTO.setLastname(profile.getRegistrationDetail().getLastname());
-            profileDTO.setMobno(profile.getRegistrationDetail().getMobno());
+            profileDTO.setFirstName(profile.getRegistrationDetail().getFirstName());
+            profileDTO.setLastName(profile.getRegistrationDetail().getLastName());
+            profileDTO.setMobileNo(profile.getRegistrationDetail().getMobileNo());
         }
         if (profile.getAddress() != null) {
             profileDTO.setCity(profile.getAddress().getCity());
             profileDTO.setState(profile.getAddress().getState());
-            profileDTO.setStreet_add(profile.getAddress().getStreet_add());
+            profileDTO.setStreet(profile.getAddress().getStreet());
         }
         if (profile.getEducationExperience() != null) {
             profileDTO.setExperience(profile.getEducationExperience().getExperience());
-            profileDTO.setExpected_salary(profile.getEducationExperience().getExpected_salary());
-            profileDTO.setHighest_degree(profile.getEducationExperience().getHighest_degree());
-            profileDTO.setPassing_year(profile.getEducationExperience().getPassing_year());
+            profileDTO.setExpectedSalary(profile.getEducationExperience().getExpectedSalary());
+            profileDTO.setHighestDegree(profile.getEducationExperience().getHighestDegree());
+            profileDTO.setPassingYear(profile.getEducationExperience().getPassingYear());
             profileDTO.setPercentage(profile.getEducationExperience().getPercentage());
         }
-
         return profileDTO;
     }
 
     public Profile convertDTOtoModel(ProfileDTO profileDTO) {
         Profile profile = new Profile();
-        RegistrationDetail registrationDetail = new RegistrationDetail();
-        registrationDetail.setId(Long.parseLong(profileDTO.getUserID()));
-        registrationDetail.setFirstname(profileDTO.getFirstname());
-        registrationDetail.setLastname(profileDTO.getLastname());
-        registrationDetail.setMobno(profileDTO.getMobno());
-        profile.setRegistrationDetail(registrationDetail);
-        Address address = new Address();
-        address.setState(profileDTO.getState());
-        address.setCity(profileDTO.getCity());
-        address.setStreet_add(profileDTO.getStreet_add());
-        profile.setAddress(address);
-        EducationExperience educationExperience = new EducationExperience();
-        educationExperience.setExperience(profileDTO.getExperience());
-        educationExperience.setExpected_salary(profileDTO.getExpected_salary());
-        educationExperience.setHighest_degree(profileDTO.getHighest_degree());
-        educationExperience.setPassing_year(profileDTO.getPassing_year());
-        educationExperience.setPercentage(profileDTO.getPercentage());
-        profile.setEducationExperience(educationExperience);
+        profile.setRegistrationDetail(getRegistrationUserDetail(profileDTO));
+        profile.setAddress(getAddressDetail(profileDTO));
+        profile.setEducationExperience(getEducationalExperienceDetail(profileDTO));
         return profile;
     }
 
+    private RegistrationDetail getRegistrationUserDetail(ProfileDTO profileDTO) {
+        RegistrationDetail registrationDetail = new RegistrationDetail();
+        registrationDetail.setId(Long.parseLong(profileDTO.getUserID()));
+        registrationDetail.setFirstName(profileDTO.getFirstName());
+        registrationDetail.setLastName(profileDTO.getLastName());
+        registrationDetail.setMobileNo(profileDTO.getMobileNo());
+        return registrationDetail;
+    }
+
+    private Address getAddressDetail(ProfileDTO profileDTO) {
+        Address address = new Address();
+        address.setState(profileDTO.getState());
+        address.setCity(profileDTO.getCity());
+        address.setStreet(profileDTO.getStreet());
+        return address;
+    }
+
+    private EducationExperience getEducationalExperienceDetail(ProfileDTO profileDTO) {
+        EducationExperience educationExperience = new EducationExperience();
+        educationExperience.setExperience(profileDTO.getExperience());
+        educationExperience.setExpectedSalary(profileDTO.getExpectedSalary());
+        educationExperience.setHighestDegree(profileDTO.getHighestDegree());
+        educationExperience.setPassingYear(profileDTO.getPassingYear());
+        educationExperience.setPercentage(profileDTO.getPercentage());
+        return educationExperience;
+    }
 
 }

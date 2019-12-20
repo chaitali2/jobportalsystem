@@ -15,8 +15,7 @@ public class ValidationExceptionMapper implements ExceptionMapper<ValidationExce
 
     @Override
     public Response toResponse(ValidationException ex) {
-        ex.printStackTrace();
-
+        LOGGER.error("validation exception", ex);
         return Response.status(Response.Status.BAD_REQUEST)
                 .entity(prepareMessage((ValidationException) ex))
                 .type("text/plain")

@@ -1,22 +1,15 @@
-package com.jobportal.jobportalsystem.model.other;
+package com.jobportal.jobportalsystem.model.recruiterjobseeker;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "skills")
 public class Skill {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String skill_name;
-
-    public String getSkill_name() {
-        return skill_name;
-    }
-
-    public void setSkill_name(String skill_name) {
-        this.skill_name = skill_name;
-    }
+    private String skillName;
 
     public Long getId() {
         return id;
@@ -26,12 +19,19 @@ public class Skill {
         this.id = id;
     }
 
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
+    }
+
     @Override
     public String toString() {
         return "Skill{" +
                 "id=" + id +
-                ", skill_name='" + skill_name + '\'' +
+                ", skillName='" + skillName + '\'' +
                 '}';
     }
-
 }

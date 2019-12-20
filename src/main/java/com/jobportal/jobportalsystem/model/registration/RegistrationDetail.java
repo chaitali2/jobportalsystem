@@ -15,27 +15,27 @@ public class RegistrationDetail {
     @NotBlank
     @Size(max = 25)
     @Column(nullable = false)
-    private String firstname;
+    private String firstName;
 
     @NotBlank
     @Size(max = 25)
     @Column(nullable = false)
-    private String lastname;
+    private String lastName;
 
     @NotBlank
     @Size(max = 25)
     @Column(nullable = false)
-    private String dob;
+    private String dateOfBirth;
 
     @NotBlank
     @Size(max = 25)
     @Column(nullable = false, unique = true)
-    private String emailid;
+    private String emailId;
 
     @NotBlank
     @Size(max = 10)
     @Column(nullable = false)
-    private String mobno;
+    private String mobileNo;
 
     @Column(table = "user_credential")
     private String salt;
@@ -43,7 +43,7 @@ public class RegistrationDetail {
     @NotBlank
     @Size(max = 2)
     @Column(table = "user_credential",nullable = false)
-    private String usertype;
+    private String userType;
 
     @NotBlank
     @Size(max = 25)
@@ -65,44 +65,60 @@ public class RegistrationDetail {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getDob() {
-        return dob;
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDob(String dob) {
-        this.dob = dob;
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public String getEmailid() {
-        return emailid;
+    public String getEmailId() {
+        return emailId;
     }
 
-    public void setEmailid(String emailid) {
-        this.emailid = emailid;
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
-    public String getMobno() {
-        return mobno;
+    public String getMobileNo() {
+        return mobileNo;
     }
 
-    public void setMobno(String mobno) {
-        this.mobno = mobno;
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public String getUsername() {
@@ -121,33 +137,17 @@ public class RegistrationDetail {
         this.password = password;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getUsertype() {
-        return usertype;
-    }
-
-    public void setUsertype(String usertype) {
-        this.usertype = usertype;
-    }
-
     @Override
     public String toString() {
         return "RegistrationDetail{" +
                 "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", dob='" + dob + '\'' +
-                ", emailid='" + emailid + '\'' +
-                ", mobno='" + mobno + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", emailId='" + emailId + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
                 ", salt='" + salt + '\'' +
-                ", usertype='" + usertype + '\'' +
+                ", userType='" + userType + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

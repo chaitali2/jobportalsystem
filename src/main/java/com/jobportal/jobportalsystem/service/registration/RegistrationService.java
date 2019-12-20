@@ -7,82 +7,59 @@ import com.jobportal.jobportalsystem.dto.registration.RegistrationDetailDTO;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import com.jobportal.jobportalsystem.utility.AuthenticationUtil;
 import com.jobportal.jobportalsystem.utility.Utility;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.security.spec.InvalidKeySpecException;
 import java.text.ParseException;
-import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class RegistrationService {
 
     @Autowired
-    RegistrationDAO registrationDao;
-
+    private RegistrationDAO registrationDao;
     @Autowired
-    AuthenticationUtil authenticationUtil;
-
+    private AuthenticationUtil authenticationUtil;
     @Autowired
-    Utility utility;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationService.class);
+    private Utility utility;
 
     public void registerUserDetail(RegistrationDetailDTO registrationDetailDTO) throws UserExistException, AuthenticationException, ParseException {
+        checkExistUser(registrationDetailDTO);
+        validateConfirmPassword(registrationDetailDTO.getPassword(), registrationDetailDTO.getConfirmPassword());
 
-       LOGGER.info("registration model==" + registrationDetailDTO);
-
-        // FETCH DATA ON EMAIL ID
-        RegistrationDetail registrationDetail1=convertDTOtoModel(registrationDetailDTO);
-        boolean isExistEmail = registrationDao.existByEmailID(registrationDetail1.getEmailid());
-
-        if (isExistEmail) {
-            throw new UserExistException("Email ID is already exist");
-        }
-
-        Optional<String> validationMessage = validateConfirmPassword(registrationDetailDTO.getPassword(), registrationDetailDTO.getConfpassword());
-        if (validationMessage.isPresent()) {
-            throw new AuthenticationException(validationMessage.get());
-        }
         String salt = authenticationUtil.generateSalt(30);
-        String secureUserPassword = null;
-            //GENERATE SECURE PASSWORD
-            secureUserPassword = authenticationUtil.generateSecurePassword(registrationDetailDTO.getPassword(), salt);
-
-        LOGGER.info("secureUserPassword----->"+secureUserPassword);
-
+        String secureUserPassword = authenticationUtil.generateSecurePassword(registrationDetailDTO.getPassword(), salt);
         registrationDetailDTO.setPassword(secureUserPassword);
-        // SAVE THE USER DETAIL
+
         RegistrationDetail registrationDetail = convertDTOtoModel(registrationDetailDTO);
-        registrationDetail.setUsername(registrationDetail.getEmailid());
+        registrationDetail.setUsername(registrationDetail.getEmailId());
         registrationDetail.setSalt(salt);
         registrationDetail.setPassword(secureUserPassword);
-        LOGGER.info("registrationDetail----->"+registrationDetail);
         registrationDao.saveRegistrationDetail(registrationDetail);
     }
 
-    public Optional<String> validateConfirmPassword(String password, String confirmPassword) {
-        if (!password.equals(confirmPassword))
-            return Optional.of("Password and confirm password must be equal");
-        return Optional.empty();
+    private void validateConfirmPassword(String password, String confirmPassword) throws AuthenticationException {
+        if (!password.equals(confirmPassword)) {
+            throw new AuthenticationException("Password and confirm password must be equal");
+        }
     }
 
-    public RegistrationDetail convertDTOtoModel(RegistrationDetailDTO registrationDetailDTO) throws ParseException {
+    private void checkExistUser(RegistrationDetailDTO registrationDetailDTO) throws ParseException, UserExistException {
+        RegistrationDetail registrationDetail1 = convertDTOtoModel(registrationDetailDTO);
+        boolean isExistEmail = registrationDao.existByEmailID(registrationDetail1.getEmailId());
+        if (isExistEmail) {
+            throw new UserExistException("Email ID is already exist");
+        }
+    }
+
+    private RegistrationDetail convertDTOtoModel(RegistrationDetailDTO registrationDetailDTO) throws ParseException {
         RegistrationDetail registrationDetail = new RegistrationDetail();
-        registrationDetail.setFirstname(registrationDetailDTO.getFirstname());
-        registrationDetail.setLastname(registrationDetailDTO.getLastname());
-        registrationDetail.setEmailid(registrationDetailDTO.getEmailid());
-        String dobDate = utility.changedateformatter(registrationDetailDTO.getDob(), "dd-MM-yyyy");
-        registrationDetail.setDob(dobDate);
+        registrationDetail.setFirstName(registrationDetailDTO.getFirstName());
+        registrationDetail.setLastName(registrationDetailDTO.getLastName());
+        registrationDetail.setEmailId(registrationDetailDTO.getEmailId());
+        String dobDate = utility.changeDateFormatter(registrationDetailDTO.getDateOfBirth(), "dd-MM-yyyy");
+        registrationDetail.setDateOfBirth(dobDate);
         registrationDetail.setPassword(registrationDetailDTO.getPassword());
-        registrationDetail.setMobno(registrationDetailDTO.getMobno());
-        registrationDetail.setUsertype(registrationDetailDTO.getUsertype());
+        registrationDetail.setMobileNo(registrationDetailDTO.getMobileNo());
+        registrationDetail.setUserType(registrationDetailDTO.getUserType());
         return registrationDetail;
     }
 

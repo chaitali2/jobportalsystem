@@ -1,4 +1,4 @@
-package com.jobportal.jobportalsystem.model.recruiter_jobseeker;
+package com.jobportal.jobportalsystem.model.recruiterjobseeker;
 
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 

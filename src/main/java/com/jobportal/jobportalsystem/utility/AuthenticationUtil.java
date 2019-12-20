@@ -1,7 +1,6 @@
 package com.jobportal.jobportalsystem.utility;
 
 import org.springframework.stereotype.Component;
-
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
@@ -25,20 +24,12 @@ public class AuthenticationUtil {
             returnValue.append(ALPHABET.charAt(RANDOM.nextInt(ALPHABET.length())));
         }
         return new String(returnValue);
-
     }
 
     public String generateSecurePassword(String password, String salt) {
-
         byte[] securePassword = hash(password.toCharArray(), salt.getBytes());
         return Base64.getEncoder().encodeToString(securePassword);
-
     }
-
-    public byte[] encrypt(String securePassword, String accessTokenMaterial) {
-        return hash(securePassword.toCharArray(), accessTokenMaterial.getBytes());
-    }
-
 
     private byte[] hash(char[] password, byte[] salt) {
         PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);

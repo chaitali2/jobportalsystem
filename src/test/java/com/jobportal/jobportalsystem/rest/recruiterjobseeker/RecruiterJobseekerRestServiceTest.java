@@ -1,8 +1,8 @@
-package com.jobportal.jobportalsystem.rest.recruiter_jobseeker;
+package com.jobportal.jobportalsystem.rest.recruiterjobseeker;
 
 import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
-import com.jobportal.jobportalsystem.dto.recruiter_jobseeker.PostJobDetailDTO;
-import com.jobportal.jobportalsystem.service.recruiter_jobseeker.RecruiterJobSeekerService;
+import com.jobportal.jobportalsystem.dto.recruiterjobseeker.PostJobDetailDTO;
+import com.jobportal.jobportalsystem.service.recruiterjobseeker.RecruiterJobSeekerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

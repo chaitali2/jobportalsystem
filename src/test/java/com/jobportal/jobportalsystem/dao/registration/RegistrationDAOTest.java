@@ -21,6 +21,7 @@ public class RegistrationDAOTest {
 
     @Autowired
     RegistrationDAO registrationDAO;
+
     @PersistenceContext
     EntityManager entityManager;
 

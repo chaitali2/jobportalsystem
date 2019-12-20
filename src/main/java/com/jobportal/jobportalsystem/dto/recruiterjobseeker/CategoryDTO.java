@@ -1,27 +1,19 @@
-package com.jobportal.jobportalsystem.dto.other;
+package com.jobportal.jobportalsystem.dto.recruiterjobseeker;
 
 import java.util.List;
 
 public class CategoryDTO {
 
-    private Long category_id;
+    private Long categoryId;
     private String categoryName;
-    private List skills;
+    private List<String> skills;
 
-    public List getSkills() {
-        return skills;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setSkills(List skills) {
-        this.skills = skills;
-    }
-
-    public Long getCategory_id() {
-        return category_id;
-    }
-
-    public void setCategory_id(Long category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getCategoryName() {
@@ -32,10 +24,18 @@ public class CategoryDTO {
         this.categoryName = categoryName;
     }
 
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
+    }
+
     @Override
     public String toString() {
         return "CategoryDTO{" +
-                "category_id=" + category_id +
+                "categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
                 ", skills=" + skills +
                 '}';

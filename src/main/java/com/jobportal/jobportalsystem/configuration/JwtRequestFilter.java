@@ -32,7 +32,6 @@ public class JwtRequestFilter implements Filter {
                     String username = req.getHeader("username");
 
                     if (!StringUtils.isEmpty(token)) {
-                        LOGGER.info("token exist");
                         loginDetailDTO.setUsername(username);
                         if (jwtTokenUtil.validateToken(token, loginDetailDTO)) {
                             chain.doFilter(request, response);
@@ -40,11 +39,9 @@ public class JwtRequestFilter implements Filter {
                             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token is not valid");
                         }
                     } else {
-                        LOGGER.info("No Auth token found");
                         res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token not found");
                     }
                 } else {
-                    LOGGER.info("sign up");
                     chain.doFilter(request, response);
                 }
             } else {

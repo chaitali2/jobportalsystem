@@ -1,8 +1,6 @@
-package com.jobportal.jobportalsystem.model.other;
+package com.jobportal.jobportalsystem.model.recruiterjobseeker;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Entity

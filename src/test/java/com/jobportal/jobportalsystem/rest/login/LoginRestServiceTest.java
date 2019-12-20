@@ -47,7 +47,6 @@ public class LoginRestServiceTest {
 
         ResponseEntity<String> response = restTemplate.exchange(
                 createURLWithPort("/api/jobportal/login"), HttpMethod.POST, entity, String.class);
-        System.out.println("response=="+response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

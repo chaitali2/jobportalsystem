@@ -19,8 +19,7 @@ import java.security.spec.InvalidKeySpecException;
 public class LoginRestService {
 
     @Autowired
-    LoginService loginService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginRestService.class);
+    private LoginService loginService;
 
     @POST
     @Produces("application/json")

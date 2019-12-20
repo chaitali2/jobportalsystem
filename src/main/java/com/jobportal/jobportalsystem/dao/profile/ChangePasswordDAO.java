@@ -21,7 +21,8 @@ public class ChangePasswordDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChangePasswordDAO.class);
 
     public List<Object[]> fetchPasswordFromUser(String username) {
-        Query query = entityManager.createQuery("select rd.password,rd.salt from RegistrationDetail rd where rd.username=:username");
+        Query query = entityManager.createQuery("select registrationDetail.password,registrationDetail.salt" +
+                " from RegistrationDetail registrationDetail where registrationDetail.username=:username");
         query.setParameter("username", username);
         List<Object[]> passwordDetail = query.getResultList();
         return passwordDetail;
@@ -29,7 +30,9 @@ public class ChangePasswordDAO {
 
     @Transactional
     public void updatePassword(RegistrationDetail registrationDetail) {
-        TypedQuery<RegistrationDetail> query = entityManager.createQuery("select rd from RegistrationDetail rd where rd.username=:username", RegistrationDetail.class);
+        TypedQuery<RegistrationDetail> query = entityManager.createQuery("select registrationDetail " +
+                "from RegistrationDetail registrationDetail where registrationDetail.username=:username",
+                RegistrationDetail.class);
         query.setParameter("username", registrationDetail.getUsername());
         RegistrationDetail userdetail = query.getSingleResult();
         userdetail.setPassword(registrationDetail.getPassword());

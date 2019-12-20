@@ -1,7 +1,5 @@
-package com.jobportal.jobportalsystem.model.recruiter_jobseeker;
+package com.jobportal.jobportalsystem.model.recruiterjobseeker;
 
-import com.jobportal.jobportalsystem.model.other.Category;
-import com.jobportal.jobportalsystem.model.other.Skill;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 
 import javax.persistence.*;

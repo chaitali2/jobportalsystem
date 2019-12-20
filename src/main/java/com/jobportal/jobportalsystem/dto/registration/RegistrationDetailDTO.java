@@ -8,88 +8,80 @@ public class RegistrationDetailDTO {
     @NotBlank(message = "First name is compulsory")
     @Size(min = 1, max = 25, message = "The length of lastName should be between 1 to 25")
     @Pattern(regexp = "[a-z-A-Z]*", message = "First name has invalid characters")
-    private String firstname;
+    private String firstName;
 
 
     @NotNull(message = "Last name is compulsory")
     @NotBlank(message = "Last name is compulsory")
     @Size(min = 1, max = 25, message = "The length of lastName should be between 1 to 25")
     @Pattern(regexp = "[a-z-A-Z]*", message = "First name has invalid characters")
-    private String lastname;
+    private String lastName;
 
     @NotNull(message = "Please enter DOB")
     @NotBlank(message = "Please enter DOB")
-    private String dob;
+    private String dateOfBirth;
 
     @Email
-    private String emailid;
+    private String emailId;
 
     @NotNull(message = "Mobile no  is compulsory")
     @NotBlank(message = "Mobile no is compulsory")
     @Pattern(regexp = "((0/91)?[7-9][0-9]{9})", message = "Please enter valid mobile no.")
     @Size(min = 10, message = "Please enter valid mobile no.")
-    private String mobno;
+    private String mobileNo;
 
     @NotNull(message = "Please select User Type")
     @NotBlank(message = "Please select User Type")
-    private String usertype;
+    public String userType;
 
     @NotNull(message = "Please enter password")
     @NotBlank(message = "Please enter password")
-    @Pattern(regexp = "(^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$)",message = "Please enter valid password")
+    @Pattern(regexp = "(^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$)", message = "Please enter valid password")
     private String password;
 
     @NotNull(message = "Please enter confirm password")
     @NotBlank(message = "Please enter confirm password")
-    @Pattern(regexp = "(^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$)",message = "Please enter valid confirm password")
-    private String confpassword;
+    @Pattern(regexp = "(^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$)", message = "Please enter valid confirm password")
+    private String confirmPassword;
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getDob() {
-        return dob;
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDob(String dob){
-        this.dob = dob;
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public String getEmailid() {
-        return emailid;
+    public String getEmailId() {
+        return emailId;
     }
 
-    public void setEmailid(String emailid) {
-        this.emailid = emailid;
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
-    public String getMobno() {
-        return mobno;
+    public String getMobileNo() {
+        return mobileNo;
     }
 
-    public void setMobno(String mobno) {
-        this.mobno = mobno;
-    }
-
-    public String getUsertype() {
-        return usertype;
-    }
-
-    public void setUsertype(String usertype) {
-        this.usertype = usertype;
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 
     public String getPassword() {
@@ -100,25 +92,34 @@ public class RegistrationDetailDTO {
         this.password = password;
     }
 
-    public String getConfpassword() {
-        return confpassword;
+    public String getConfirmPassword() {
+        return confirmPassword;
     }
 
-    public void setConfpassword(String confpassword) {
-        this.confpassword = confpassword;
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
 
     @Override
     public String toString() {
         return "RegistrationDetailDTO{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", dob='" + dob + '\'' +
-                ", emailid='" + emailid + '\'' +
-                ", mobno='" + mobno + '\'' +
-                ", usertype='" + usertype + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", emailId='" + emailId + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", userType='" + userType + '\'' +
                 ", password='" + password + '\'' +
-                ", confpassword='" + confpassword + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
                 '}';
     }
 }

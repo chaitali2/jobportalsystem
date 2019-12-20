@@ -13,7 +13,7 @@ public class Address {
     private Long id;
 
     @Size(max = 100)
-    private String street_add;
+    private String street;
 
     @Size(max = 50)
     private String city;
@@ -45,21 +45,21 @@ public class Address {
         this.state = state;
     }
 
-    public String getStreet_add() {
-        return street_add;
+    public String getStreet() {
+        return street;
     }
 
-    public void setStreet_add(String street_add) {
-        this.street_add = street_add;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     @Override
     public String toString() {
         return "Address{" +
                 "id=" + id +
-                ", street_add=" + street_add +
-                ", city=" + city +
-                ", state=" + state +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
                 '}';
     }
 }

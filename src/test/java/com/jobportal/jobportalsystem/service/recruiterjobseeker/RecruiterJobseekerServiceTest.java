@@ -1,14 +1,14 @@
-package com.jobportal.jobportalsystem.service.recruiter_jobseeker;
+package com.jobportal.jobportalsystem.service.recruiterjobseeker;
 
-import com.jobportal.jobportalsystem.dao.recruiter_jobseeker.RecruiterJobSeekerDAO;
-import com.jobportal.jobportalsystem.dto.other.CategoryDTO;
-import com.jobportal.jobportalsystem.dto.other.SkillDTO;
-import com.jobportal.jobportalsystem.dto.recruiter_jobseeker.ApplyJobDTO;
-import com.jobportal.jobportalsystem.dto.recruiter_jobseeker.PostJobDetailDTO;
-import com.jobportal.jobportalsystem.model.other.Category;
-import com.jobportal.jobportalsystem.model.other.Skill;
-import com.jobportal.jobportalsystem.model.recruiter_jobseeker.JobLocation;
-import com.jobportal.jobportalsystem.model.recruiter_jobseeker.PostJobDetail;
+import com.jobportal.jobportalsystem.dao.recruiterjobseeker.RecruiterJobSeekerDAO;
+import com.jobportal.jobportalsystem.dto.recruiterjobseeker.CategoryDTO;
+import com.jobportal.jobportalsystem.dto.recruiterjobseeker.SkillDTO;
+import com.jobportal.jobportalsystem.dto.recruiterjobseeker.ApplyJobDTO;
+import com.jobportal.jobportalsystem.dto.recruiterjobseeker.PostJobDetailDTO;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.Category;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.Skill;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.JobLocation;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.PostJobDetail;
 import com.jobportal.jobportalsystem.utility.Utility;
 import org.junit.Before;
 import org.junit.Test;

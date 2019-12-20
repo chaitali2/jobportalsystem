@@ -24,13 +24,12 @@ import static org.junit.Assert.*;
 @Transactional
 public class LoginDetailDAOTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginDetailDAOTest.class);
-
     @PersistenceContext
     EntityManager entityManager;
 
     @Autowired
     LoginDetailDAO loginDetailDAO;
+
     RegistrationDetail registrationDetail;
 
     @Before
@@ -39,7 +38,11 @@ public class LoginDetailDAOTest {
     }
 
     public void prepareData() {
-        registrationDetail = new RegistrationDetail();
+        registerData();
+    }
+
+    void registerData() {
+        RegistrationDetail registrationDetail = new RegistrationDetail();
         registrationDetail.setFirstname("chaitali");
         registrationDetail.setLastname("Khachane");
         registrationDetail.setDob("11-01-1195");

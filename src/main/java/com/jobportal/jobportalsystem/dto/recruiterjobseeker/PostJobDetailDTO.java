@@ -1,8 +1,7 @@
-package com.jobportal.jobportalsystem.dto.recruiter_jobseeker;
+package com.jobportal.jobportalsystem.dto.recruiterjobseeker;
 
 import javax.validation.constraints.*;
 import java.util.Set;
-
 
 public class PostJobDetailDTO {
 
@@ -12,23 +11,23 @@ public class PostJobDetailDTO {
     @NotBlank(message = "Please enter company name")
     private String company;
 
-    private Long category_id;
-    private String category_name;
+    private Long categoryId;
+    private String categoryName;
 
     private Set<String> skills;
 
     @NotNull(message = "Please select type of job")
     @NotBlank(message = "Please select type of job")
-    private String job_type;
+    private String jobType;
     @Pattern(regexp = "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?", message = "please enter in digit experience")
     private String experience;
 
     @Pattern(regexp = "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?", message = "please enter in digit Salary")
-    private String salary_offer;
+    private String salaryOffer;
 
     @NotNull(message = "Please enter address")
     @NotBlank(message = "Please enter address")
-    private String street_add;
+    private String street;
 
     @NotNull(message = "Please enter city")
     @NotBlank(message = "Please enter city")
@@ -44,13 +43,13 @@ public class PostJobDetailDTO {
 
     @NotNull(message = "Please select job opening date")
     @NotBlank(message = "Please select job opening date")
-    private String job_opening_date;
+    private String jobOpeningDate;
 
     @NotNull(message = "Please enter description")
     @NotBlank(message = "Please enter description")
     private String description;
 
-    private Long posted_by_id;
+    private Long postedById;
 
     public Long getJobId() {
         return jobId;
@@ -68,20 +67,20 @@ public class PostJobDetailDTO {
         this.company = company;
     }
 
-    public Long getCategory_id() {
-        return category_id;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_id(Long category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getCategory_name() {
-        return category_name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public Set<String> getSkills() {
@@ -92,12 +91,12 @@ public class PostJobDetailDTO {
         this.skills = skills;
     }
 
-    public String getJob_type() {
-        return job_type;
+    public String getJobType() {
+        return jobType;
     }
 
-    public void setJob_type(String job_type) {
-        this.job_type = job_type;
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
     }
 
     public String getExperience() {
@@ -108,20 +107,20 @@ public class PostJobDetailDTO {
         this.experience = experience;
     }
 
-    public String getSalary_offer() {
-        return salary_offer;
+    public String getSalaryOffer() {
+        return salaryOffer;
     }
 
-    public void setSalary_offer(String salary_offer) {
-        this.salary_offer = salary_offer;
+    public void setSalaryOffer(String salaryOffer) {
+        this.salaryOffer = salaryOffer;
     }
 
-    public String getStreet_add() {
-        return street_add;
+    public String getStreet() {
+        return street;
     }
 
-    public void setStreet_add(String street_add) {
-        this.street_add = street_add;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getCity() {
@@ -148,12 +147,12 @@ public class PostJobDetailDTO {
         this.pincode = pincode;
     }
 
-    public String getJob_opening_date() {
-        return job_opening_date;
+    public String getJobOpeningDate() {
+        return jobOpeningDate;
     }
 
-    public void setJob_opening_date(String job_opening_date) {
-        this.job_opening_date = job_opening_date;
+    public void setJobOpeningDate(String jobOpeningDate) {
+        this.jobOpeningDate = jobOpeningDate;
     }
 
     public String getDescription() {
@@ -164,32 +163,33 @@ public class PostJobDetailDTO {
         this.description = description;
     }
 
-    public Long getPosted_by_id() {
-        return posted_by_id;
+    public Long getPostedById() {
+        return postedById;
     }
 
-    public void setPosted_by_id(Long posted_by_id) {
-        this.posted_by_id = posted_by_id;
+    public void setPostedById(Long postedById) {
+        this.postedById = postedById;
     }
 
     @Override
     public String toString() {
         return "PostJobDetailDTO{" +
-                "id=" + jobId +
+                "jobId=" + jobId +
                 ", company='" + company + '\'' +
-                ", category_id=" + category_id +
-                ", category_name='" + category_name + '\'' +
+                ", categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
                 ", skills=" + skills +
-                ", job_type='" + job_type + '\'' +
-                ", experience=" + experience +
-                ", salary_offer=" + salary_offer +
-                ", street_add='" + street_add + '\'' +
+                ", jobType='" + jobType + '\'' +
+                ", experience='" + experience + '\'' +
+                ", salaryOffer='" + salaryOffer + '\'' +
+                ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", pincode='" + pincode + '\'' +
-                ", job_opening_date='" + job_opening_date + '\'' +
+                ", jobOpeningDate='" + jobOpeningDate + '\'' +
                 ", description='" + description + '\'' +
-                ", posted_by_id=" + posted_by_id +
+                ", postedById=" + postedById +
                 '}';
     }
 }
+

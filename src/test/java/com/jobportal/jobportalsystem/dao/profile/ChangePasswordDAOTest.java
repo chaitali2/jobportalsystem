@@ -27,14 +27,14 @@ public class ChangePasswordDAOTest {
     @PersistenceContext
     EntityManager entityManager;
 
+    RegistrationDetail registrationDetail;
+
     @Before
     public void setUp() {
         prepareData();
     }
 
-    RegistrationDetail registrationDetail;
-
-    public void prepareData() {
+    void registerData() {
         registrationDetail = new RegistrationDetail();
         registrationDetail.setFirstname("chaitali");
         registrationDetail.setLastname("Khachane");
@@ -46,6 +46,10 @@ public class ChangePasswordDAOTest {
         registrationDetail.setUsername("xyz@gmail.com");
         registrationDetail.setSalt("Lpm28h5myQheIFNflzA7oaB1bFGSCn");
         entityManager.persist(registrationDetail);
+    }
+
+    public void prepareData() {
+        registerData();
         registrationDetail = new RegistrationDetail();
         registrationDetail.setUsername("xyz@gmail.com");
         registrationDetail.setPassword("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=");

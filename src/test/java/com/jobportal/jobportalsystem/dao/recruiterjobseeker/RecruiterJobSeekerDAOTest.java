@@ -1,10 +1,10 @@
-package com.jobportal.jobportalsystem.dao.recruiter_jobseeker;
+package com.jobportal.jobportalsystem.dao.recruiterjobseeker;
 
-import com.jobportal.jobportalsystem.model.other.Category;
-import com.jobportal.jobportalsystem.model.other.Skill;
-import com.jobportal.jobportalsystem.model.recruiter_jobseeker.ApplyJOB;
-import com.jobportal.jobportalsystem.model.recruiter_jobseeker.JobLocation;
-import com.jobportal.jobportalsystem.model.recruiter_jobseeker.PostJobDetail;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.Category;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.Skill;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.ApplyJOB;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.JobLocation;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.PostJobDetail;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.constraints.Null;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,7 +32,6 @@ public class RecruiterJobSeekerDAOTest {
     @Autowired
     RecruiterJobSeekerDAO recruiterJobSeekerDAO;
 
-
     PostJobDetail postJobDetail;
 
     @Before
@@ -43,6 +41,9 @@ public class RecruiterJobSeekerDAOTest {
 
     public void prepareData() {
         postJobDetail = new PostJobDetail();
+        RegistrationDetail registrationDetail=new RegistrationDetail();
+        registrationDetail.setId(1l);
+        postJobDetail.setRegistrationDetail(registrationDetail);
         postJobDetail.setCompany("Infosys");
         Category category = new Category();
         category.setId(4l);

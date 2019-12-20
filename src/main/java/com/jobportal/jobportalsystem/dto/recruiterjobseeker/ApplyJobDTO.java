@@ -1,29 +1,29 @@
-package com.jobportal.jobportalsystem.dto.recruiter_jobseeker;
+package com.jobportal.jobportalsystem.dto.recruiterjobseeker;
 
 
 public class ApplyJobDTO {
 
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String company;
     private String description;
     private String applyDate;
     private String fileName;
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getCompany() {
@@ -61,8 +61,8 @@ public class ApplyJobDTO {
     @Override
     public String toString() {
         return "ApplyJobDTO{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", company='" + company + '\'' +
                 ", description='" + description + '\'' +
                 ", applyDate='" + applyDate + '\'' +

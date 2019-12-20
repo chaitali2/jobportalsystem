@@ -1,11 +1,11 @@
-package com.jobportal.jobportalsystem.rest.recruiter_jobseeker;
+package com.jobportal.jobportalsystem.rest.recruiterjobseeker;
 
 import com.jobportal.jobportalsystem.customizedException.UserExistException;
-import com.jobportal.jobportalsystem.dto.other.CategoryDTO;
-import com.jobportal.jobportalsystem.dto.other.SkillDTO;
-import com.jobportal.jobportalsystem.dto.recruiter_jobseeker.ApplyJobDTO;
-import com.jobportal.jobportalsystem.dto.recruiter_jobseeker.PostJobDetailDTO;
-import com.jobportal.jobportalsystem.service.recruiter_jobseeker.RecruiterJobSeekerService;
+import com.jobportal.jobportalsystem.dto.recruiterjobseeker.CategoryDTO;
+import com.jobportal.jobportalsystem.dto.recruiterjobseeker.SkillDTO;
+import com.jobportal.jobportalsystem.dto.recruiterjobseeker.ApplyJobDTO;
+import com.jobportal.jobportalsystem.dto.recruiterjobseeker.PostJobDetailDTO;
+import com.jobportal.jobportalsystem.service.recruiterjobseeker.RecruiterJobSeekerService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.slf4j.Logger;
@@ -29,23 +29,22 @@ public class RecruiterJobSeekerRestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecruiterJobSeekerRestService.class);
 
     @Autowired
-    RecruiterJobSeekerService recruiterService;
+    private RecruiterJobSeekerService recruiterService;
 
 // ************************************ SAVE POST JOB DETAIL *******************************************//
     @POST
     @Produces("application/json")
-    @Path("recruiter/addjob_posts")
+    @Path("recruiter/add-job-posts")
     public ResponseEntity postJobDetail(@Valid PostJobDetailDTO postJobDetailDTO) throws ParseException {
         recruiterService.postJobDetail(postJobDetailDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Success fully post data");
-
     }
 
     // ************************************ CATEGORY FOR WHICH POST APPLY *******************************************//
 
     @GET
     @Produces("application/json")
-    @Path("recruiter/loadCategory")
+    @Path("recruiter/load-category")
     public ResponseEntity loadCategoryList() {
         List<CategoryDTO> categoryDTOList = recruiterService.loadCategoryList();
         return ResponseEntity.status(HttpStatus.OK).body(categoryDTOList);
@@ -54,10 +53,9 @@ public class RecruiterJobSeekerRestService {
     // ************************************ SKILLS WHICH IS REQUIRED  *******************************************//
     @POST
     @Produces("application/json")
-    @Path("recruiter/loadskill")
+    @Path("recruiter/load-skill")
     public ResponseEntity loadSkills(Map<String, Long> keyvalue) {
         List<SkillDTO> skillDTOList = recruiterService.loadSkills(keyvalue.get("category_id"));
-        LOGGER.info("skillDTOList=" + skillDTOList);
         return ResponseEntity.status(HttpStatus.OK).body(skillDTOList);
     }
 
@@ -65,11 +63,10 @@ public class RecruiterJobSeekerRestService {
     // ************************************ JOBS LIST FOR RECRUITER AND JOB SEEKER *******************************************//
     @POST
     @Produces("application/json")
-    @Path("jobDetails")
-    public ResponseEntity fetchJobDetails(Map<String, Long> keyValue) throws ParseException {
+    @Path("jobdetails")
+    public ResponseEntity fetchJobDetails(Map<String, Long> keyValue){
         List<PostJobDetailDTO> postJobDetailDTOS = recruiterService.fetchJobDetails(keyValue);
         return ResponseEntity.status(HttpStatus.OK).body(postJobDetailDTOS);
-
     }
 
     // ************************************ FETCH SINGLE JOB DETAIL *******************************************//
@@ -77,14 +74,14 @@ public class RecruiterJobSeekerRestService {
     @Produces("application/json")
     @Path("jobseeker/jobdetailofcompany")
     public ResponseEntity fetchJobDetailsOfCompany(Map<String, Long> keyvalue) throws ParseException {
-        PostJobDetailDTO postJobDetailDTOS = recruiterService.fetchJobDetailsOfCompany(keyvalue.get("job_id"));
+        PostJobDetailDTO postJobDetailDTOS = recruiterService.fetchJobDetailsOfCompany(keyvalue.get("jobId"));
         return ResponseEntity.status(HttpStatus.OK).body(postJobDetailDTOS);
     }
 
     // ************************************ DELETE JOB DETAIL *******************************************//
     @POST
     @Produces("application/json")
-    @Path("recruiter/removejobpost")
+    @Path("recruiter/remove-jobpost")
     public ResponseEntity removeJobPostDetail(Map<String, Long> keyvalue) {
         recruiterService.removeJobPostDetail(keyvalue.get("job_id"));
         return ResponseEntity.status(HttpStatus.OK).body("Job Deleted!!");
@@ -96,12 +93,12 @@ public class RecruiterJobSeekerRestService {
     @POST
     @Produces("application/json")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Path("jobseeker/applyforjob")
+    @Path("jobseeker/applyfor-job")
     public ResponseEntity applyForJOB(@FormDataParam("file") InputStream fileInputStream,
                                       @FormDataParam("file") FormDataContentDisposition fileMetaData,
-                                      @FormDataParam("job_id") String job_id,
-                                      @FormDataParam("user_id") String user_id) throws UserExistException {
-        recruiterService.applyForJOB(fileInputStream, fileMetaData, job_id, user_id);
+                                      @FormDataParam("job_id") String jobId,
+                                      @FormDataParam("user_id") String userId) throws UserExistException {
+        recruiterService.applyForJOB(fileInputStream, fileMetaData, jobId, userId);
         return ResponseEntity.status(HttpStatus.OK).body("success");
 
     }
@@ -109,7 +106,7 @@ public class RecruiterJobSeekerRestService {
     // ************************************ JOB LIST WHICH IS APPLIED BY USER *******************************************//
     @POST
     @Produces("application/json")
-    @Path("recruiter/viewJobsApplied")
+    @Path("recruiter/view-jobs-applied")
     public ResponseEntity appliedJobsList(Map<String, Long> keyvalue) {
 
         List<ApplyJobDTO> applyJobDTOList = recruiterService.appliedJobsList(keyvalue.get("job_id"));
@@ -123,6 +120,16 @@ public class RecruiterJobSeekerRestService {
     @Produces(MediaType.MULTIPART_FORM_DATA)
     public Response downloadPdfFile(Map<String, String> keyValue) {
         return recruiterService.downloadPdf(keyValue.get("filename"));
+    }
+
+
+
+    @POST
+    @Path("categorys-skill")
+    @Produces("application/json")
+    public ResponseEntity inserSkillsWiseCategory(CategoryDTO categoryDTO) {
+        recruiterService.inserSkillsWiseCategory(categoryDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("Success fully insert category!");
     }
 
 }

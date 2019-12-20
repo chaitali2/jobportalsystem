@@ -8,70 +8,36 @@ public class ProfileDTO {
     @NotBlank(message = "First name is compulsory")
     @Size(min = 1, max = 25, message = "The length of lastName should be between 1 to 25")
     @Pattern(regexp = "[a-z-A-Z]*", message = "First name has invalid characters")
-    private String firstname;
+    private String firstName;
 
     private String userID;
-
     @NotNull(message = "Last name is compulsory")
     @NotBlank(message = "Last name is compulsory")
     @Size(min = 1, max = 25, message = "The length of lastName should be between 1 to 25")
     @Pattern(regexp = "[a-z-A-Z]*", message = "First name has invalid characters")
-    private String lastname;
+    private String lastName;
 
     @NotNull(message = "Mobile no  is compulsory")
     @NotBlank(message = "Mobile no is compulsory")
     @Pattern(regexp = "((0/91)?[7-9][0-9]{9})", message = "Please enter valid mobile no.")
     @Size(min = 10, message = "Please enter valid mobile no.")
-    private String mobno;
+    private String mobileNo;
 
-    private String street_add;
+    private String street;
     private String city;
     private String state;
-
     private String experience;
-    private String highest_degree;
+    private String highestDegree;
     private String percentage;
-    private String passing_year;
-    private String expected_salary;
+    private String passingYear;
+    private String expectedSalary;
 
-    public String getHighest_degree() {
-        return highest_degree;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setHighest_degree(String highest_degree) {
-        this.highest_degree = highest_degree;
-    }
-
-    public String getPercentage() {
-        return percentage;
-    }
-
-    public void setPercentage(String percentage) {
-        this.percentage = percentage;
-    }
-
-    public String getPassing_year() {
-        return passing_year;
-    }
-
-    public void setPassing_year(String passing_year) {
-        this.passing_year = passing_year;
-    }
-
-    public String getExpected_salary() {
-        return expected_salary;
-    }
-
-    public void setExpected_salary(String expected_salary) {
-        this.expected_salary = expected_salary;
-    }
-
-    public String getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String experience) {
-        this.experience = experience;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getUserID() {
@@ -82,36 +48,28 @@ public class ProfileDTO {
         this.userID = userID;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getMobileNo() {
+        return mobileNo;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 
-    public String getMobno() {
-        return mobno;
+    public String getStreet() {
+        return street;
     }
 
-    public void setMobno(String mobno) {
-        this.mobno = mobno;
-    }
-
-    public String getStreet_add() {
-        return street_add;
-    }
-
-    public void setStreet_add(String street_add) {
-        this.street_add = street_add;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getCity() {
@@ -130,15 +88,61 @@ public class ProfileDTO {
         this.state = state;
     }
 
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public String getHighestDegree() {
+        return highestDegree;
+    }
+
+    public void setHighestDegree(String highestDegree) {
+        this.highestDegree = highestDegree;
+    }
+
+    public String getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(String percentage) {
+        this.percentage = percentage;
+    }
+
+    public String getPassingYear() {
+        return passingYear;
+    }
+
+    public void setPassingYear(String passingYear) {
+        this.passingYear = passingYear;
+    }
+
+    public String getExpectedSalary() {
+        return expectedSalary;
+    }
+
+    public void setExpectedSalary(String expectedSalary) {
+        this.expectedSalary = expectedSalary;
+    }
+
     @Override
     public String toString() {
         return "ProfileDTO{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", mobno='" + mobno + '\'' +
-                ", street_add='" + street_add + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", userID='" + userID + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
+                ", experience='" + experience + '\'' +
+                ", highestDegree='" + highestDegree + '\'' +
+                ", percentage='" + percentage + '\'' +
+                ", passingYear='" + passingYear + '\'' +
+                ", expectedSalary='" + expectedSalary + '\'' +
                 '}';
     }
 }

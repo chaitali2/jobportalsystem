@@ -12,7 +12,6 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     @OneToOne
     @JoinColumn(name = "user_id")
     RegistrationDetail registrationDetail;
@@ -24,7 +23,6 @@ public class Profile {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "edu_exp_id")
     EducationExperience educationExperience;
-
 
     public Long getId() {
         return id;
@@ -57,7 +55,6 @@ public class Profile {
     public void setAddress(Address address) {
         this.address = address;
     }
-
 
     @Override
     public String toString() {
