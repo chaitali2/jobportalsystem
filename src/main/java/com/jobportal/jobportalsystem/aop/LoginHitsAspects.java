@@ -20,7 +20,7 @@ public class LoginHitsAspects {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginHitsAspects.class);
 
-    @After("execution(* com.jobportal.jobportalsystem.service.login..*(..)) && args(loginDetailDTO,..)")
+    @After("execution(* com.jobportal.jobportalsystem.service.login.LoginService.authenticate(..)) && args(loginDetailDTO,..)")
     public void afterAdvice(LoginDetailDTO loginDetailDTO) {
         Date logintime = new Date();
         LOGGER.info("USER NAME"+loginDetailDTO.getUsername());
