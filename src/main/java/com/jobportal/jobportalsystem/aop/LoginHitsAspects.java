@@ -23,7 +23,7 @@ public class LoginHitsAspects {
     @After("execution(* com.jobportal.jobportalsystem.service.login..*(..)) && args(loginDetailDTO,..)")
     public void afterAdvice(LoginDetailDTO loginDetailDTO) {
         Date logintime = new Date();
-        LOGGER.info("USER NAME", loginDetailDTO.getUsername());
-        LOGGER.info("LOGIN TIME", logintime);
+        LOGGER.info("USER NAME"+loginDetailDTO.getUsername());
+        LOGGER.info("LOGIN TIME"+logintime);
     }
 }
