@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -25,31 +26,26 @@ import static org.junit.Assert.*;
 public class LoginDetailDAOTest {
 
     @PersistenceContext
-    EntityManager entityManager;
-
+    private EntityManager entityManager;
     @Autowired
-    LoginDetailDAO loginDetailDAO;
-
-    RegistrationDetail registrationDetail;
+    private LoginDetailDAO loginDetailDAO;
+    private RegistrationDetail registrationDetail;
 
     @Before
     public void setUp() {
-        prepareData();
+        registerPrepareData();
     }
 
-    public void prepareData() {
-        registerData();
-    }
 
-    void registerData() {
-        RegistrationDetail registrationDetail = new RegistrationDetail();
-        registrationDetail.setFirstname("chaitali");
-        registrationDetail.setLastname("Khachane");
-        registrationDetail.setDob("11-01-1195");
-        registrationDetail.setEmailid("xyz@gmail.com");
-        registrationDetail.setMobno("8866049741");
+    private void registerPrepareData() {
+        registrationDetail = new RegistrationDetail();
+        registrationDetail.setFirstName("chaitali");
+        registrationDetail.setLastName("Khachane");
+        registrationDetail.setDateOfBirth(new Date());
+        registrationDetail.setEmailId("xyz@gmail.com");
+        registrationDetail.setMobileNo("8866049741");
         registrationDetail.setPassword("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=");
-        registrationDetail.setUsertype("R");
+        registrationDetail.setUserType(RegistrationDetail.user.R);
         registrationDetail.setUsername("xyz@gmail.com");
         registrationDetail.setSalt("Lpm28h5myQheIFNflzA7oaB1bFGSCn");
         entityManager.persist(registrationDetail);
@@ -58,7 +54,15 @@ public class LoginDetailDAOTest {
     @Test
     public void testGetUserProfile() {
         Optional<RegistrationDetail> userprofile = loginDetailDAO.getUserProfile(registrationDetail.getUsername());
-        assertEquals("checking find email id", "xyz@gmail.com", userprofile.get().getUsername());
+        assertTrue(userprofile.isPresent());
+        assertEquals("xyz@gmail.com", userprofile.get().getUsername());
+        assertEquals("chaitali", userprofile.get().getFirstName());
+        assertEquals( "Khachane", userprofile.get().getLastName());
+        assertEquals("xyz@gmail.com", userprofile.get().getEmailId());
+        assertEquals( "8866049741", userprofile.get().getMobileNo());
+        assertEquals( "R", userprofile.get().getUserType().toString());
+        assertEquals( "Lpm28h5myQheIFNflzA7oaB1bFGSCn", userprofile.get().getSalt());
+        assertEquals( "+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=", userprofile.get().getPassword());
     }
 
     @Test

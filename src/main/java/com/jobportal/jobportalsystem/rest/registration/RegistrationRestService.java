@@ -28,5 +28,4 @@ public class RegistrationRestService {
         registrationService.registerUserDetail(registrationDetailDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Success fully registered!");
     }
-
 }

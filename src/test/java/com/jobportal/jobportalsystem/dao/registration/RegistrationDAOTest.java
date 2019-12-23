@@ -10,51 +10,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@Transactional
+@Transactional
 public class RegistrationDAOTest {
 
     @Autowired
-    RegistrationDAO registrationDAO;
-
-    @PersistenceContext
-    EntityManager entityManager;
-
-    RegistrationDetail registrationDetail;
+    private RegistrationDAO registrationDAO;
+    private RegistrationDetail registrationDetail;
 
     @Before
     public void setUp() {
         prepareData();
     }
 
-
-    public void prepareData() {
+    private void prepareData() {
         registrationDetail = new RegistrationDetail();
-        registrationDetail.setFirstname("chaitali");
-        registrationDetail.setLastname("Khachane");
-        registrationDetail.setDob("11-01-1195");
-        registrationDetail.setEmailid("chaitali2@gmail.com");
-        registrationDetail.setMobno("8866049741");
+        registrationDetail.setFirstName("chaitali");
+        registrationDetail.setLastName("Khachane");
+        registrationDetail.setDateOfBirth(new Date());
+        registrationDetail.setEmailId("xyzyy@gmail.com");
+        registrationDetail.setMobileNo("8866049741");
         registrationDetail.setPassword("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=");
-        registrationDetail.setUsertype("R");
-        registrationDetail.setUsername("chaitali2@gmail.com");
+        registrationDetail.setUserType(RegistrationDetail.user.R);
+        registrationDetail.setUsername("xyzyy@gmail.com");
         registrationDetail.setSalt("Lpm28h5myQheIFNflzA7oaB1bFGSCn");
     }
 
     @Test
-    @Order(2)
     public void testExistByEmailID() {
-        boolean isExist = registrationDAO.existByEmailID(registrationDetail.getEmailid());
+        testSaveRegistrationDetail();
+        boolean isExist = registrationDAO.existByEmailID(registrationDetail.getEmailId());
         Assert.assertTrue(isExist);
     }
 
     @Test
-    @Order(1)
     public void testSaveRegistrationDetail() {
         registrationDAO.saveRegistrationDetail(registrationDetail);
     }

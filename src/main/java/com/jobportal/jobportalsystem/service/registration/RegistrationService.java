@@ -10,6 +10,7 @@ import com.jobportal.jobportalsystem.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.ParseException;
+import java.util.Date;
 
 @Service
 public class RegistrationService {
@@ -24,11 +25,9 @@ public class RegistrationService {
     public void registerUserDetail(RegistrationDetailDTO registrationDetailDTO) throws UserExistException, AuthenticationException, ParseException {
         checkExistUser(registrationDetailDTO);
         validateConfirmPassword(registrationDetailDTO.getPassword(), registrationDetailDTO.getConfirmPassword());
-
         String salt = authenticationUtil.generateSalt(30);
         String secureUserPassword = authenticationUtil.generateSecurePassword(registrationDetailDTO.getPassword(), salt);
         registrationDetailDTO.setPassword(secureUserPassword);
-
         RegistrationDetail registrationDetail = convertDTOtoModel(registrationDetailDTO);
         registrationDetail.setUsername(registrationDetail.getEmailId());
         registrationDetail.setSalt(salt);
@@ -55,11 +54,12 @@ public class RegistrationService {
         registrationDetail.setFirstName(registrationDetailDTO.getFirstName());
         registrationDetail.setLastName(registrationDetailDTO.getLastName());
         registrationDetail.setEmailId(registrationDetailDTO.getEmailId());
-        String dobDate = utility.changeDateFormatter(registrationDetailDTO.getDateOfBirth(), "dd-MM-yyyy");
+        Date dobDate = utility.changeDateFormatter(registrationDetailDTO.getDateOfBirth());
         registrationDetail.setDateOfBirth(dobDate);
         registrationDetail.setPassword(registrationDetailDTO.getPassword());
         registrationDetail.setMobileNo(registrationDetailDTO.getMobileNo());
-        registrationDetail.setUserType(registrationDetailDTO.getUserType());
+        registrationDetail.setUserType(registrationDetailDTO.getUserType().equals("R")?
+                RegistrationDetail.user.R:RegistrationDetail.user.J);
         return registrationDetail;
     }
 

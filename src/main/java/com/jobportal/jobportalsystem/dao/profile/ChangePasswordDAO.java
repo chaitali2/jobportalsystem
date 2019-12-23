@@ -1,12 +1,8 @@
 package com.jobportal.jobportalsystem.dao.profile;
 
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
-import com.jobportal.jobportalsystem.service.profile.ChangePasswordService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -17,8 +13,7 @@ import java.util.List;
 public class ChangePasswordDAO {
 
     @PersistenceContext
-    EntityManager entityManager;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChangePasswordDAO.class);
+    private EntityManager entityManager;
 
     public List<Object[]> fetchPasswordFromUser(String username) {
         Query query = entityManager.createQuery("select registrationDetail.password,registrationDetail.salt" +

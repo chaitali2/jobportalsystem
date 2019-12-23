@@ -48,8 +48,7 @@ public class JwtRequestFilter implements Filter {
                 chain.doFilter(request, response);
             }
         } catch (Exception e) {
-            LOGGER.error("exception generated token is not valid" + e);
-            e.printStackTrace();
+            LOGGER.error("exception generated token is not valid",e);
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
 

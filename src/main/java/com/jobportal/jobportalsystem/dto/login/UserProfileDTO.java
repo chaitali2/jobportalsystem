@@ -1,12 +1,12 @@
-package com.jobportal.jobportalsystem.dto;
+package com.jobportal.jobportalsystem.dto.login;
 
 public class UserProfileDTO {
     private String id;
     private String username;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String password;
-    private String usertype;
+    private String userType;
     private String salt;
     private String token;
 
@@ -26,6 +26,22 @@ public class UserProfileDTO {
         this.username = username;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -34,12 +50,12 @@ public class UserProfileDTO {
         this.password = password;
     }
 
-    public String getUsertype() {
-        return usertype;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setUsertype(String usertype) {
-        this.usertype = usertype;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public String getSalt() {
@@ -50,7 +66,6 @@ public class UserProfileDTO {
         this.salt = salt;
     }
 
-
     public String getToken() {
         return token;
     }
@@ -59,29 +74,15 @@ public class UserProfileDTO {
         this.token = token;
     }
 
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
     @Override
     public String toString() {
         return "UserProfileDTO{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
-                ", usertype='" + usertype + '\'' +
+                ", userType='" + userType + '\'' +
                 ", salt='" + salt + '\'' +
                 ", token='" + token + '\'' +
                 '}';

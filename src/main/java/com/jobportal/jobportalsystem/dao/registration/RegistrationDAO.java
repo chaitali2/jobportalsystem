@@ -1,15 +1,11 @@
 package com.jobportal.jobportalsystem.dao.registration;
 
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
 
 @Repository
 public class RegistrationDAO {
@@ -17,22 +13,17 @@ public class RegistrationDAO {
     @PersistenceContext
     EntityManager entityManager;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationDAO.class);
-
     public Boolean existByEmailID(String emailID) {
-        Query query = entityManager.createQuery("Select registrationDetail.emailid " +
+        Query query = entityManager.createQuery("Select registrationDetail.emailId " +
                                                     "from RegistrationDetail registrationDetail " +
-                                                    "where registrationDetail.emailid=:emailid");
+                                                    "where registrationDetail.emailId=:emailId");
 
-        query.setParameter("emailid", emailID);
+        query.setParameter("emailId", emailID);
         return query.getResultList().size() == 1;
     }
-
 
     @Transactional
     public void saveRegistrationDetail(RegistrationDetail registrationDetail) {
         entityManager.persist(registrationDetail);
     }
-
-
 }

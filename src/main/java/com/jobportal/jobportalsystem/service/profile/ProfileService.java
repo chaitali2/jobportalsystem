@@ -17,6 +17,10 @@ public class ProfileService {
 
     public ProfileDTO fetchUserDetails(Long user_id) {
         Profile profileDetail = profileDAO.fetchUserDetails(user_id);
+        if (profileDetail == null) {
+            profileDetail=new Profile();
+            profileDetail.setRegistrationDetail(profileDAO.findRegistrationDetail(user_id));
+        }
         ProfileDTO profileDTO = convertModeltoDTO(profileDetail);
         return profileDTO;
     }
@@ -81,5 +85,4 @@ public class ProfileService {
         educationExperience.setPercentage(profileDTO.getPercentage());
         return educationExperience;
     }
-
 }

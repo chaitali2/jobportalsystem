@@ -2,7 +2,7 @@ package com.jobportal.jobportalsystem.dao.recruiterjobseeker;
 
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.Category;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.Skill;
-import com.jobportal.jobportalsystem.model.recruiterjobseeker.ApplyJOB;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.ApplyJob;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.PostJobDetail;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,150 +29,154 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class RecruiterJobSeekerDAOTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecruiterJobSeekerDAOTest.class);
-
+    @PersistenceContext
+    private EntityManager entityManager;
     @Autowired
-    RecruiterJobSeekerDAO recruiterJobSeekerDAO;
-
-    PostJobDetail postJobDetail;
+    private RecruiterJobSeekerDAO recruiterJobSeekerDAO;
+    private PostJobDetail postJobDetail;
+    private RegistrationDetail registrationDetail;
 
     @Before
     public void setUp() {
         prepareData();
     }
 
+    private void registerPrepareData() {
+        registrationDetail = new RegistrationDetail();
+        registrationDetail.setFirstName("chaitali");
+        registrationDetail.setLastName("Khachane");
+        registrationDetail.setDateOfBirth(new Date());
+        registrationDetail.setEmailId("xyz@gmail.com");
+        registrationDetail.setMobileNo("8866049741");
+        registrationDetail.setPassword("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=");
+        registrationDetail.setUserType(RegistrationDetail.user.R);
+        registrationDetail.setUsername("xyz@gmail.com");
+        registrationDetail.setSalt("Lpm28h5myQheIFNflzA7oaB1bFGSCn");
+        entityManager.persist(registrationDetail);
+    }
+
     public void prepareData() {
+        registerPrepareData();
         postJobDetail = new PostJobDetail();
-        RegistrationDetail registrationDetail=new RegistrationDetail();
-        registrationDetail.setId(1l);
+        RegistrationDetail registrationDetail = new RegistrationDetail();
+        Query query = entityManager.createQuery("Select d.id " +
+                "from RegistrationDetail d " +
+                "where d.emailId=:emailid");
+
+        query.setParameter("emailid", "xyz@gmail.com");
+        Long userId = Long.parseLong(query.getSingleResult().toString());
+
+        registrationDetail.setId(userId);
         postJobDetail.setRegistrationDetail(registrationDetail);
         postJobDetail.setCompany("Infosys");
         Category category = new Category();
-        category.setId(4l);
-        postJobDetail.setCategory(category);
+        category.setCategoryName("Tester");
+        Skill skill = new Skill();
+        skill.setSkillName("Manual");
+        skill.setSkillName("Selinium");
         Set<Skill> skillSet = new HashSet<>();
-        Skill skill1 = new Skill();
-        skill1.setId(2l);
-        Skill skill2 = new Skill();
-        skill2.setId(3l);
-        skillSet.add(skill1);
-        skillSet.add(skill2);
+        skillSet.add(skill);
+        category.setSkills(skillSet);
+        entityManager.persist(category);
+        postJobDetail.setCategory(category);
         postJobDetail.setSkillSet(skillSet);
-        postJobDetail.setExperience(2l);
-        postJobDetail.setJob_type("P");
-        postJobDetail.setSalary_offer(4);
+        postJobDetail.setExperience(2.0);
+        postJobDetail.setJobType(PostJobDetail.Job.P);
+        postJobDetail.setSalaryOffer(4.0);
         postJobDetail.setDescription("Front end developer");
-        postJobDetail.setJob_opening_date("09-12-2019");
+        postJobDetail.setJobOpeningDate(new Date());
         JobLocation jobLocation = new JobLocation();
         jobLocation.setState("MH");
-        jobLocation.setStreet_add("Business bay,Yerwada");
+        jobLocation.setStreet("Business bay,Yerwada");
         jobLocation.setCity("Pune");
         jobLocation.setPincode("396230");
         postJobDetail.setJobLocation(jobLocation);
     }
 
+
     @Test
-    @Order(1)
     public void testSaveJobPostDetail() {
-        LOGGER.info("postJobDetail=" + postJobDetail);
         recruiterJobSeekerDAO.saveJobPostDetail(postJobDetail);
+        Map<String, Long> keyValue = new HashMap<>();
+        keyValue.put("userId", postJobDetail.getRegistrationDetail().getId());
+        List<PostJobDetail> postJobDetails = recruiterJobSeekerDAO.fetchJobDetailsForRecruiter(keyValue);
+        assertNotNull(postJobDetails);
+        assertFalse(postJobDetails.isEmpty());
+        assertEquals(1, postJobDetails.size());
+        assertEquals(keyValue.get("userId"), postJobDetails.get(0).getRegistrationDetail().getId());
+        assertEquals("Infosys", postJobDetails.get(0).getCompany());
+        assertEquals("Tester", postJobDetails.get(0).getCategory().getCategoryName());
+        assertEquals("P", postJobDetails.get(0).getJobType().toString());
+        assertEquals(2.0, postJobDetails.get(0).getExperience(), 0.0);
+        assertEquals("Front end developer", postJobDetails.get(0).getDescription());
+        assertEquals(4.0, postJobDetails.get(0).getSalaryOffer(), 0.0);
+        assertEquals("Pune", postJobDetails.get(0).getJobLocation().getCity());
+        assertEquals("MH", postJobDetails.get(0).getJobLocation().getState());
+        assertEquals("Business bay,Yerwada", postJobDetails.get(0).getJobLocation().getStreet());
     }
 
     @Test
-    @Order(2)
     public void testfetchJobDetails() {
-        LOGGER.info("postJobDetail=" + postJobDetail);
+        recruiterJobSeekerDAO.saveJobPostDetail(postJobDetail);
         Map<String, Long> keyValue = new HashMap<>();
-        keyValue.put("user_id", 1l);
-        List<PostJobDetail> postJobDetails = recruiterJobSeekerDAO.fetchJobDetails(keyValue);
-        assertEquals(keyValue.get("user_id"), postJobDetails.get(0).getRegistrationDetail().getId());
+        keyValue.put("userId", postJobDetail.getRegistrationDetail().getId());
+        List<PostJobDetail> postJobDetails = recruiterJobSeekerDAO.fetchJobDetailsForRecruiter(keyValue);
+        assertNotNull(postJobDetails);
+        assertFalse(postJobDetails.isEmpty());
+        assertEquals(1, postJobDetails.size());
+        assertEquals(keyValue.get("userId"), postJobDetails.get(0).getRegistrationDetail().getId());
+        assertEquals("Infosys", postJobDetails.get(0).getCompany());
+        assertEquals("Tester", postJobDetails.get(0).getCategory().getCategoryName());
+        assertEquals("P", postJobDetails.get(0).getJobType().toString());
+        assertEquals(2.0, postJobDetails.get(0).getExperience(), 0.0);
+        assertEquals("Front end developer", postJobDetails.get(0).getDescription());
+        assertEquals(4.0, postJobDetails.get(0).getSalaryOffer(), 0.0);
+        assertEquals("Pune", postJobDetails.get(0).getJobLocation().getCity());
+        assertEquals("MH", postJobDetails.get(0).getJobLocation().getState());
+        assertEquals("Business bay,Yerwada", postJobDetails.get(0).getJobLocation().getStreet());
     }
 
     @Test
     public void testFetchJobDetailsForJobSeeker() {
-        LOGGER.info("postJobDetail=" + postJobDetail);
-        List<PostJobDetail> postJobDetails = recruiterJobSeekerDAO.fetchJobDetails(null);
+        recruiterJobSeekerDAO.saveJobPostDetail(postJobDetail);
+        List<PostJobDetail> postJobDetails = recruiterJobSeekerDAO.fetchJobDetailsForJobSeeker();
+        assertNotNull(postJobDetails);
         assertFalse(postJobDetails.isEmpty());
+        assertEquals(1, postJobDetails.size());
     }
 
     @Test
     public void testFetchJobDetailsOfCompany() {
-        PostJobDetail jobDetail = recruiterJobSeekerDAO.fetchJobDetailsOfCompany(8l);
-        LOGGER.info("jobDetail==" + jobDetail);
+        recruiterJobSeekerDAO.saveJobPostDetail(postJobDetail);
+        Query query = entityManager.createQuery("Select pj.id " +
+                "from  PostJobDetail pj " +
+                "where pj.registrationDetail.id=:userId");
+        query.setParameter("userId", registrationDetail.getId());
+        PostJobDetail jobDetail = recruiterJobSeekerDAO.fetchJobDetailsOfCompany(
+                Long.valueOf(query.getSingleResult().toString()));
         assertEquals("Infosys", jobDetail.getCompany());
+        assertEquals(2.0, jobDetail.getExperience(), 0.0);
+        assertEquals(4.0, jobDetail.getSalaryOffer(), 0.0);
+        assertEquals("Front end developer", jobDetail.getDescription());
+        assertEquals("Pune", jobDetail.getJobLocation().getCity());
+        assertEquals("MH", jobDetail.getJobLocation().getState());
+        assertEquals("Business bay,Yerwada", jobDetail.getJobLocation().getStreet());
+
     }
 
     @Test
     public void testRemoveJobPostDetail() {
-        recruiterJobSeekerDAO.removeJobPostDetail(13l);
+        recruiterJobSeekerDAO.saveJobPostDetail(postJobDetail);
+        Query query = entityManager.createQuery("Select pj.id " +
+                "from  PostJobDetail pj " +
+                "where pj.registrationDetail.id=:userId");
+        query.setParameter("userId", registrationDetail.getId());
+        Long jobId = Long.valueOf(query.getSingleResult().toString());
+        recruiterJobSeekerDAO.removeJobPostDetail(jobId);
+        PostJobDetail postJobDetail = entityManager.find(PostJobDetail.class, jobId);
+        assertNull(postJobDetail);
     }
-
-    @Test
-    public void testApplyForJOB() {
-        ApplyJOB applyJOB = new ApplyJOB();
-        applyJOB.setFilename("1.pdf");
-        PostJobDetail postJobDetail = new PostJobDetail();
-        postJobDetail.setId(8l);
-        applyJOB.setPostJobDetail(postJobDetail);
-        RegistrationDetail jobSeekerDetail = new RegistrationDetail();
-        jobSeekerDetail.setId(1l);
-        applyJOB.setRegistrationDetail(jobSeekerDetail);
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        Date applyDate = new Date();
-        applyJOB.setApplyDate(df.format(applyDate));
-        recruiterJobSeekerDAO.applyForJOB(applyJOB);
-    }
-
-    @Test
-    public void testCheckAppliedForJob() {
-        ApplyJOB applyJOB = new ApplyJOB();
-        PostJobDetail postJobDetail = new PostJobDetail();
-        postJobDetail.setId(8l);
-        applyJOB.setPostJobDetail(postJobDetail);
-        RegistrationDetail jobSeekerDetail = new RegistrationDetail();
-        jobSeekerDetail.setId(1l);
-        applyJOB.setRegistrationDetail(jobSeekerDetail);
-        List<ApplyJOB> existJobSeeker = recruiterJobSeekerDAO.checkAppliedForJob(applyJOB);
-        assertTrue(existJobSeeker.size() > 0);
-    }
-
-    @Test
-    public void testCheckAppliedNotForJob() {
-        ApplyJOB applyJOB = new ApplyJOB();
-        PostJobDetail postJobDetail = new PostJobDetail();
-        postJobDetail.setId(8l);
-        applyJOB.setPostJobDetail(postJobDetail);
-        RegistrationDetail jobSeekerDetail = new RegistrationDetail();
-        jobSeekerDetail.setId(2l);
-        applyJOB.setRegistrationDetail(jobSeekerDetail);
-        List<ApplyJOB> existJobSeeker = recruiterJobSeekerDAO.checkAppliedForJob(applyJOB);
-        assertTrue(existJobSeeker.size() == 0);
-    }
-
-    @Test
-    public void testAppliedJobsList() {
-        List<Object[]> jobAppliedList = recruiterJobSeekerDAO.appliedJobsList(8l);
-        assertTrue(jobAppliedList.size() > 0);
-    }
-
-    @Test
-    public void testNotAppliedJobsList() {
-        List<Object[]> jobAppliedList = recruiterJobSeekerDAO.appliedJobsList(8l);
-        assertTrue(jobAppliedList.size() == 0);
-    }
-
-    @Test
-    public void testLoadCategoryList() {
-        List<Category> categories = recruiterJobSeekerDAO.loadCategoryList();
-        assertTrue(categories.size() > 0);
-    }
-
-    public void testLoadSkills() {
-        List<Object[]> skills = recruiterJobSeekerDAO.loadSkills(4l);
-        assertTrue(skills.size() > 0);
-    }
-
-
 }

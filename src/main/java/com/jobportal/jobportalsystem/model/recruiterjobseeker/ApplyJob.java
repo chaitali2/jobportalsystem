@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "seeker_apply_job")
-public class ApplyJOB {
+public class ApplyJob {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

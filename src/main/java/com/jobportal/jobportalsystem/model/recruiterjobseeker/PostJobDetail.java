@@ -3,11 +3,16 @@ package com.jobportal.jobportalsystem.model.recruiterjobseeker;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Table(name = "job_post")
 public class PostJobDetail {
+
+    public enum Job{
+        P,C
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,10 +27,11 @@ public class PostJobDetail {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String job_type;
+    @Enumerated(EnumType.STRING)
+    private Job jobType;
     private double experience;
-    private double salary_offer;
-    private String job_opening_date;
+    private double salaryOffer;
+    private Date jobOpeningDate;
     private String description;
 
     @OneToOne(cascade = CascadeType.PERSIST)
@@ -34,14 +40,6 @@ public class PostJobDetail {
 
     @ManyToMany(cascade =CascadeType.MERGE,fetch = FetchType.EAGER)
     Set<Skill> skillSet;
-
-    public Set<Skill> getSkillSet() {
-        return skillSet;
-    }
-
-    public void setSkillSet(Set<Skill> skillSet) {
-        this.skillSet = skillSet;
-    }
 
     public Long getId() {
         return id;
@@ -75,20 +73,12 @@ public class PostJobDetail {
         this.category = category;
     }
 
-    public String getJob_type() {
-        return job_type;
+    public Job getJobType() {
+        return jobType;
     }
 
-    public void setJob_type(String job_type) {
-        this.job_type = job_type;
-    }
-
-    public double getSalary_offer() {
-        return salary_offer;
-    }
-
-    public void setSalary_offer(double salary_offer) {
-        this.salary_offer = salary_offer;
+    public void setJobType(Job jobType) {
+        this.jobType = jobType;
     }
 
     public double getExperience() {
@@ -99,12 +89,20 @@ public class PostJobDetail {
         this.experience = experience;
     }
 
-    public String getJob_opening_date() {
-        return job_opening_date;
+    public double getSalaryOffer() {
+        return salaryOffer;
     }
 
-    public void setJob_opening_date(String job_opening_date) {
-        this.job_opening_date = job_opening_date;
+    public void setSalaryOffer(double salaryOffer) {
+        this.salaryOffer = salaryOffer;
+    }
+
+    public Date getJobOpeningDate() {
+        return jobOpeningDate;
+    }
+
+    public void setJobOpeningDate(Date jobOpeningDate) {
+        this.jobOpeningDate = jobOpeningDate;
     }
 
     public String getDescription() {
@@ -123,6 +121,14 @@ public class PostJobDetail {
         this.jobLocation = jobLocation;
     }
 
+    public Set<Skill> getSkillSet() {
+        return skillSet;
+    }
+
+    public void setSkillSet(Set<Skill> skillSet) {
+        this.skillSet = skillSet;
+    }
+
     @Override
     public String toString() {
         return "PostJobDetail{" +
@@ -130,10 +136,10 @@ public class PostJobDetail {
                 ", registrationDetail=" + registrationDetail +
                 ", company='" + company + '\'' +
                 ", category=" + category +
-                ", job_type='" + job_type + '\'' +
+                ", jobType='" + jobType + '\'' +
                 ", experience=" + experience +
-                ", salary_offer=" + salary_offer +
-                ", job_opening_date='" + job_opening_date + '\'' +
+                ", salaryOffer=" + salaryOffer +
+                ", jobOpeningDate='" + jobOpeningDate + '\'' +
                 ", description='" + description + '\'' +
                 ", jobLocation=" + jobLocation +
                 ", skillSet=" + skillSet +

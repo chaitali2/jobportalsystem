@@ -26,8 +26,6 @@ import java.util.Map;
 @Path("/jobportal")
 public class RecruiterJobSeekerRestService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecruiterJobSeekerRestService.class);
-
     @Autowired
     private RecruiterJobSeekerService recruiterService;
 
@@ -39,7 +37,6 @@ public class RecruiterJobSeekerRestService {
         recruiterService.postJobDetail(postJobDetailDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Success fully post data");
     }
-
     // ************************************ CATEGORY FOR WHICH POST APPLY *******************************************//
 
     @GET
@@ -55,10 +52,10 @@ public class RecruiterJobSeekerRestService {
     @Produces("application/json")
     @Path("recruiter/load-skill")
     public ResponseEntity loadSkills(Map<String, Long> keyvalue) {
-        List<SkillDTO> skillDTOList = recruiterService.loadSkills(keyvalue.get("category_id"));
-        return ResponseEntity.status(HttpStatus.OK).body(skillDTOList);
+        List<SkillDTO> skillDTOList = recruiterService.loadSkills(keyvalue.get("categoryId"));
+        ResponseEntity<List<SkillDTO>> body = ResponseEntity.status(HttpStatus.OK).body(skillDTOList);
+        return body;
     }
-
 
     // ************************************ JOBS LIST FOR RECRUITER AND JOB SEEKER *******************************************//
     @POST
@@ -88,7 +85,6 @@ public class RecruiterJobSeekerRestService {
 
     }
 
-
     // ************************************ APPLY FOR JOB *******************************************//
     @POST
     @Produces("application/json")
@@ -108,10 +104,8 @@ public class RecruiterJobSeekerRestService {
     @Produces("application/json")
     @Path("recruiter/view-jobs-applied")
     public ResponseEntity appliedJobsList(Map<String, Long> keyvalue) {
-
         List<ApplyJobDTO> applyJobDTOList = recruiterService.appliedJobsList(keyvalue.get("job_id"));
         return ResponseEntity.status(HttpStatus.OK).body(applyJobDTOList);
-
     }
 
     // ************************************ DOWNLOAD THE RESUME *******************************************//
@@ -122,8 +116,6 @@ public class RecruiterJobSeekerRestService {
         return recruiterService.downloadPdf(keyValue.get("filename"));
     }
 
-
-
     @POST
     @Path("categorys-skill")
     @Produces("application/json")
@@ -131,6 +123,5 @@ public class RecruiterJobSeekerRestService {
         recruiterService.inserSkillsWiseCategory(categoryDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Success fully insert category!");
     }
-
 }
 

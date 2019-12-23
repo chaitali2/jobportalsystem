@@ -1,12 +1,12 @@
 package com.jobportal.jobportalsystem.customizedException;
 
-public class ErrorProps {
+public class ErrorDetails {
     private String status;
     private String errorMessage;
 
-    public ErrorProps(){}
+    public ErrorDetails(){}
 
-    public ErrorProps(String statusFromOutside, String errorMessageFromOutside)
+    public ErrorDetails(String statusFromOutside, String errorMessageFromOutside)
     {
         this.status = statusFromOutside;
         this.errorMessage = errorMessageFromOutside;

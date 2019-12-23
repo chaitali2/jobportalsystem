@@ -6,10 +6,10 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
-public class JobportalsystemApplication {
+public class JobPortalSystemApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JobportalsystemApplication.class, args);
+        SpringApplication.run(JobPortalSystemApplication.class, args);
     }
 
 }

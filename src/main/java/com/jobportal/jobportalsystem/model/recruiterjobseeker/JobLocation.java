@@ -9,7 +9,7 @@ public class JobLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String street_add;
+    private String street;
     private String city;
     private String state;
     private String pincode;
@@ -22,12 +22,12 @@ public class JobLocation {
         this.id = id;
     }
 
-    public String getStreet_add() {
-        return street_add;
+    public String getStreet() {
+        return street;
     }
 
-    public void setStreet_add(String street_add) {
-        this.street_add = street_add;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getCity() {
@@ -58,7 +58,7 @@ public class JobLocation {
     public String toString() {
         return "JobLocation{" +
                 "id=" + id +
-                ", street_add='" + street_add + '\'' +
+                ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", pincode='" + pincode + '\'' +

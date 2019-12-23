@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,33 +23,31 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class ChangePasswordDAOTest {
 
     @Autowired
-    ChangePasswordDAO changePasswordDAO;
+    private ChangePasswordDAO changePasswordDAO;
     @PersistenceContext
-    EntityManager entityManager;
-
-    RegistrationDetail registrationDetail;
-
+    private EntityManager entityManager;
+    private RegistrationDetail registrationDetail;
     @Before
     public void setUp() {
         prepareData();
     }
 
-    void registerData() {
+    private void registerPrepareData() {
         registrationDetail = new RegistrationDetail();
-        registrationDetail.setFirstname("chaitali");
-        registrationDetail.setLastname("Khachane");
-        registrationDetail.setDob("11-01-1195");
-        registrationDetail.setEmailid("xyz@gmail.com");
-        registrationDetail.setMobno("8866049741");
+        registrationDetail.setFirstName("chaitali");
+        registrationDetail.setLastName("Khachane");
+        registrationDetail.setDateOfBirth(new Date());
+        registrationDetail.setEmailId("xyz@gmail.com");
+        registrationDetail.setMobileNo("8866049741");
         registrationDetail.setPassword("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=");
-        registrationDetail.setUsertype("R");
+        registrationDetail.setUserType(RegistrationDetail.user.R);
         registrationDetail.setUsername("xyz@gmail.com");
         registrationDetail.setSalt("Lpm28h5myQheIFNflzA7oaB1bFGSCn");
         entityManager.persist(registrationDetail);
     }
 
     public void prepareData() {
-        registerData();
+        registerPrepareData();
         registrationDetail = new RegistrationDetail();
         registrationDetail.setUsername("xyz@gmail.com");
         registrationDetail.setPassword("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=");
@@ -62,12 +60,19 @@ public class ChangePasswordDAOTest {
         List<Object[]> existing = new ArrayList<>();
         existing.add(objects);
         List<Object[]> passwordDetail = changePasswordDAO.fetchPasswordFromUser(registrationDetail.getUsername());
-        assertEquals(existing.size(), passwordDetail.size());
+        assertNotNull(passwordDetail);
+        assertEquals("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=",passwordDetail.get(0)[0]);
+        assertEquals("Lpm28h5myQheIFNflzA7oaB1bFGSCn",passwordDetail.get(0)[1]);
+
     }
 
     @Test
     public void testUpdatePassword() {
         changePasswordDAO.updatePassword(registrationDetail);
+        List<Object[]> passwordDetail = changePasswordDAO.fetchPasswordFromUser(registrationDetail.getUsername());
+        assertNotNull(passwordDetail);
+        assertEquals("+C8168xm8tONJIvVO1STKSfoek5SNIqSEURNpiGjo=",passwordDetail.get(0)[0]);
+        assertEquals("Lpm28h5myQheIFNflzA7oaB1bFGSCn",passwordDetail.get(0)[1]);
     }
 
 

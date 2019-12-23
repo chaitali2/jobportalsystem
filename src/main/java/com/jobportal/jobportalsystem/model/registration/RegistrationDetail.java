@@ -3,11 +3,17 @@ package com.jobportal.jobportalsystem.model.registration;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "user_detail")
 @SecondaryTable(name = "user_credential", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id"))
 public class RegistrationDetail {
+
+    public enum user {
+        R, J
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,10 +28,8 @@ public class RegistrationDetail {
     @Column(nullable = false)
     private String lastName;
 
-    @NotBlank
-    @Size(max = 25)
     @Column(nullable = false)
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
     @NotBlank
     @Size(max = 25)
@@ -40,10 +44,9 @@ public class RegistrationDetail {
     @Column(table = "user_credential")
     private String salt;
 
-    @NotBlank
-    @Size(max = 2)
-    @Column(table = "user_credential",nullable = false)
-    private String userType;
+    @Enumerated(EnumType.STRING)
+    @Column(table = "user_credential", nullable = false)
+    private user userType;
 
     @NotBlank
     @Size(max = 25)
@@ -81,11 +84,11 @@ public class RegistrationDetail {
         this.lastName = lastName;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -113,11 +116,11 @@ public class RegistrationDetail {
         this.salt = salt;
     }
 
-    public String getUserType() {
+    public user getUserType() {
         return userType;
     }
 
-    public void setUserType(String userType) {
+    public void setUserType(user userType) {
         this.userType = userType;
     }
 

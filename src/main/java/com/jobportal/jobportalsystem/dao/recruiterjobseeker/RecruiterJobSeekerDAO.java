@@ -1,6 +1,6 @@
 package com.jobportal.jobportalsystem.dao.recruiterjobseeker;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.Category;
-import com.jobportal.jobportalsystem.model.recruiterjobseeker.ApplyJOB;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.ApplyJob;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.PostJobDetail;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +19,7 @@ public class RecruiterJobSeekerDAO {
         entityManager.persist(postJobDetail);
     }
 
+    @Transactional
     public List<PostJobDetail> fetchJobDetailsForRecruiter(Map<String, Long> keyValue) {
         TypedQuery<PostJobDetail> query = entityManager.createQuery("select postJobDetail " +
                         "from PostJobDetail postJobDetail " +
@@ -46,26 +47,27 @@ public class RecruiterJobSeekerDAO {
     }
 
     @Transactional
-    public void applyForJOB(ApplyJOB applyJOB) {
-        entityManager.persist(applyJOB);
+    public void applyForJOB(ApplyJob applyJob) {
+
+        entityManager.persist(applyJob);
     }
 
-    public List<ApplyJOB> checkAppliedForJob(ApplyJOB applyJOB) {
-        TypedQuery<ApplyJOB> query = entityManager.createQuery("select applyJOB from ApplyJOB applyJOB" +
-                " where applyJOB.postJobDetail.id=:jobId" +
-                " and applyJOB.registrationDetail.id=:seekerId", ApplyJOB.class);
-        query.setParameter("jobId", applyJOB.getPostJobDetail().getId());
-        query.setParameter("seekerId", applyJOB.getRegistrationDetail().getId());
+    public List<ApplyJob> checkAppliedForJob(ApplyJob applyJob) {
+        TypedQuery<ApplyJob> query = entityManager.createQuery("select applyJob from ApplyJOB applyJob" +
+                " where applyJob.postJobDetail.id=:jobId" +
+                " and applyJob.registrationDetail.id=:seekerId", ApplyJob.class);
+        query.setParameter("jobId", applyJob.getPostJobDetail().getId());
+        query.setParameter("seekerId", applyJob.getRegistrationDetail().getId());
         return query.getResultList();
     }
 
     public List<Object[]> appliedJobsList(Long job_id) {
-        Query query = entityManager.createQuery("select registrationDetail.firstname ,registrationDetail.lastname, " +
+        Query query = entityManager.createQuery("select registrationDetail.firstName ,registrationDetail.lastName, " +
                 "postJobDetail.company,postJobDetail.description," +
-                "applyJOB.applyDate,applyJOB.filename from ApplyJOB applyJOB" +
-                " inner join RegistrationDetail registrationDetail on applyJOB.registrationDetail.id=registrationDetail.id" +
-                " inner join PostJobDetail postJobDetail on postJobDetail.id=applyJOB.postJobDetail.id " +
-                " where applyJOB.postJobDetail.id=:jobId");
+                "applyJob.applyDate,applyJob.filename from ApplyJOB applyJob" +
+                " inner join RegistrationDetail registrationDetail on applyJob.registrationDetail.id=registrationDetail.id" +
+                " inner join PostJobDetail postJobDetail on postJobDetail.id=applyJob.postJobDetail.id " +
+                " where applyJob.postJobDetail.id=:jobId");
         query.setParameter("jobId", job_id);
         return (List<Object[]>) query.getResultList();
     }
@@ -88,5 +90,4 @@ public class RecruiterJobSeekerDAO {
     public void save(Category category) {
         entityManager.persist(category);
     }
-
 }

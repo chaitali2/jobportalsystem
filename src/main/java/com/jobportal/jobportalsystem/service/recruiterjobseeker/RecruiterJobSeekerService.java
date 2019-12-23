@@ -8,7 +8,7 @@ import com.jobportal.jobportalsystem.dto.recruiterjobseeker.ApplyJobDTO;
 import com.jobportal.jobportalsystem.dto.recruiterjobseeker.PostJobDetailDTO;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.Category;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.Skill;
-import com.jobportal.jobportalsystem.model.recruiterjobseeker.ApplyJOB;
+import com.jobportal.jobportalsystem.model.recruiterjobseeker.ApplyJob;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.JobLocation;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.PostJobDetail;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
@@ -63,38 +63,37 @@ public class RecruiterJobSeekerService {
                             FormDataContentDisposition fileMetaData,
                             String jobId,
                             String userId) throws UserExistException {
-        ApplyJOB applyJOB=setApplyJobDetails(fileMetaData,jobId,userId);
-        List<ApplyJOB> existJobSeeker = recruiterDAO.checkAppliedForJob(applyJOB);
+        ApplyJob applyJob=setApplyJobDetails(fileMetaData,jobId,userId);
+        List<ApplyJob> existJobSeeker = recruiterDAO.checkAppliedForJob(applyJob);
         if (existJobSeeker.isEmpty()) {
             uploadResume(fileInputStream, userId);
-            recruiterDAO.applyForJOB(applyJOB);
+            recruiterDAO.applyForJOB(applyJob);
         } else {
             throw new UserExistException("Already applied for job");
         }
     }
 
-
-    private ApplyJOB setApplyJobDetails( FormDataContentDisposition fileMetaData,
-                        String jobId,
-                        String userId){
-        ApplyJOB applyJOB = new ApplyJOB();
+    private ApplyJob setApplyJobDetails(FormDataContentDisposition fileMetaData,
+                                        String jobId,
+                                        String userId){
+        ApplyJob applyJob = new ApplyJob();
         PostJobDetail postJobDetail = new PostJobDetail();
         postJobDetail.setId(Long.parseLong(jobId));
-        applyJOB.setPostJobDetail(postJobDetail);
+        applyJob.setPostJobDetail(postJobDetail);
         RegistrationDetail registrationDetail = new RegistrationDetail();
         registrationDetail.setId(Long.parseLong(userId));
-        applyJOB.setRegistrationDetail(registrationDetail);
-        new File("F:/resume/" + fileMetaData.getFileName());
-        applyJOB.setFilename(userId + ".pdf");
+        applyJob.setRegistrationDetail(registrationDetail);
+        new File("E:/resume/" + fileMetaData.getFileName());
+        applyJob.setFilename(userId + ".pdf");
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Date applyDate = new Date();
-        applyJOB.setApplyDate(df.format(applyDate));
-        return applyJOB;
+        applyJob.setApplyDate(df.format(applyDate));
+        return applyJob;
     }
 
     private void uploadResume(InputStream fileInputStream,
                               String user_id) {
-        String UPLOAD_PATH = "F:/resume/";
+        String UPLOAD_PATH = "E:/resume/";
         try {
             int read;
             byte[] bytes = new byte[1024];
@@ -142,7 +141,7 @@ public class RecruiterJobSeekerService {
     public List<SkillDTO> loadSkills(Long categoryId) {
         List<Object[]> skills = recruiterDAO.loadSkills(categoryId);
         List<SkillDTO> skillList = new ArrayList<>();
-        for (Object[] a : skills) {
+           for (Object[] a : skills) {
             SkillDTO skill = new SkillDTO();
             skill.setSkillId(Long.parseLong(a[0].toString()));
             skill.setSkillName(a[1].toString());
@@ -157,15 +156,15 @@ public class RecruiterJobSeekerService {
         postJobDetailDTO.setJobId(jobDetail.getId());
         postJobDetailDTO.setCompany(jobDetail.getCompany());
         postJobDetailDTO.setCategoryName(jobDetail.getCategory().getCategoryName());
-        String jobType = ("P").equals(jobDetail.getJob_type()) ? "Permanent" : "Contract";
+        String jobType = ("P").equals(jobDetail.getJobType().toString()) ? "Permanent" : "Contract";
         postJobDetailDTO.setJobType(jobType);
         postJobDetailDTO.setExperience(String.valueOf(jobDetail.getExperience()));
-        postJobDetailDTO.setSalaryOffer(String.valueOf(jobDetail.getSalary_offer()));
-        postJobDetailDTO.setStreet(jobDetail.getJobLocation().getStreet_add());
+        postJobDetailDTO.setSalaryOffer(String.valueOf(jobDetail.getSalaryOffer()));
+        postJobDetailDTO.setStreet(jobDetail.getJobLocation().getStreet());
         postJobDetailDTO.setCity(jobDetail.getJobLocation().getCity());
         postJobDetailDTO.setState(jobDetail.getJobLocation().getState());
         postJobDetailDTO.setPincode(jobDetail.getJobLocation().getPincode());
-        postJobDetailDTO.setJobOpeningDate(jobDetail.getJob_opening_date());
+        postJobDetailDTO.setJobOpeningDate(new Utility().dateToString(jobDetail.getJobOpeningDate()));
         postJobDetailDTO.setDescription(jobDetail.getDescription());
 
         Set<Skill> skillList = jobDetail.getSkillSet();
@@ -179,31 +178,32 @@ public class RecruiterJobSeekerService {
 
     public PostJobDetailDTO fetchJobDetailsOfCompany(Long user_id) {
         PostJobDetail jobDetails = recruiterDAO.fetchJobDetailsOfCompany(user_id);
+
         PostJobDetailDTO postJobDetailDTO = new PostJobDetailDTO();
         postJobDetailDTO.setJobId(jobDetails.getId());
         postJobDetailDTO.setCompany(jobDetails.getCompany());
         postJobDetailDTO.setCategoryName(jobDetails.getCategory().getCategoryName());
-        String jobType = jobDetails.getJob_type().equals("P") ? "Permanent" : "Contract";
+        String jobType = jobDetails.getJobType().toString().equals("P") ? "Permanent" : "Contract";
         postJobDetailDTO.setJobType(jobType);
         postJobDetailDTO.setExperience(String.valueOf(jobDetails.getExperience()));
-        postJobDetailDTO.setSalaryOffer(String.valueOf(jobDetails.getSalary_offer()));
-        postJobDetailDTO.setStreet(jobDetails.getJobLocation().getStreet_add());
+        postJobDetailDTO.setSalaryOffer(String.valueOf(jobDetails.getSalaryOffer()));
+        postJobDetailDTO.setStreet(jobDetails.getJobLocation().getStreet());
         postJobDetailDTO.setCity(jobDetails.getJobLocation().getCity());
         postJobDetailDTO.setState(jobDetails.getJobLocation().getState());
         postJobDetailDTO.setPincode(jobDetails.getJobLocation().getPincode());
-        postJobDetailDTO.setJobOpeningDate(jobDetails.getJob_opening_date());
+        postJobDetailDTO.setJobOpeningDate(new Utility().dateToString(jobDetails.getJobOpeningDate()));
         postJobDetailDTO.setDescription(jobDetails.getDescription());
         return postJobDetailDTO;
     }
 
 
-    public void removeJobPostDetail(Long user_id) {
-        recruiterDAO.removeJobPostDetail(user_id);
+    public void removeJobPostDetail(Long job_id) {
+        recruiterDAO.removeJobPostDetail(job_id);
     }
 
 
     public Response downloadPdf(String fileName) {
-        File file = new File("F:/resume/" + fileName);
+        File file = new File("E:/resume/" + fileName);
         Response.ResponseBuilder response = Response.ok(file);
         response.header("Content-Disposition",
                 "attachment; filename=" + fileName);
@@ -237,11 +237,11 @@ public class RecruiterJobSeekerService {
         Category category = new Category();
         category.setId(postJobDetailDTO.getCategoryId());
         postJobDetail.setCategory(category);
-        postJobDetail.setJob_type(postJobDetailDTO.getJobType());
+        postJobDetail.setJobType(postJobDetailDTO.getJobType().equals("P")? PostJobDetail.Job.P: PostJobDetail.Job.C);
         postJobDetail.setExperience(Double.parseDouble(postJobDetailDTO.getExperience()));
-        postJobDetail.setSalary_offer(Double.parseDouble(postJobDetailDTO.getSalaryOffer()));
-        String jobOpeningDate = utility.changeDateFormatter(postJobDetailDTO.getJobOpeningDate(), "dd-MM-yyyy");
-        postJobDetail.setJob_opening_date(jobOpeningDate);
+        postJobDetail.setSalaryOffer(Double.parseDouble(postJobDetailDTO.getSalaryOffer()));
+        Date jobOpeningDate = utility.changeDateFormatter(postJobDetailDTO.getJobOpeningDate());
+        postJobDetail.setJobOpeningDate(jobOpeningDate);
         postJobDetail.setDescription(postJobDetailDTO.getDescription());
         postJobDetail.setJobLocation(getJobLocationDetail(postJobDetailDTO));
         postJobDetail.setSkillSet(getSkillDetail(postJobDetailDTO));
@@ -250,7 +250,7 @@ public class RecruiterJobSeekerService {
 
     private JobLocation getJobLocationDetail(PostJobDetailDTO postJobDetailDTO) {
         JobLocation jobLocation = new JobLocation();
-        jobLocation.setStreet_add(postJobDetailDTO.getStreet());
+        jobLocation.setStreet(postJobDetailDTO.getStreet());
         jobLocation.setCity(postJobDetailDTO.getCity());
         jobLocation.setState(postJobDetailDTO.getState());
         jobLocation.setPincode(postJobDetailDTO.getPincode());
@@ -267,5 +267,4 @@ public class RecruiterJobSeekerService {
         }
         return skillSet;
     }
-
 }

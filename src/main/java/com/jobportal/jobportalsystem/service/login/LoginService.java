@@ -3,7 +3,7 @@ package com.jobportal.jobportalsystem.service.login;
 import com.jobportal.jobportalsystem.customizedException.AuthenticationException;
 import com.jobportal.jobportalsystem.dao.login.LoginDetailDAO;
 import com.jobportal.jobportalsystem.dto.login.LoginDetailDTO;
-import com.jobportal.jobportalsystem.dto.UserProfileDTO;
+import com.jobportal.jobportalsystem.dto.login.UserProfileDTO;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import com.jobportal.jobportalsystem.utility.AuthenticationUtil;
 import com.jobportal.jobportalsystem.utility.JwtTokenUtil;
@@ -77,9 +77,9 @@ public class LoginService {
         UserProfileDTO userProfileDTO = new UserProfileDTO();
         userProfileDTO.setId(registrationDetail.getId().toString());
         userProfileDTO.setUsername(registrationDetail.getUsername());
-        userProfileDTO.setUsertype(registrationDetail.getUserType());
-        userProfileDTO.setFirstname(registrationDetail.getFirstName());
-        userProfileDTO.setLastname(registrationDetail.getLastName());
+        userProfileDTO.setUserType(registrationDetail.getUserType().toString());
+        userProfileDTO.setFirstName(registrationDetail.getFirstName());
+        userProfileDTO.setLastName(registrationDetail.getLastName());
         return userProfileDTO;
     }
 }

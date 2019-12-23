@@ -12,7 +12,7 @@ import java.util.Optional;
 public class LoginDetailDAO {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     public Optional<RegistrationDetail> getUserProfile(String username) {
         TypedQuery<RegistrationDetail> query = entityManager.createQuery("Select registrationDetail " +

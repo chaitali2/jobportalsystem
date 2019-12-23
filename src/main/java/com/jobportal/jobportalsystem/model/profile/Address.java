@@ -1,7 +1,6 @@
 package com.jobportal.jobportalsystem.model.profile;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity

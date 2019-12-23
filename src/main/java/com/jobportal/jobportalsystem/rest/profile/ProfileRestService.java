@@ -16,7 +16,6 @@ import java.util.Map;
 
 @Path("/jobportal")
 public class ProfileRestService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProfileRestService.class);
 
     @Autowired
     ProfileService profileService;

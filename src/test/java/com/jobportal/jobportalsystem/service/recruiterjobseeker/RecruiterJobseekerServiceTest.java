@@ -2,7 +2,6 @@ package com.jobportal.jobportalsystem.service.recruiterjobseeker;
 
 import com.jobportal.jobportalsystem.dao.recruiterjobseeker.RecruiterJobSeekerDAO;
 import com.jobportal.jobportalsystem.dto.recruiterjobseeker.CategoryDTO;
-import com.jobportal.jobportalsystem.dto.recruiterjobseeker.SkillDTO;
 import com.jobportal.jobportalsystem.dto.recruiterjobseeker.ApplyJobDTO;
 import com.jobportal.jobportalsystem.dto.recruiterjobseeker.PostJobDetailDTO;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.Category;
@@ -16,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.text.ParseException;
 import java.util.*;
 
@@ -24,42 +22,39 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest
 public class RecruiterJobseekerServiceTest {
 
     @Mock
-    RecruiterJobSeekerDAO recruiterDAO;
-
-    @Captor
-    ArgumentCaptor<PostJobDetail> postJobDetailArgumentCaptor;
+    private RecruiterJobSeekerDAO recruiterDAO;
     @Mock
-    Utility utility;
-
+    private Utility utility;
+    @Captor
+    private ArgumentCaptor<PostJobDetail> postJobDetailArgumentCaptor;
     @InjectMocks
-    RecruiterJobSeekerService recruiterService;
-    PostJobDetailDTO postJobDetailDTO;
+    private RecruiterJobSeekerService recruiterService;
+    private PostJobDetailDTO postJobDetailDTO;
 
     @Before
     public void setUp() {
         prepareData();
     }
 
-    void prepareData() {
+    private void prepareData() {
         postJobDetailDTO = new PostJobDetailDTO();
         postJobDetailDTO.setCompany("NJ India Invest");
-        postJobDetailDTO.setCategory_id(2l);
+        postJobDetailDTO.setCategoryId(2L);
         Set<String> skills = new HashSet<>();
         skills.add("2");
         skills.add("3");
         postJobDetailDTO.setSkills(skills);
-        postJobDetailDTO.setJob_type("P");
+        postJobDetailDTO.setJobType("P");
         postJobDetailDTO.setExperience("2");
-        postJobDetailDTO.setSalary_offer("4");
-        postJobDetailDTO.setStreet_add("710 Alfa Tower");
+        postJobDetailDTO.setSalaryOffer("4");
+        postJobDetailDTO.setStreet("710 Alfa Tower");
         postJobDetailDTO.setState("Gujarat");
         postJobDetailDTO.setCity("Surat");
-//        postJobDetailDTO.setPincode(369874);
-        postJobDetailDTO.setJob_opening_date("30-03-2019");
+        postJobDetailDTO.setJobOpeningDate("30-03-2019");
         postJobDetailDTO.setDescription("requirement for developer");
     }
 
@@ -67,6 +62,15 @@ public class RecruiterJobseekerServiceTest {
     public void testPostJobDetail() throws ParseException {
         Mockito.doNothing().when(recruiterDAO).saveJobPostDetail(postJobDetailArgumentCaptor.capture());
         recruiterService.postJobDetail(postJobDetailDTO);
+        PostJobDetail postJobDetail = postJobDetailArgumentCaptor.getValue();
+        assertNotNull(postJobDetail);
+        assertEquals(postJobDetailDTO.getCompany(), postJobDetail.getCompany());
+        assertEquals(postJobDetailDTO.getDescription(), postJobDetail.getDescription());
+        assertEquals(Double.valueOf(postJobDetailDTO.getExperience()), postJobDetail.getExperience());
+        assertEquals(postJobDetailDTO.getCity(), postJobDetail.getJobLocation().getCity());
+        assertEquals(postJobDetailDTO.getState(), postJobDetail.getJobLocation().getState());
+        assertEquals(postJobDetailDTO.getStreet(), postJobDetail.getJobLocation().getStreet());
+        assertEquals(Double.valueOf(postJobDetailDTO.getSalaryOffer()), postJobDetail.getSalaryOffer());
     }
 
     @Test
@@ -82,15 +86,15 @@ public class RecruiterJobseekerServiceTest {
         assertNotNull(applyJobDTOList);
         assertFalse(applyJobDTOList.isEmpty());
         assertEquals(2, applyJobDTOList.size());
-        assertEquals("firstname", applyJobDTOList.get(0).getFirstname());
-        assertEquals("lastname", applyJobDTOList.get(0).getLastname());
+        assertEquals("firstname", applyJobDTOList.get(0).getFirstName());
+        assertEquals("lastname", applyJobDTOList.get(0).getLastName());
         assertEquals("company", applyJobDTOList.get(0).getCompany());
         assertEquals("description", applyJobDTOList.get(0).getDescription());
         assertEquals("12-12-2019", applyJobDTOList.get(0).getApplyDate());
         assertEquals("filename", applyJobDTOList.get(0).getFileName());
 
-        assertEquals("firstname1", applyJobDTOList.get(1).getFirstname());
-        assertEquals("lastname1", applyJobDTOList.get(1).getLastname());
+        assertEquals("firstname1", applyJobDTOList.get(1).getFirstName());
+        assertEquals("lastname1", applyJobDTOList.get(1).getLastName());
         assertEquals("company1", applyJobDTOList.get(1).getCompany());
         assertEquals("description1", applyJobDTOList.get(1).getDescription());
         assertEquals("12-12-2019", applyJobDTOList.get(1).getApplyDate());
@@ -101,68 +105,54 @@ public class RecruiterJobseekerServiceTest {
     public void testLoadCategoryList() {
         List<Category> categories = new ArrayList<>();
         Skill skill = new Skill();
-        skill.setId(3l);
-        skill.setSkill_name("oracle");
+        skill.setId(3L);
+        skill.setSkillName("oracle");
         Set<Skill> skillSet = new HashSet<>();
         skillSet.add(skill);
         Category category = new Category();
-        category.setId(4l);
+        category.setId(4L);
         category.setCategoryName("DBA");
         category.setSkills(skillSet);
         categories.add(category);
         Mockito.when(recruiterDAO.loadCategoryList()).thenReturn(categories);
         List<CategoryDTO> categoryDTOList = recruiterService.loadCategoryList();
+        assertNotNull(categoryDTOList);
         assertEquals(categoryDTOList.size(), categories.size());
         assertEquals(categoryDTOList.get(0).getCategoryName(), categories.get(0).getCategoryName());
-    }
-
-
-    @Test
-    public void testLoadSkills() {
-        Long category_id = 4l;
-        List<Object[]> skills = new ArrayList<>();
-        Object[] skillarr = {2l, "MYSQL"};
-        skills.add(skillarr);
-        Mockito.when(recruiterDAO.loadSkills(category_id)).thenReturn(skills);
-        List<SkillDTO> skillDTOList = recruiterService.loadSkills(4l);
-        assertEquals(skillDTOList.size(),skills.size());
-        assertEquals(skillDTOList.get(0).getSkill_name(),skills.get(0)[1]);
     }
 
     @Test
     public void testFetchJobDetails() {
         Map<String, Long> keyValue = new HashMap<>();
-        keyValue.put("user_id", 1l);
+        keyValue.put("user_id", 1L);
         List<PostJobDetail> jobDetails = new ArrayList<>();
-        PostJobDetail postJobDetail=new PostJobDetail();
+        PostJobDetail postJobDetail = new PostJobDetail();
         postJobDetail.setCompany("NJ India Invest");
-        Category category=new Category();
-        category.setId(4l);
+        Category category = new Category();
+        category.setId(4L);
         category.setCategoryName("DBA");
         postJobDetail.setCategory(category);
         Set<Skill> skillSet = new HashSet<>();
-        Skill skill=new Skill();
-        skill.setId(1l);
-        skill.setSkill_name("MY-SQL");
+        Skill skill = new Skill();
+        skill.setId(1L);
+        skill.setSkillName("MY-SQL");
         skillSet.add(skill);
-
         postJobDetail.setSkillSet(skillSet);
-        postJobDetail.setJob_type("P");
+        postJobDetail.setJobType(PostJobDetail.Job.P);
         postJobDetail.setExperience(2);
-        postJobDetail.setSalary_offer(4);
-        JobLocation jobLocation=new JobLocation();
+        postJobDetail.setSalaryOffer(4);
+        JobLocation jobLocation = new JobLocation();
         jobLocation.setCity("surat");
-        jobLocation.setStreet_add("710 Alfa Tower");
+        jobLocation.setStreet("710 Alfa Tower");
         jobLocation.setState("Gujarat");
         postJobDetail.setJobLocation(jobLocation);
-        postJobDetailDTO.setPincode("369874");
-        postJobDetail.setJob_opening_date("30-03-2019");
+        postJobDetail.setJobOpeningDate(new Date());
         postJobDetail.setDescription("requirement for developer");
-        Mockito.when(recruiterDAO.fetchJobDetails(keyValue)).thenReturn(jobDetails);
-
+        jobDetails.add(postJobDetail);
+        Mockito.when(recruiterDAO.fetchJobDetailsForRecruiter(keyValue)).thenReturn(jobDetails);
+        List<PostJobDetailDTO> postJobDetailDTOS = recruiterService.fetchJobDetails(keyValue);
+        assertNotNull(postJobDetailDTOS);
+        assertFalse(postJobDetailDTOS.isEmpty());
+        assertEquals(jobDetails.get(0).getCompany(), postJobDetailDTOS.get(0).getCompany());
     }
-
-
-
-
 }
