@@ -1,17 +1,14 @@
 package com.jobportal.jobportalsystem.dto;
 
-import java.io.Serializable;
+public class JwtResponse {
 
-public class JwtResponse implements Serializable {
-    private static final long serialVersionUID = -8091879091924046844L;
-    private final String jwttoken;
-
-    public JwtResponse(String jwttoken) {
-        this.jwttoken = jwttoken;
-    }
+    private String token;
 
     public String getToken() {
-        return this.jwttoken;
+        return token;
     }
 
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

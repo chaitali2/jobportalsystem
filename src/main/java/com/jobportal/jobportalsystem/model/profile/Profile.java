@@ -16,11 +16,11 @@ public class Profile {
     @JoinColumn(name = "user_id")
     RegistrationDetail registrationDetail;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id")
     Address address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "edu_exp_id")
     EducationExperience educationExperience;
 

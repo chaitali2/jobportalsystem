@@ -38,7 +38,7 @@ public class PostJobDetail {
     @JoinColumn(name = "job_location_id")
     private JobLocation jobLocation;
 
-    @ManyToMany(cascade =CascadeType.MERGE,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Skill> skillSet;
 
     public Long getId() {

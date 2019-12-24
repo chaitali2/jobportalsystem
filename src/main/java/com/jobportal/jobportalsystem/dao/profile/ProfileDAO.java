@@ -56,11 +56,8 @@ public class ProfileDAO {
             entityManager.merge(profile);
         } catch (NoResultException ex) {
             LOGGER.info("exception", ex);
-            Address address = profileDetail.getAddress();
-            entityManager.persist(address);
             entityManager.persist(profileDetail);
         }
-
     }
 
     private RegistrationDetail updateProfileRegisterDetail(Profile profileDetail) {

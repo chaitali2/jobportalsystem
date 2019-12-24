@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
+
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,7 +35,7 @@ public class JwtRequestFilter implements Filter {
 
                     if (!StringUtils.isEmpty(token)) {
                         loginDetailDTO.setUsername(username);
-                        if (jwtTokenUtil.validateToken(token, loginDetailDTO)) {
+                        if (jwtTokenUtil.validateToken(token, loginDetailDTO, res)) {
                             chain.doFilter(request, response);
                         } else {
                             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token is not valid");
@@ -48,7 +50,7 @@ public class JwtRequestFilter implements Filter {
                 chain.doFilter(request, response);
             }
         } catch (Exception e) {
-            LOGGER.error("exception generated token is not valid",e);
+            LOGGER.error("exception generated token is not valid", e);
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
 

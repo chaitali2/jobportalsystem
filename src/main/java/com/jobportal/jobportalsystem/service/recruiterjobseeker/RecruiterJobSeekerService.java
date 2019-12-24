@@ -14,8 +14,6 @@ import com.jobportal.jobportalsystem.model.recruiterjobseeker.PostJobDetail;
 import com.jobportal.jobportalsystem.model.registration.RegistrationDetail;
 import com.jobportal.jobportalsystem.utility.Utility;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.ws.rs.WebApplicationException;
@@ -28,8 +26,6 @@ import java.util.*;
 
 @Service
 public class RecruiterJobSeekerService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecruiterJobSeekerService.class);
 
     @Autowired
     private RecruiterJobSeekerDAO recruiterDAO;
@@ -63,9 +59,9 @@ public class RecruiterJobSeekerService {
                             FormDataContentDisposition fileMetaData,
                             String jobId,
                             String userId) throws UserExistException {
-        ApplyJob applyJob=setApplyJobDetails(fileMetaData,jobId,userId);
-        List<ApplyJob> existJobSeeker = recruiterDAO.checkAppliedForJob(applyJob);
-        if (existJobSeeker.isEmpty()) {
+        ApplyJob applyJob = setApplyJobDetails(fileMetaData, jobId, userId);
+        ApplyJob existJobSeeker = recruiterDAO.checkAppliedForJob(applyJob);
+        if (existJobSeeker == null) {
             uploadResume(fileInputStream, userId);
             recruiterDAO.applyForJOB(applyJob);
         } else {
@@ -75,7 +71,7 @@ public class RecruiterJobSeekerService {
 
     private ApplyJob setApplyJobDetails(FormDataContentDisposition fileMetaData,
                                         String jobId,
-                                        String userId){
+                                        String userId) {
         ApplyJob applyJob = new ApplyJob();
         PostJobDetail postJobDetail = new PostJobDetail();
         postJobDetail.setId(Long.parseLong(jobId));
@@ -138,14 +134,14 @@ public class RecruiterJobSeekerService {
         return categoryDTOList;
     }
 
-    public List<SkillDTO> loadSkills(Long categoryId) {
-        List<Object[]> skills = recruiterDAO.loadSkills(categoryId);
+    public  List<SkillDTO> loadSkills(Long categoryId) {
+        Category category = recruiterDAO.loadSkills(categoryId);
         List<SkillDTO> skillList = new ArrayList<>();
-           for (Object[] a : skills) {
-            SkillDTO skill = new SkillDTO();
-            skill.setSkillId(Long.parseLong(a[0].toString()));
-            skill.setSkillName(a[1].toString());
-            skillList.add(skill);
+        for (Skill skill : category.getSkills()) {
+            SkillDTO skillDTO = new SkillDTO();
+            skillDTO.setSkillId(skill.getId());
+            skillDTO.setSkillName(skill.getSkillName());
+            skillList.add(skillDTO);
         }
         return skillList;
     }
@@ -237,7 +233,7 @@ public class RecruiterJobSeekerService {
         Category category = new Category();
         category.setId(postJobDetailDTO.getCategoryId());
         postJobDetail.setCategory(category);
-        postJobDetail.setJobType(postJobDetailDTO.getJobType().equals("P")? PostJobDetail.Job.P: PostJobDetail.Job.C);
+        postJobDetail.setJobType(postJobDetailDTO.getJobType().equals("P") ? PostJobDetail.Job.P : PostJobDetail.Job.C);
         postJobDetail.setExperience(Double.parseDouble(postJobDetailDTO.getExperience()));
         postJobDetail.setSalaryOffer(Double.parseDouble(postJobDetailDTO.getSalaryOffer()));
         Date jobOpeningDate = utility.changeDateFormatter(postJobDetailDTO.getJobOpeningDate());

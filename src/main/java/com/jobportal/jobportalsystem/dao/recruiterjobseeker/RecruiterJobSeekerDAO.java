@@ -1,4 +1,5 @@
 package com.jobportal.jobportalsystem.dao.recruiterjobseeker;
+
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.Category;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.ApplyJob;
 import com.jobportal.jobportalsystem.model.recruiterjobseeker.PostJobDetail;
@@ -48,23 +49,26 @@ public class RecruiterJobSeekerDAO {
 
     @Transactional
     public void applyForJOB(ApplyJob applyJob) {
-
         entityManager.persist(applyJob);
     }
 
-    public List<ApplyJob> checkAppliedForJob(ApplyJob applyJob) {
-        TypedQuery<ApplyJob> query = entityManager.createQuery("select applyJob from ApplyJOB applyJob" +
+    public ApplyJob checkAppliedForJob(ApplyJob applyJob) {
+        TypedQuery<ApplyJob> query = entityManager.createQuery("select applyJob from ApplyJob applyJob" +
                 " where applyJob.postJobDetail.id=:jobId" +
                 " and applyJob.registrationDetail.id=:seekerId", ApplyJob.class);
         query.setParameter("jobId", applyJob.getPostJobDetail().getId());
         query.setParameter("seekerId", applyJob.getRegistrationDetail().getId());
-        return query.getResultList();
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     public List<Object[]> appliedJobsList(Long job_id) {
         Query query = entityManager.createQuery("select registrationDetail.firstName ,registrationDetail.lastName, " +
                 "postJobDetail.company,postJobDetail.description," +
-                "applyJob.applyDate,applyJob.filename from ApplyJOB applyJob" +
+                "applyJob.applyDate,applyJob.filename from ApplyJob applyJob" +
                 " inner join RegistrationDetail registrationDetail on applyJob.registrationDetail.id=registrationDetail.id" +
                 " inner join PostJobDetail postJobDetail on postJobDetail.id=applyJob.postJobDetail.id " +
                 " where applyJob.postJobDetail.id=:jobId");
@@ -77,13 +81,9 @@ public class RecruiterJobSeekerDAO {
         return query.getResultList();
     }
 
-    public List<Object[]> loadSkills(Long categoryId) {
-        Query query;
-        query = entityManager.createNativeQuery("select s.id,s.skill_name " +
-                "from skills s" +
-                " where s.category_id=:categoryId");
-        query.setParameter("categoryId", categoryId);
-        return (List<Object[]>) query.getResultList();
+    public Category loadSkills(Long categoryId) {
+        Category category=entityManager.find(Category.class, categoryId);
+        return category;
     }
 
     @Transactional

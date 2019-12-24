@@ -8,11 +8,11 @@ import java.util.Set;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String categoryName;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Set<Skill> skills;
 

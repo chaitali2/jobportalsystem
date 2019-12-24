@@ -7,11 +7,9 @@ import com.jobportal.jobportalsystem.service.login.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.security.spec.InvalidKeySpecException;
 
 @Path("/jobportal")
 public class LoginRestService {
@@ -22,7 +20,7 @@ public class LoginRestService {
     @POST
     @Produces("application/json")
     @Path("login")
-    public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO) throws AuthenticationException, InvalidKeySpecException
+    public ResponseEntity authenticateUser(LoginDetailDTO loginDetailDTO) throws AuthenticationException
     {
         UserProfileDTO userProfile = loginService.authenticate(loginDetailDTO);
         return ResponseEntity.status(HttpStatus.OK).body(userProfile);
