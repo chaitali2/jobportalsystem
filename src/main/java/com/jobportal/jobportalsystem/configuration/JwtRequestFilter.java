@@ -35,7 +35,7 @@ public class JwtRequestFilter implements Filter {
 
                     if (!StringUtils.isEmpty(token)) {
                         loginDetailDTO.setUsername(username);
-                        if (jwtTokenUtil.validateToken(token, loginDetailDTO, res)) {
+                        if (jwtTokenUtil.validateToken(token, loginDetailDTO)) {
                             chain.doFilter(request, response);
                         } else {
                             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token is not valid");
